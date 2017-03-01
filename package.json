@@ -1,0 +1,28 @@
+{
+  "name": "server",
+  "version": "0.0.0",
+  "description": "Second feedback session",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.14.1",
+    "time": "^0.11.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SOS1617/SOS1617-02-Sandbox.git"
+  },
+  "keywords": [
+    "server"
+  ],
+  "author": "@sojer23",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SOS1617/SOS1617-02-Sandbox/issues"
+  },
+  "homepage": "https://github.com/SOS1617/SOS1617-02-Sandbox#readme"
+}
