@@ -1,6 +1,5 @@
-//Módulos para dar formato a la hora
-var format = require('date-format');
-var format1 = require('dateformat');
+//Módulo para dar formato a la hora
+var format = require('dateformat');
 
 //Server
 var express = require("express");
@@ -21,8 +20,10 @@ app.listen(port,(err)=> {
         console.log("Error initializing server on port "+ port + ": " + err );
 });
 
+
+/*TAREAS FEEDBACK 2
 //Definimos correlación de un recurso. (El recurso es el "/" en este ejemplo)
-app.get("/",(req,res) => {
+app.get("/time1",(req,res) => {
     
     res.send("<html><body><h1>Escribe /time al final de la url para saber la hora exacta</h1></body></html>");
     
@@ -30,29 +31,31 @@ app.get("/",(req,res) => {
 
 app.use("/time",(req, res) => {
     
-    format1.masks.one = 'dS mmmm '
-    format1.masks.two = ' yyyy, hh:MM:ss';
+    format.masks.one = 'dS mmmm '
+    format.masks.two = ' yyyy, hh:MM:ss';
     
     //Tenemos que partir en dos la cadena porque no admite texto aparte del 
     //reservado (en la documentación del módulo dice que sí se puede, pero probando vemos que no)
-    var one = format1(new Date(), "one");
-    var two = format1(new Date(), "two");
-    
-    
-    
-    //Prueba con otro módulo
-    var time = format.asString('ddst MM of yyyy, hh:mm:ss', new Date());
-    
-    
-
-
+    var one = format(new Date(), "one");
+    var two = format(new Date(), "two");
     
     res.write(one + "of"+ two+"\n");
-    
-    
-    res.write("Prueba con otro módulo:\n"+time);
     res.end();
     
 });
+*/
 
 
+//TAREAS FEEDBACK 3
+
+
+//Paquete para concatenar los directorios (nativo)
+var path = require("path");
+
+
+//__dirname = directorio donde se está ejecutando node
+//Estamos guardando la carpeta public en la variable publicFolder
+var publicFolder = path.join(__dirname,'public');
+
+//Devuelve todos los archivos al cliente. Le pasamos la carpeta dentro del servidor que le pqueremos pasar al cliente
+app.use("/",express.static(publicFolder));
