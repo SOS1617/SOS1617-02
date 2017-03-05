@@ -1,28 +1,23 @@
 {
   "name": "server",
   "version": "0.0.0",
-  "description": "Second feedback session",
+  "description": "Basic server",
   "main": "index.js",
-   "scripts": {
+  "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  
-  "dependencies": {
-    "express": "^4.14.1"
-  },
-
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SOS1617/SOS1617-02.git"
   },
-  "keywords": [
-    "server"
-  ],
-  "author": "@sojer23",
+  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/SOS1617/SOS1617-02/issues"
   },
-  "homepage": "https://github.com/SOS1617/SOS1617-02#readme"
+  "homepage": "https://github.com/SOS1617/SOS1617-02#readme",
+  "dependencies": {
+    "express": "^4.15.0"
+  }
 }

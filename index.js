@@ -1,6 +1,3 @@
-//Módulo para dar formato a la hora
-var format = require('dateformat');
-
 //Server
 var express = require("express");
 
