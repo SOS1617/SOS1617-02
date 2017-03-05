@@ -57,5 +57,6 @@ var path = require("path");
 //Estamos guardando la carpeta public en la variable publicFolder
 var publicFolder = path.join(__dirname,'public');
 
-//Devuelve todos los archivos al cliente. Le pasamos la carpeta dentro del servidor que le pqueremos pasar al cliente
+//Devuelve todos los archivos al cliente.
+//El módulo express(mediante el método static)define una carpeta que es la que se va a utilizar conmo contenido estático. 
 app.use("/",express.static(publicFolder));
