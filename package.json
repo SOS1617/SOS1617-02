@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SOS1617/SOS1617-02-Sandbox.git"
+    "url": "git+https://github.com/SOS1617/SOS1617-02.git"
   },
   "keywords": [
     "server"
@@ -22,7 +22,7 @@
   "author": "@sojer23",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/SOS1617/SOS1617-02-Sandbox/issues"
+    "url": "https://github.com/SOS1617/SOS1617-02/issues"
   },
-  "homepage": "https://github.com/SOS1617/SOS1617-02-Sandbox#readme"
+  "homepage": "https://github.com/SOS1617/SOS1617-02#readme"
 }
