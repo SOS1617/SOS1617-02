@@ -23,18 +23,11 @@ MongoClient.connect(mlabURL, {native_parser:true}, function(err,database){
     console.log("Magic is happening on port " + port);
 });
 
-//Initializing with some data
-app.get(BASE_API_PATH + "/loadInitialData", function (request, response){
-   
-   
-    
-});
-
 
 //GET every row of data
 app.get(BASE_API_PATH, function (request, response) {
     console.log("INFO: New GET/ received");
-    db.find({}, function (err, data) {
+    db.find({}).toArray(function (err, data) {
         if (err) {
             console.error('WARNING: Error getting data from DB');
             response.sendStatus(500); // internal server error
@@ -49,19 +42,52 @@ app.get(BASE_API_PATH, function (request, response) {
 //GET a single row
 app.get(BASE_API_PATH + "/:country", function (request, response) {
     var country = request.params.country;
+    
     if (!country) {
         console.log("WARNING: New GET request to /gsp-population-stats/:country without country, sending 400...");
         response.sendStatus(400); // bad request
     } else {
-        console.log("INFO: New GET request to /gdp-population-stats/" + country);
+        if(country == "loadInitialData"){
+            var alemania = new Object();
+            alemania.country = "Alemania";
+            alemania.year = 2017;
+            alemania.gdpyear = "3.533.860 M€";
+            alemania.populationyear = 81416745;
+    
+            var francia = new Object;
+            francia.country = "Francia";
+            francia.year = 2014;
+            francia.gdpyear = "2.633.576 M\u20ac";
+            francia.populationyear = 814545;
+    
+            console.log("INFO: Initializing data.");
+    
+            db.find({}, function(err, countries){
+                if(err){
+                    response.sendStatus(500); // internal server error
+                }else{
+                    if(countries.length > 0){
+                        response.sendStatus(501);//Not implemented
+                    }else{
+                        db.insert(alemania);
+                     db.insert(francia);
+                     response.sendStatus(201); //created!
+                     console.log("INFO: Data initialized.");
+                    }
+                }
+            });
+        }else{
+            console.log("INFO: New GET request to /gdp-population-stats/" + country);
         
-        db.findOne({ country: country }, function(err,data){
+            db.findOne({ country: country }, function(err,data){
                     if(err){
                         response.sendStatus(404);
                     }else{
                         response.send(data);
                     }
                 });
+        }
+        
     }
 });
 
@@ -117,17 +143,17 @@ app.put(BASE_API_PATH + "/:country", function (request, response){
         response.sendStatus(400); // bad request
     }else{
         console.log("INFO: New POST request to /gdp-population-stats");
-        if (!updatedCountry.country || !updatedCountry.year || !updatedCountry.gdp-year || !updatedCountry.population-year) {
+        if (!updatedCountry.country || !updatedCountry.year /*|| !updatedCountry.gdp-year || !updatedCountry.population-year*/) {
             console.log("WARNING: The country is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         }else{
-            db.find({}, function (err, countries) {
+            db.find({country: country}, function (err, countries) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
                 } else {
-                    var countriesBeforeInsertion = countries.filter((country) => {
-                        return (country.name.localeCompare(country, "en", {'sensitivity': 'base'}) === 0);
+                    /*var countriesBeforeInsertion = countries.filter((country) => {
+                        return (country.country.localeCompare(country, "en", {'sensitivity': 'base'}) === 0);
                     });
                     if (countriesBeforeInsertion.length > 0) {
                         db.update({country: country}, updatedCountry);
@@ -135,7 +161,15 @@ app.put(BASE_API_PATH + "/:country", function (request, response){
                     } else {
                         console.log("WARNING: There is not any country with name " + country);
                         response.sendStatus(404); // not found
+                    }*/
+                    if(countries.length = 0){
+                        console.log("WARNING: There is not any country with name " + country);
+                        response.sendStatus(404); // not found
+                    }else{
+                        db.update({country: country}, updatedCountry);
+                        response.send(updatedCountry); // return the updated contact
                     }
+                    
                 }
             });
         }
