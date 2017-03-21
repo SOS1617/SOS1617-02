@@ -1,5 +1,5 @@
-"use strict";
-/* global __dirname */
+//"use strict";
+//global __dirname */
 
 var express = require("express");
 var bodyParser = require("body-parser");
@@ -42,6 +42,14 @@ app.use(bodyParser.json()); //use default json enconding/decoding
 app.use(helmet()); //improve security
 
 
+//Initializing with some data
+/*app.get(BASE_API_PATH + "/loadInitialData", function (request, response){
+   
+   
+    
+});*/
+
+
 // GET a collection
 
 //En mongoDB nos devuelve un objeto que tenemos que transformar a un Array
@@ -60,6 +68,7 @@ app.get(BASE_API_PATH + "/smi_stats", function (request, response) {
 });
 
 
+
 // GET a single resource
 app.get(BASE_API_PATH + "/smi_stats/:country", function (request, response) {
     var country = request.params.country;
@@ -68,13 +77,13 @@ app.get(BASE_API_PATH + "/smi_stats/:country", function (request, response) {
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New GET request to /smi_stats/" + country);
-        db.find({}).toArray(function (err, filteredSMI_STATS){
+        db.find({"country":country}).toArray(function (err, filteredSMI_STATS){
             if (err) {
                 console.error('WARNING: Error getting data from DB');
                 response.sendStatus(500); // internal server error
             } else {
                 if (filteredSMI_STATS.length > 0) {
-                    var smi_stat = filteredSMI_STATS; //since we expect to have exactly ONE contact with this name
+                    var smi_stat = filteredSMI_STATS[0]; //since we expect to have exactly ONE contact with this country name
                     console.log("INFO: Sending contact: " + JSON.stringify(smi_stat, 2, null));
                     response.send(smi_stat);
                 } else {
@@ -87,32 +96,33 @@ app.get(BASE_API_PATH + "/smi_stats/:country", function (request, response) {
 });
 
 
+
 //POST over a collection
 app.post(BASE_API_PATH + "/smi_stats", function (request, response) {
-    var newContact = request.body;
-    if (!newContact) {
+    var newCountry = request.body;
+    if (!newCountry) {
         console.log("WARNING: New POST request to /smi_stats/ without smi_stats, sending 400...");
         response.sendStatus(400); // bad request
     } else {
-        console.log("INFO: New POST request to /smi_stats with body: " + JSON.stringify(newContact, 2, null));
-        if (!newContact.name || !newContact.phone || !newContact.email) {
-            console.log("WARNING: The contact " + JSON.stringify(newContact, 2, null) + " is not well-formed, sending 422...");
+        console.log("INFO: New POST request to /smi_stats with body: " + JSON.stringify(newCountry, 2, null));
+        if (!newCountry.country || !newCountry.year || !newCountry.smi-year|| !newCountry.smi-year-variation) {
+            console.log("WARNING: The contact " + JSON.stringify(newCountry, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
-            db.find({}, function (err, contacts) {
+            db.find({}, function (err, smi_stats) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
                 } else {
-                    var contactsBeforeInsertion = contacts.filter((contact) => {
-                        return (contact.name.localeCompare(newContact.name, "en", {'sensitivity': 'base'}) === 0);
+                    var countryBeforeInsertion = smi_stats.filter((country) => {
+                        return (country.name.localeCompare(newCountry.country, "en", {'sensitivity': 'base'}) === 0);
                     });
-                    if (contactsBeforeInsertion.length > 0) {
-                        console.log("WARNING: The contact " + JSON.stringify(newContact, 2, null) + " already extis, sending 409...");
+                    if (countryBeforeInsertion.length > 0) {
+                        console.log("WARNING: The contact " + JSON.stringify(newCountry, 2, null) + " already extis, sending 409...");
                         response.sendStatus(409); // conflict
                     } else {
-                        console.log("INFO: Adding contact " + JSON.stringify(newContact, 2, null));
-                        db.insert(newContact);
+                        console.log("INFO: Adding contact " + JSON.stringify(newCountry, 2, null));
+                        db.insert(newCountry);
                         response.sendStatus(201); // created
                     }
                 }
@@ -123,47 +133,47 @@ app.post(BASE_API_PATH + "/smi_stats", function (request, response) {
 
 
 //POST over a single resource
-app.post(BASE_API_PATH + "/contacts/:name", function (request, response) {
-    var name = request.params.name;
-    console.log("WARNING: New POST request to /contacts/" + name + ", sending 405...");
+app.post(BASE_API_PATH + "/smi_stats/:country", function (request, response) {
+    var country = request.params.country;
+    console.log("WARNING: New POST request to /smi_stats/" + country + ", sending 405...");
     response.sendStatus(405); // method not allowed
 });
 
 
 //PUT over a collection
-app.put(BASE_API_PATH + "/contacts", function (request, response) {
-    console.log("WARNING: New PUT request to /contacts, sending 405...");
+app.put(BASE_API_PATH + "/smi_stats", function (request, response) {
+    console.log("WARNING: New PUT request to /smi_stats/, sending 405...");
     response.sendStatus(405); // method not allowed
 });
 
 
 //PUT over a single resource
-app.put(BASE_API_PATH + "/contacts/:name", function (request, response) {
-    var updatedContact = request.body;
-    var name = request.params.name;
-    if (!updatedContact) {
-        console.log("WARNING: New PUT request to /contacts/ without contact, sending 400...");
+app.put(BASE_API_PATH + "/smi_stats/:country", function (request, response) {
+    var updatedCountry = request.body;
+    var country = request.params.country;
+    if (!updatedCountry) {
+        console.log("WARNING: New PUT request to /smi_stats/ without contact, sending 400...");
         response.sendStatus(400); // bad request
     } else {
-        console.log("INFO: New PUT request to /contacts/" + name + " with data " + JSON.stringify(updatedContact, 2, null));
-        if (!updatedContact.name || !updatedContact.phone || !updatedContact.email) {
-            console.log("WARNING: The contact " + JSON.stringify(updatedContact, 2, null) + " is not well-formed, sending 422...");
+        console.log("INFO: New PUT request to /smi_stats/" + country + " with data " + JSON.stringify(updatedCountry, 2, null));
+        if (!updatedCountry.country || !updatedCountry.year || !updatedCountry.smi-year|| !updatedCountry.smi-year-variation) {
+            console.log("WARNING: The country " + JSON.stringify(updatedCountry, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
-            db.find({}, function (err, contacts) {
+            db.find({}, function (err, smi_stats) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
                 } else {
-                    var contactsBeforeInsertion = contacts.filter((contact) => {
-                        return (contact.name.localeCompare(name, "en", {'sensitivity': 'base'}) === 0);
+                    var countryBeforeInsertion = smi_stats.filter((country) => {
+                        return (country.country.localeCompare(country, "en", {'sensitivity': 'base'}) === 0);
                     });
-                    if (contactsBeforeInsertion.length > 0) {
-                        db.update({name: name}, updatedContact);
-                        console.log("INFO: Modifying contact with name " + name + " with data " + JSON.stringify(updatedContact, 2, null));
-                        response.send(updatedContact); // return the updated contact
+                    if (countryBeforeInsertion.length > 0) {
+                        db.update({"country": country}, updatedCountry);
+                        console.log("INFO: Modifying country with name " + country + " with data " + JSON.stringify(updatedCountry, 2, null));
+                        response.send(updatedCountry); // return the updated contact
                     } else {
-                        console.log("WARNING: There are not any contact with name " + name);
+                        console.log("WARNING: There are not any country with name " + country);
                         response.sendStatus(404); // not found
                     }
                 }
@@ -174,18 +184,18 @@ app.put(BASE_API_PATH + "/contacts/:name", function (request, response) {
 
 
 //DELETE over a collection
-app.delete(BASE_API_PATH + "/contacts", function (request, response) {
-    console.log("INFO: New DELETE request to /contacts");
+app.delete(BASE_API_PATH + "/smi_stats", function (request, response) {
+    console.log("INFO: New DELETE request to /smi_stats");
     db.remove({}, {multi: true}, function (err, numRemoved) {
         if (err) {
             console.error('WARNING: Error removing data from DB');
             response.sendStatus(500); // internal server error
         } else {
             if (numRemoved > 0) {
-                console.log("INFO: All the contacts (" + numRemoved + ") have been succesfully deleted, sending 204...");
+                console.log("INFO: All the countries (" + numRemoved + ") have been succesfully deleted, sending 204...");
                 response.sendStatus(204); // no content
             } else {
-                console.log("WARNING: There are no contacts to delete");
+                console.log("WARNING: There are no countries to delete");
                 response.sendStatus(404); // not found
             }
         }
@@ -194,24 +204,24 @@ app.delete(BASE_API_PATH + "/contacts", function (request, response) {
 
 
 //DELETE over a single resource
-app.delete(BASE_API_PATH + "/contacts/:name", function (request, response) {
-    var name = request.params.name;
-    if (!name) {
-        console.log("WARNING: New DELETE request to /contacts/:name without name, sending 400...");
+app.delete(BASE_API_PATH + "/smi_stats/:country", function (request, response) {
+    var country = request.params.country;
+    if (!country) {
+        console.log("WARNING: New DELETE request to /smi_stats/:country without name, sending 400...");
         response.sendStatus(400); // bad request
     } else {
-        console.log("INFO: New DELETE request to /contacts/" + name);
-        db.remove({name: name}, {}, function (err, numRemoved) {
+        console.log("INFO: New DELETE request to /smi_stats/" + country);
+        db.remove({country: country}, {}, function (err, numRemoved) {
             if (err) {
                 console.error('WARNING: Error removing data from DB');
                 response.sendStatus(500); // internal server error
             } else {
-                console.log("INFO: Contacts removed: " + numRemoved);
+                console.log("INFO: Countries removed: " + numRemoved);
                 if (numRemoved === 1) {
-                    console.log("INFO: The contact with name " + name + " has been succesfully deleted, sending 204...");
+                    console.log("INFO: The country with name " + country + " has been succesfully deleted, sending 204...");
                     response.sendStatus(204); // no content
                 } else {
-                    console.log("WARNING: There are no contacts to delete");
+                    console.log("WARNING: There are no countries to delete");
                     response.sendStatus(404); // not found
                 }
             }
