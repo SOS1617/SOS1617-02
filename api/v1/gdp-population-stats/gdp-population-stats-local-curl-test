@@ -1,0 +1,11 @@
+curl -XGET -H "Content-type: application/json" 'http://localhost:8080/api/v1/gdp-population-stats'
+curl -XGET -H "Content-type: application/json" 'http://localhost:8080/api/v1/gdp-population-stats/alemania'
+
+curl -XPOST -H "Content-type: application/json" 'http://localhost:8080/api/v1/gdp-population-stats/'
+curl -XPOST -H "Content-type: application/json" 'http://localhost:8080/api/v1/gdp-population-stats/alemania'
+
+curl -XPUT -H "Content-type: application/json" 'http://localhost:8080/api/v1/gdp-population-stats/'
+curl -XPUT -H "Content-type: application/json" 'http://localhost:8080/api/v1/gdp-population-stats/alemania'
+
+curl -XDELETE -H "Content-type: application/json" 'http://localhost:8080/api/v1/gdp-population-stats/'
+curl -XDELETE -H "Content-type: application/json" 'http://localhost:8080/api/v1/gdp-population-stats/alemania'
