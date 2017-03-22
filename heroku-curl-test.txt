@@ -2,44 +2,44 @@
 ////////////////////////////////////////////CURL A HEROKU SMI-STATS///////////////////////////////////////////////////////
 
 //Get a colección
-curl -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/smi_stats'
+curl -XGET -H 'Content-type: application/json'  'http://sos1617-02.herokuapp.com/api/v1/smi_stats'
 
 //Post a colección
-curl -XPOST -H 'Content-type: application/json' -d '{ "country": "France", "year": "2017", "smi-year": "1480.3", "smi-year-variation": "0.93" }' 'http://localhost:8080/api/v1/smi_stats'
+curl -XPOST -H 'Content-type: application/json' -d '{ "country": "France", "year": "2017", "smi-year": "1480.3", "smi-year-variation": "0.93" }' 'http://sos1617-02.herokuapp.com/api/v1/smi_stats'
 
 //Get a elemento
-curl -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/smi_stats/China'
+curl -XGET -H 'Content-type: application/json'  'http://sos1617-02.herokuapp.com/api/v1/smi_stats/China'
 
 //PUT a colección
-curl -XPUT -H 'Content-type: application/json' -d '{ "country": "Spain", "year": "2017", "smi-year": "1234.8", "smi-year-variation": "69.9" }' 'http://localhost:8080/api/v1/smi_stats'
+curl -XPUT -H 'Content-type: application/json' -d '{ "country": "Spain", "year": "2017", "smi-year": "1234.8", "smi-year-variation": "69.9" }' 'http://sos1617-02.herokuapp.com/api/v1/smi_stats'
 
 //PUT a elemento
-curl -XPUT -H "Content-type: application/json" -d '{ "country": "Spain", "year": "2017", "smi-year": "1234.8", "smi-year-variation": "69.9" }' 'http://localhost:8080/api/v1/smi_stats/Spain'
+curl -XPUT -H "Content-type: application/json" -d '{ "country": "Spain", "year": "2017", "smi-year": "1234.8", "smi-year-variation": "69.9" }' 'http://sos1617-02.herokuapp.com/api/v1/smi_stats/Spain'
 
 //GET a elemento
-curl -XGET -H "Content-type: application/json"  'http://localhost:8080/api/v1/smi_stats/Spain'
+curl -XGET -H "Content-type: application/json"  'http://sos1617-02.herokuapp.com/api/v1/smi_stats/Spain'
 
 //DELETE a elemento
-curl -XDELETE -H "Content-type: application/json"  'http://localhost:8080/api/v1/smi_stats/Spain'
+curl -XDELETE -H "Content-type: application/json"  'http://sos1617-02.herokuapp.com/api/v1/smi_stats/Spain'
 
 //DELETE a colección
-curl -XDELETE -H "Content-type: application/json"  'http://localhost:8080/api/v1/smi_stats'
+curl -XDELETE -H "Content-type: application/json"  'http://sos1617-02.herokuapp.com/api/v1/smi_stats'
 
 
 
 ////////////////////////////////////////////CURL A HEROKU GDP-POPULATION-STATS///////////////////////////////////////////////////////
 
-curl -XGET -H "Content-type: application/json" 'http://localhost:8080/api/v1/gdp-population-stats'
-curl -XGET -H "Content-type: application/json" 'http://localhost:8080/api/v1/gdp-population-stats/Alemania'
+curl -XGET -H "Content-type: application/json" 'http://sos1617-02.herokuapp.com/api/v1/gdp-population-stats'
+curl -XGET -H "Content-type: application/json" 'http://sos1617-02.herokuapp.com/api/v1/gdp-population-stats/Alemania'
 
-curl -XPOST -H "Content-type: application/json" -d '{ "country": "Alemania", "year": "2015", "gdp-year": "3.133.860 M€", "population-year": "81413145"}' 'http://localhost:8080/api/v1/gdp-population-stats'
-curl -XPOST -H "Content-type: application/json" 'http://localhost:8080/api/v1/gdp-population-stats/Alemania'
+curl -XPOST -H "Content-type: application/json" -d '{ "country": "Alemania", "year": "2015", "gdp-year": "3.133.860 M€", "population-year": "81413145"}' 'http://sos1617-02.herokuapp.com//api/v1/gdp-population-stats'
+curl -XPOST -H "Content-type: application/json" 'http://sos1617-02.herokuapp.com/api/v1/gdp-population-stats/Alemania'
 
-curl -XPUT -H "Content-type: application/json" 'http://localhost:8080/api/v1/gdp-population-stats/'
-curl -XPUT -H "Content-type: application/json" -d '{ "country": "Alemania", "year": "2015", "population-year": "81413145"}' 'http://localhost:8080/api/v1/gdp-population-stats/Alemania'
+curl -XPUT -H "Content-type: application/json" 'http://sos1617-02.herokuapp.com/api/v1/gdp-population-stats/'
+curl -XPUT -H "Content-type: application/json" -d '{ "country": "Alemania", "year": "2015", "population-year": "81413145"}' 'http://sos1617-02.herokuapp.com/api/v1/gdp-population-stats/Alemania'
 
-curl -XDELETE -H "Content-type: application/json" 'http://localhost:8080/api/v1/gdp-population-stats/'
-curl -XDELETE -H "Content-type: application/json" 'http://localhost:8080/api/v1/gdp-population-stats/Alemania'
+curl -XDELETE -H "Content-type: application/json" 'http://sos1617-02.herokuapp.com/api/v1/gdp-population-stats/'
+curl -XDELETE -H "Content-type: application/json" 'http://sos1617-02.herokuapp.com/api/v1/gdp-population-stats/Alemania'
 
 
 ////////////////////////////////////////////CURL A HEROKU ///////////////////////////////////////////////////////
