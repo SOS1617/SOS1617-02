@@ -62,12 +62,14 @@ app.get(BASE_API_PATH + "/:country", function (request, response) {
     
             console.log("INFO: Initializing data.");
     
-            db.find({}, function(err, countries){
+            //COMPROBAR SI LA DB ESTÁ VACÍA
+            
+            db.find({}).toArray(function(err, countries){
                 if(err){
                     response.sendStatus(500); // internal server error
                 }else{
                     if(countries.length > 0){
-                        response.sendStatus(501);//Not implemented
+                        response.sendStatus(409);//Not implemented
                     }else{
                         db.insert(alemania);
                      db.insert(francia);
@@ -100,7 +102,7 @@ app.post(BASE_API_PATH, function (request, response) {
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New POST request to /gdp-population-stats");
-        if (!newCountry.country || !newCountry.year || !newCountry.gdp-year || !newCountry.population-year) {
+        if (!newCountry.country || !newCountry.year /*|| !newCountry.gdp-year || !newCountry.population-year*/) {
             console.log("WARNING: The country is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
@@ -142,7 +144,7 @@ app.put(BASE_API_PATH + "/:country", function (request, response){
     if (!updatedCountry) {
         response.sendStatus(400); // bad request
     }else{
-        console.log("INFO: New POST request to /gdp-population-stats");
+        console.log("INFO: New PUT request to /gdp-population-stats");
         if (!updatedCountry.country || !updatedCountry.year /*|| !updatedCountry.gdp-year || !updatedCountry.population-year*/) {
             console.log("WARNING: The country is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
@@ -185,8 +187,8 @@ app.delete(BASE_API_PATH, function (request, response) {
             console.error('WARNING: Error removing data from DB');
             response.sendStatus(500); // internal server error
         } else {
-            if (numRemoved > 0) {
-                console.log("INFO: All the countries (" + numRemoved + ") have been succesfully deleted, sending 204...");
+            if (numRemoved.result.n > 0) {
+                console.log("INFO: All the countries (" + numRemoved.result.n + ") have been succesfully deleted, sending 204...");
                 response.sendStatus(204); // no content
             } else {
                 console.log("WARNING: There are no countries to delete");
@@ -211,7 +213,7 @@ app.delete(BASE_API_PATH + "/:country", function (request, response) {
                 response.sendStatus(500); // internal server error
             } else {
                 console.log("INFO: Country successfully removed.");
-                if (numRemoved === 1) {
+                if (numRemoved.result.n === 1) {
                     console.log("INFO: The country with name " + country + " has been succesfully deleted, sending 204...");
                     response.sendStatus(204); // no content
                 } else {
