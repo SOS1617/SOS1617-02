@@ -67,15 +67,15 @@ app.get(BASE_API_PATH + "/smi_stats/loadInitialData", function (request, respons
     
             console.log("INFO: Initializing data.");
     
-            db.find({}, function(err, countries){
+            db.find({}).toArray(function(err, countries){
                 if(err){
                     response.sendStatus(500); // internal server error
                 }else{
                     if(countries.length > 0){
                         console.log("INFO: Already Data.");
-                        response.sendStatus(501);//Not implemented
+                        response.sendStatus(409);
                     }else{
-                    db.insert(spain);
+                     db.insert(spain);
                      db.insert(france);
                      response.sendStatus(201); //created!
                      console.log("INFO: Data initialized.");
@@ -140,7 +140,7 @@ app.post(BASE_API_PATH + "/smi_stats", function (request, response) {
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New POST request to /smi_stats with body: " + JSON.stringify(newCountry, 2, null));
-        if (!newCountry.country || !newCountry.year /*|| !newCountry.smi-year|| !newCountry.smi-year-variation*/) {
+        if (!newCountry.country || !newCountry.year || !newCountry["smi-year"]|| !newCountry["smi-year-variation"]) {
             console.log("WARNING: The contact " + JSON.stringify(newCountry, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
@@ -193,7 +193,7 @@ app.put(BASE_API_PATH + "/smi_stats/:country", function (request, response) {
         
     } else {
         console.log("INFO: New PUT request to /smi_stats/" + country + " with data " + JSON.stringify(updatedCountry, 2, null));
-        if (!updatedCountry.country || !updatedCountry.year /*|| !updatedCountry.smi-year|| !updatedCountry.smi-year-variation*/) {
+        if (!updatedCountry.country || !updatedCountry.year || !updatedCountry["smi-year"]|| !updatedCountry["smi-year-variation"]) {
             console.log("WARNING: The country " + JSON.stringify(updatedCountry, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
@@ -395,7 +395,7 @@ app.put(BASE_API_PATH + "/gdp-population-stats/:country", function (request, res
         response.sendStatus(400); // bad request
     }else{
         console.log("INFO: New POST request to /gdp-population-stats");
-        if (!updatedCountry.country || !updatedCountry.year /*|| !updatedCountry.gdp-year || !updatedCountry.population-year*/) {
+        if (!updatedCountry.country || !updatedCountry.year || !updatedCountry["gdp-year"] || !updatedCountry["population-year"]) {
             console.log("WARNING: The country is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         }else{
