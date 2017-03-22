@@ -352,7 +352,7 @@ app.post(BASE_API_PATH + "/gdp-population-stats", function (request, response) {
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New POST request to /gdp-population-stats");
-        if (!newCountry.country || !newCountry.year /*|| !newCountry.gdp-year || !newCountry.population-year*/) {
+        if (!newCountry.country || !newCountry.year || !newCountry["gdp-year"] || !newCountry["population-year"]) {
             console.log("WARNING: The country is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
@@ -502,36 +502,6 @@ app.get(BASE_API_PATH + "/rpc-stats/:country", function (request, response) {
         console.log("WARNING: New GET request to /rpc-stats/:country without country, sending 400...");
         response.sendStatus(400); // bad request
     }else {
-        if(country == "loadInitialData"){
-            var alemania = new Object();
-            alemania.country = "Alemania";
-            alemania.year = 2017;
-            alemania.rpcyear = "54980";
-            alemania.rpcvariation = "1.6%";
-    
-            var francia = new Object;
-            francia.country = "Francia";
-            francia.year = 2014;
-            francia.rpcyear = "56.238";
-            francia.rpcvariation = "1.3%";
-    
-            console.log("INFO: Initializing data.");
-    
-            db2.find({}, function(err, countries){
-                if(err){
-                    response.sendStatus(500); // internal server error
-                }else{
-                    if(countries.length > 0){
-                        response.sendStatus(501);//Not implemented
-                    }else{
-                        db2.insert(alemania);
-                     db2.insert(francia);
-                     response.sendStatus(201); //created!
-                     console.log("INFO: Data initialized.");
-                    }
-                }
-            });
-        } else{
             console.log("INFO: New GET request to /rpc-stats/" + country);
         
             db2.findOne({ country: country }, function(err,data){
@@ -543,8 +513,7 @@ app.get(BASE_API_PATH + "/rpc-stats/:country", function (request, response) {
                 });
         }
         
-    }
-});
+    });
 
 //POST over a collection
 app.post(BASE_API_PATH + "/rpc-stats", function (request, response) {
@@ -554,7 +523,7 @@ app.post(BASE_API_PATH + "/rpc-stats", function (request, response) {
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New POST request to /gdp-population-stats");
-        if (!newCountry.country || !newCountry.year /*|| !newCountry.rpc-year || !newCountry.rpc-variation*/) {
+        if (!newCountry.country || !newCountry.year || !newCountry["rpc-year"] || !newCountry["rpc-variation"]) {
             console.log("WARNING: The country is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
@@ -597,7 +566,7 @@ app.put(BASE_API_PATH + "/:country", function (request, response){
         response.sendStatus(400); // bad request
     }else{
         console.log("INFO: New POST request to /gdp-population-stats");
-        if (!updatedCountry.country || !updatedCountry.year /*|| !updatedCountry.gdp-year || !updatedCountry.population-year*/) {
+        if (!updatedCountry.country || !updatedCountry.year || !updatedCountry["gdp-year"] || !updatedCountry["population-year"]) {
             console.log("WARNING: The country is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         }else{
@@ -681,7 +650,7 @@ app.get(BASE_API_PATH + "/rpc-stats/loadInitialData", function (request, respons
     
     console.log("INFO: Initializing data.");
     
-    db2.find({}, function(err, countries){
+    db2.find({}).toArray(function(err, countries){
         if(err){
             response.sendStatus(500); // internal server error
         }else{
