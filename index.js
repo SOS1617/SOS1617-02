@@ -43,11 +43,38 @@ app.use(helmet()); //improve security
 
 
 //Initializing with some data
-/*app.get(BASE_API_PATH + "/loadInitialData", function (request, response){
-   
-   
+app.get(BASE_API_PATH + "/smi_stats/loadInitialData", function (request, response){
     
-});*/
+            var spain = new Object();
+            spain.country = "Spain";
+            spain.year = 2017;
+            spain.smi_year = "825.70";
+            spain.smi_year_variation = "8.01";
+    
+            var france = new Object;
+            france.country = "France";
+            france.year = 2017;
+            france.smi_year = "1480.3";
+            france.smi_year_variation = "0.93";
+    
+            console.log("INFO: Initializing data.");
+    
+            db.find({}, function(err, countries){
+                if(err){
+                    response.sendStatus(500); // internal server error
+                }else{
+                    if(countries.length > 0){
+                        console.log("INFO: Already Data.");
+                        response.sendStatus(501);//Not implemented
+                    }else{
+                    db.insert(spain);
+                     db.insert(france);
+                     response.sendStatus(201); //created!
+                     console.log("INFO: Data initialized.");
+                    }
+                }
+            });
+});
 
 
 // GET a collection
@@ -105,7 +132,7 @@ app.post(BASE_API_PATH + "/smi_stats", function (request, response) {
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New POST request to /smi_stats with body: " + JSON.stringify(newCountry, 2, null));
-        if (!newCountry.country || !newCountry.year || !newCountry.smi-year|| !newCountry.smi-year-variation) {
+        if (!newCountry.country || !newCountry.year /*|| !newCountry.smi-year|| !newCountry.smi-year-variation*/) {
             console.log("WARNING: The contact " + JSON.stringify(newCountry, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
@@ -151,21 +178,23 @@ app.put(BASE_API_PATH + "/smi_stats", function (request, response) {
 app.put(BASE_API_PATH + "/smi_stats/:country", function (request, response) {
     var updatedCountry = request.body;
     var country = request.params.country;
+    
     if (!updatedCountry) {
         console.log("WARNING: New PUT request to /smi_stats/ without contact, sending 400...");
         response.sendStatus(400); // bad request
+        
     } else {
         console.log("INFO: New PUT request to /smi_stats/" + country + " with data " + JSON.stringify(updatedCountry, 2, null));
-        if (!updatedCountry.country || !updatedCountry.year || !updatedCountry.smi-year|| !updatedCountry.smi-year-variation) {
+        if (!updatedCountry.country || !updatedCountry.year /*|| !updatedCountry.smi-year|| !updatedCountry.smi-year-variation*/) {
             console.log("WARNING: The country " + JSON.stringify(updatedCountry, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
-            db.find({}, function (err, smi_stats) {
+            db.find({country:country}, function (err, smi_stats) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
                 } else {
-                    var countryBeforeInsertion = smi_stats.filter((country) => {
+                    /*var countryBeforeInsertion = smi_stats.filter((country) => {
                         return (country.country.localeCompare(country, "en", {'sensitivity': 'base'}) === 0);
                     });
                     if (countryBeforeInsertion.length > 0) {
@@ -175,6 +204,13 @@ app.put(BASE_API_PATH + "/smi_stats/:country", function (request, response) {
                     } else {
                         console.log("WARNING: There are not any country with name " + country);
                         response.sendStatus(404); // not found
+                    }*/
+                     if(smi_stats.length == 0){
+                        console.log("WARNING: There is not any country with name " + country);
+                        response.sendStatus(404); // not found
+                    }else{
+                        db.update({country: country}, updatedCountry);
+                        response.send(updatedCountry); // return the updated contact
                     }
                 }
             });
@@ -211,7 +247,7 @@ app.delete(BASE_API_PATH + "/smi_stats/:country", function (request, response) {
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New DELETE request to /smi_stats/" + country);
-        db.remove({country: country}, {}, function (err, numRemoved) {
+        db.remove({country: country}, function (err, numRemoved) {
             if (err) {
                 console.error('WARNING: Error removing data from DB');
                 response.sendStatus(500); // internal server error
