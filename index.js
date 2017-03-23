@@ -11,7 +11,7 @@ var DataStore = require('nedb');
 //Conexión con base de datos mongoDB
 var MongoClient = require("mongodb").MongoClient;
 
-var mdbURL = "mongodb://test:test@ds137370.mlab.com:37370/smi-stats";
+var mdbURL = "mongodb://admin:admin@ds139360.mlab.com:39360/sos1617-02";
 
 
 var port = (process.env.PORT || 10000);
@@ -31,7 +31,7 @@ MongoClient.connect(mdbURL, {native_parser:true}, function (err, database){
         process.exit(1);
     }
     
-   db = database.collection("smi_stats");
+   db = database.collection("smi-stats");
    db1 = database.collection("gdp-population-stats");
    db2 = database.collection("rpc-stats");
    
@@ -51,7 +51,7 @@ app.use(helmet()); //improve security
 ////////////////////////////////////////////////CODIGO API JOSÉ////////////////////////////////////////////////////////////
 
 //Initializing with some data
-app.get(BASE_API_PATH + "/smi_stats/loadInitialData", function (request, response){
+app.get(BASE_API_PATH + "/smi-stats/", function (request, response){
     
             var spain = new Object();
             spain.country = "Spain";
@@ -59,7 +59,7 @@ app.get(BASE_API_PATH + "/smi_stats/loadInitialData", function (request, respons
             spain.smi_year = "825.70";
             spain.smi_year_variation = "8.01";
     
-            var france = new Object;
+            var france = new Object();
             france.country = "France";
             france.year = 2017;
             france.smi_year = "1480.3";
@@ -89,14 +89,14 @@ app.get(BASE_API_PATH + "/smi_stats/loadInitialData", function (request, respons
 
 //En mongoDB nos devuelve un objeto que tenemos que transformar a un Array
 //con la función .toArray()
-app.get(BASE_API_PATH + "/smi_stats", function (request, response) {
-    console.log("INFO: New GET request to /smi_stats");
+app.get(BASE_API_PATH + "/smi-stats", function (request, response) {
+    console.log("INFO: New GET request to /smi-stats");
     db.find({}).toArray( function (err, smi_stats) {
         if (err) {
             console.error('WARNING: Error getting data from DB');
             response.sendStatus(500); // internal server error
         } else {
-            console.log("INFO: Sending smi_stats: " + JSON.stringify(smi_stats, 2, null));
+            console.log("INFO: Sending smi-stats: " + JSON.stringify(smi_stats, 2, null));
             response.send(smi_stats);
         }
     });
@@ -105,24 +105,24 @@ app.get(BASE_API_PATH + "/smi_stats", function (request, response) {
 
 
 // GET a single resource
-app.get(BASE_API_PATH + "/smi_stats/:country", function (request, response) {
+app.get(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
     var country = request.params.country;
     if (!country) {
-        console.log("WARNING: New GET request to /smi_stats/:country without country, sending 400...");
+        console.log("WARNING: New GET request to /smi-stats/:country without country, sending 400...");
         response.sendStatus(400); // bad request
     } else {
-        console.log("INFO: New GET request to /smi_stats/" + country);
-        db.find({"country":country}).toArray(function (err, filteredSMI_STATS){
+        console.log("INFO: New GET request to /smi-stats/" + country);
+        db.find({"country":country}).toArray(function (err, filteredsmi-stats){
             if (err) {
                 console.error('WARNING: Error getting data from DB');
                 response.sendStatus(500); // internal server error
             } else {
-                if (filteredSMI_STATS.length > 0) {
-                    var smi_stat = filteredSMI_STATS[0]; //since we expect to have exactly ONE contact with this country name
+                if (filteredsmi-stats.length > 0) {
+                    var smi_stat = filteredsmi-stats[0]; //since we expect to have exactly ONE contact with this country name
                     console.log("INFO: Sending contact: " + JSON.stringify(smi_stat, 2, null));
                     response.send(smi_stat);
                 } else {
-                    console.log("WARNING: There are not any smi_stats with country " + country);
+                    console.log("WARNING: There are not any smi-stats with country " + country);
                     response.sendStatus(404); // not found
                 }
             }
@@ -133,23 +133,23 @@ app.get(BASE_API_PATH + "/smi_stats/:country", function (request, response) {
 
 
 //POST over a collection
-app.post(BASE_API_PATH + "/smi_stats", function (request, response) {
+app.post(BASE_API_PATH + "/smi-stats", function (request, response) {
     var newCountry = request.body;
     if (!newCountry) {
-        console.log("WARNING: New POST request to /smi_stats/ without smi_stats, sending 400...");
+        console.log("WARNING: New POST request to /smi-stats/ without smi-stats, sending 400...");
         response.sendStatus(400); // bad request
     } else {
-        console.log("INFO: New POST request to /smi_stats with body: " + JSON.stringify(newCountry, 2, null));
+        console.log("INFO: New POST request to /smi-stats with body: " + JSON.stringify(newCountry, 2, null));
         if (!newCountry.country || !newCountry.year || !newCountry["smi-year"]|| !newCountry["smi-year-variation"]) {
             console.log("WARNING: The contact " + JSON.stringify(newCountry, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
-            db.find({}, function (err, smi_stats) {
+            db.find({}, function (err, smi-stats) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
                 } else {
-                    var countryBeforeInsertion = smi_stats.filter((country) => {
+                    var countryBeforeInsertion = smi-stats.filter((country) => {
                         return (country.name.localeCompare(newCountry.country, "en", {'sensitivity': 'base'}) === 0);
                     });
                     if (countryBeforeInsertion.length > 0) {
@@ -168,41 +168,41 @@ app.post(BASE_API_PATH + "/smi_stats", function (request, response) {
 
 
 //POST over a single resource
-app.post(BASE_API_PATH + "/smi_stats/:country", function (request, response) {
+app.post(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
     var country = request.params.country;
-    console.log("WARNING: New POST request to /smi_stats/" + country + ", sending 405...");
+    console.log("WARNING: New POST request to /smi-stats/" + country + ", sending 405...");
     response.sendStatus(405); // method not allowed
 });
 
 
 //PUT over a collection
-app.put(BASE_API_PATH + "/smi_stats", function (request, response) {
-    console.log("WARNING: New PUT request to /smi_stats/, sending 405...");
+app.put(BASE_API_PATH + "/smi-stats", function (request, response) {
+    console.log("WARNING: New PUT request to /smi-stats/, sending 405...");
     response.sendStatus(405); // method not allowed
 });
 
 
 //PUT over a single resource
-app.put(BASE_API_PATH + "/smi_stats/:country", function (request, response) {
+app.put(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
     var updatedCountry = request.body;
     var country = request.params.country;
     
     if (!updatedCountry) {
-        console.log("WARNING: New PUT request to /smi_stats/ without contact, sending 400...");
+        console.log("WARNING: New PUT request to /smi-stats/ without contact, sending 400...");
         response.sendStatus(400); // bad request
         
     } else {
-        console.log("INFO: New PUT request to /smi_stats/" + country + " with data " + JSON.stringify(updatedCountry, 2, null));
+        console.log("INFO: New PUT request to /smi-stats/" + country + " with data " + JSON.stringify(updatedCountry, 2, null));
         if (!updatedCountry.country || !updatedCountry.year || !updatedCountry["smi-year"]|| !updatedCountry["smi-year-variation"]) {
             console.log("WARNING: The country " + JSON.stringify(updatedCountry, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
-            db.find({country:country}, function (err, smi_stats) {
+            db.find({country:country}, function (err, smi-stats) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
                 } else {
-                    /*var countryBeforeInsertion = smi_stats.filter((country) => {
+                    /*var countryBeforeInsertion = smi-stats.filter((country) => {
                         return (country.country.localeCompare(country, "en", {'sensitivity': 'base'}) === 0);
                     });
                     if (countryBeforeInsertion.length > 0) {
@@ -213,7 +213,7 @@ app.put(BASE_API_PATH + "/smi_stats/:country", function (request, response) {
                         console.log("WARNING: There are not any country with name " + country);
                         response.sendStatus(404); // not found
                     }*/
-                     if(smi_stats.length == 0){
+                     if(smi-stats.length == 0){
                         console.log("WARNING: There is not any country with name " + country);
                         response.sendStatus(404); // not found
                     }else{
@@ -228,8 +228,8 @@ app.put(BASE_API_PATH + "/smi_stats/:country", function (request, response) {
 
 
 //DELETE over a collection
-app.delete(BASE_API_PATH + "/smi_stats", function (request, response) {
-    console.log("INFO: New DELETE request to /smi_stats");
+app.delete(BASE_API_PATH + "/smi-stats", function (request, response) {
+    console.log("INFO: New DELETE request to /smi-stats");
     db.remove({}, {multi: true}, function (err, numRemoved) {
         if (err) {
             console.error('WARNING: Error removing data from DB');
@@ -248,13 +248,13 @@ app.delete(BASE_API_PATH + "/smi_stats", function (request, response) {
 
 
 //DELETE over a single resource
-app.delete(BASE_API_PATH + "/smi_stats/:country", function (request, response) {
+app.delete(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
     var country = request.params.country;
     if (!country) {
-        console.log("WARNING: New DELETE request to /smi_stats/:country without name, sending 400...");
+        console.log("WARNING: New DELETE request to /smi-stats/:country without name, sending 400...");
         response.sendStatus(400); // bad request
     } else {
-        console.log("INFO: New DELETE request to /smi_stats/" + country);
+        console.log("INFO: New DELETE request to /smi-stats/" + country);
         db.remove({country: country}, function (err, numRemoved) {
             if (err) {
                 console.error('WARNING: Error removing data from DB');
@@ -299,7 +299,7 @@ app.get(BASE_API_PATH + "/gdp-population-stats/:country", function (request, res
         console.log("WARNING: New GET request to /gsp-population-stats/:country without country, sending 400...");
         response.sendStatus(400); // bad request
     } else {
-        if(country == "loadInitialData"){
+        if(country == ""){
             var alemania = new Object();
             alemania.country = "Alemania";
             alemania.year = 2017;
@@ -635,7 +635,7 @@ app.delete(BASE_API_PATH + "/rpc-stats/:country", function (request, response) {
 });
    
 //Initializing with some data
-app.get(BASE_API_PATH + "/rpc-stats/loadInitialData", function (request, response){
+app.get(BASE_API_PATH + "/rpc-stats/", function (request, response){
     
     var alemania = new Object();
     alemania.country = "Alemania";
@@ -643,7 +643,7 @@ app.get(BASE_API_PATH + "/rpc-stats/loadInitialData", function (request, respons
     alemania.rpcyear = "56.238";
     alemania.rpcvariation = "1.6%";
     
-    var francia = new Object;
+    var francia = new Object();
     francia.country = "Francia";
     francia.year = 2014;
     francia.rpcyear = "50.887.30";
