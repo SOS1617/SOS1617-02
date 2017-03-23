@@ -6,6 +6,7 @@ var bodyParser = require("body-parser");
 var helmet = require("helmet");
 var path = require('path');
 var DataStore = require('nedb');
+var publicFolder = path.join(__dirname, 'public');
 
 
 //Conexión con base de datos mongoDB
@@ -49,13 +50,7 @@ app.use(helmet()); //improve security
 
 
 //REDIRECCIONAMIENTO INICIAL A PÁGINA PRINCIPAL DE LA API
-
-// Base GET
-app.get("/", function (request, response) {
-    console.log("INFO: Redirecting to /public/index.html");
-    response.redirect(301, "/public");
-});
-
+app.use("/",express.static(publicFolder));
 
 
 
