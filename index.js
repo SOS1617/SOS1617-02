@@ -48,6 +48,17 @@ app.use(bodyParser.json()); //use default json enconding/decoding
 app.use(helmet()); //improve security
 
 
+//REDIRECCIONAMIENTO INICIAL A PÁGINA PRINCIPAL DE LA API
+
+// Base GET
+app.get("/", function (request, response) {
+    console.log("INFO: Redirecting to /public/index.html");
+    response.redirect(301, "/public");
+});
+
+
+
+
 ////////////////////////////////////////////////CODIGO API JOSÉ////////////////////////////////////////////////////////////
 
 //Initializing with some data
