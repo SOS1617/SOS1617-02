@@ -306,7 +306,7 @@ app.get(BASE_API_PATH + "/gdp-population-stats/:country", function (request, res
             alemania.gdpyear = "3.533.860 M€";
             alemania.populationyear = 81416745;
     
-            var francia = new Object;
+            var francia = new Object();
             francia.country = "Francia";
             francia.year = 2014;
             francia.gdpyear = "2.633.576 M\u20ac";
@@ -314,7 +314,7 @@ app.get(BASE_API_PATH + "/gdp-population-stats/:country", function (request, res
     
             console.log("INFO: Initializing data.");
     
-            db1.find({}, function(err, countries){
+            db1.find({}).toArray(function(err, countries){
                 if(err){
                     response.sendStatus(500); // internal server error
                 }else{
