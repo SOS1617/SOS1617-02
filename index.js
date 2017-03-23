@@ -7,7 +7,7 @@ var helmet = require("helmet");
 var path = require('path');
 var DataStore = require('nedb');
 
-//var publicFolder = path.join(__dirname, 'public');
+var publicFolder = path.join(__dirname, 'public');
 
 
 ////////////////////////////////////////CONEXIÓN CON BASE DE DATOS////////////////////////////////////////////////////////////
@@ -58,6 +58,11 @@ app.use(helmet()); //improve security
 app.use("/", express.static(path.join(__dirname, 'public')));
 
 
+////////////////////////////////////////////////CÓDIGO URL BASE////////////////////////////////////////////////////////////
+
+app.get(BASE_API_PATH + "/", function(request, response){
+    response.sendfile(publicFolder + "/index.html");
+});
 
 ////////////////////////////////////////////////CODIGO API JOSÉ////////////////////////////////////////////////////////////
 
