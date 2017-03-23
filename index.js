@@ -112,13 +112,13 @@ app.get(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New GET request to /smi-stats/" + country);
-        db.find({"country":country}).toArray(function (err, filteredsmi-stats){
+        db.find({"country":country}).toArray(function (err, filteredSMI_STATS){
             if (err) {
                 console.error('WARNING: Error getting data from DB');
                 response.sendStatus(500); // internal server error
             } else {
-                if (filteredsmi-stats.length > 0) {
-                    var smi_stat = filteredsmi-stats[0]; //since we expect to have exactly ONE contact with this country name
+                if (filteredSMI_STATS.length > 0) {
+                    var smi_stat = filteredSMI_STATS[0]; //since we expect to have exactly ONE contact with this country name
                     console.log("INFO: Sending contact: " + JSON.stringify(smi_stat, 2, null));
                     response.send(smi_stat);
                 } else {
@@ -144,12 +144,12 @@ app.post(BASE_API_PATH + "/smi-stats", function (request, response) {
             console.log("WARNING: The contact " + JSON.stringify(newCountry, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
-            db.find({}, function (err, smi-stats) {
+            db.find({}, function (err, smi_stats) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
                 } else {
-                    var countryBeforeInsertion = smi-stats.filter((country) => {
+                    var countryBeforeInsertion = smi_stats.filter((country) => {
                         return (country.name.localeCompare(newCountry.country, "en", {'sensitivity': 'base'}) === 0);
                     });
                     if (countryBeforeInsertion.length > 0) {
@@ -197,7 +197,7 @@ app.put(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
             console.log("WARNING: The country " + JSON.stringify(updatedCountry, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
-            db.find({country:country}, function (err, smi-stats) {
+            db.find({country:country}, function (err, smi_stats) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
@@ -213,7 +213,7 @@ app.put(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
                         console.log("WARNING: There are not any country with name " + country);
                         response.sendStatus(404); // not found
                     }*/
-                     if(smi-stats.length == 0){
+                     if(smi_stats.length == 0){
                         console.log("WARNING: There is not any country with name " + country);
                         response.sendStatus(404); // not found
                     }else{
