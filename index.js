@@ -55,7 +55,7 @@ app.use(bodyParser.json()); //use default json enconding/decoding
 app.use(helmet()); //improve security
 
 //REDIRECCIONAMIENTO INICIAL A PÁGINA PRINCIPAL DE LA API
-app.use("/", express.static(path.join(__dirname, BASE_API_PATH + "/")));
+//app.use("/", express.static(path.join(__dirname, BASE_API_PATH + "/")));
 
 
 ////////////////////////////////////////////////CÓDIGO URL BASE////////////////////////////////////////////////////////////
