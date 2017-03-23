@@ -634,10 +634,10 @@ app.delete(BASE_API_PATH + "/rpc-stats/:country", function (request, response) {
     }
 });
    
- //LoadInitialData   
-app.get(BASE_API_PATH + "/rpc-stats/loadInitialData", function (request, response){
+//Initializing with some data
+app.get(BASE_API_PATH + "/smi_stats/loadInitialData", function (request, response){
     
-            var alemania = new Object();
+    var alemania = new Object();
     alemania.country = "Alemania";
     alemania.year = 2017;
     alemania.rpcyear = "56.238";
@@ -649,9 +649,9 @@ app.get(BASE_API_PATH + "/rpc-stats/loadInitialData", function (request, respons
     francia.rpcyear = "50.887.30";
     francia.rpcvariation = "1.2%";
     
-            console.log("INFO: Initializing data.");
+    console.log("INFO: Initializing data.");
     
-            db.find({}).toArray(function(err, countries){
+    db2.find({}).toArray(function(err, countries){
                 if(err){
                     response.sendStatus(500); // internal server error
                 }else{
@@ -659,8 +659,8 @@ app.get(BASE_API_PATH + "/rpc-stats/loadInitialData", function (request, respons
                         console.log("INFO: Already Data.");
                         response.sendStatus(409);
                     }else{
-                     db.insert(alemania);
-                     db.insert(francia);
+                     db2.insert(alemania);
+                     db2.insert(francia);
                      response.sendStatus(201); //created!
                      console.log("INFO: Data initialized.");
                     }
