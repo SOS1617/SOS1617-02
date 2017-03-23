@@ -635,7 +635,7 @@ app.delete(BASE_API_PATH + "/rpc-stats/:country", function (request, response) {
 });
    
 //Initializing with some data
-app.get(BASE_API_PATH + "/smi_stats/loadInitialData", function (request, response){
+app.get(BASE_API_PATH + "/rpc-stats/loadInitialData", function (request, response){
     
     var alemania = new Object();
     alemania.country = "Alemania";
