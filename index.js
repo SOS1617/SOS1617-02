@@ -226,14 +226,14 @@ app.put(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
     //Guardamos los datos introducidos en el comando CURL del país
     var updatedCountry = request.body;
     //Guardamos el parámetro introducido en la URL
-    var country = request.params.country;
+    var countryB = request.params.country;
     
     if (!updatedCountry) {
         console.log("WARNING: New PUT request to /smi-stats/ without contact, sending 400...");
         response.sendStatus(400); // bad request
         
     } else {
-        console.log("INFO: New PUT request to /smi-stats/" + country + " with data " + JSON.stringify(updatedCountry, 2, null));
+        console.log("INFO: New PUT request to /smi-stats/" + countryB + " with data " + JSON.stringify(updatedCountry, 2, null));
         
         //Si los datos recogidos en el comando CURL no contienen algunos de estos atributos, habrá error.
         if (!updatedCountry.country || !updatedCountry.year || !updatedCountry["smi-year"]|| !updatedCountry["smi-year-variation"]) {
@@ -242,25 +242,19 @@ app.put(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
         } else {
             //Buscamos los países que tengan el mismo nombre que el que se introduce en la URL
             //Los guardamos en un array
-            dbJose.find({country:country}, function (err, smi_stats) {
+            dbJose.find({country:countryB}).toArray(function (err, smi_stats) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
-                } else {
-                    
-                    var countryBeforeInsertion = smi_stats.filter((country) => {
-                        return (country.country.localeCompare(country, "en", {'sensitivity': 'base'}) === 0);
-                    });
-                    if (countryBeforeInsertion.length > 0) {
-                        dbJose.update({"country": country}, updatedCountry);
-                        console.log("INFO: Modifying country with name " + country + " with data " + JSON.stringify(updatedCountry, 2, null));
+                } else if(smi_stats.length > 0) {
+                        dbJose.update({"country": countryB}, updatedCountry);
+                        console.log("INFO: Modifying country with name " + countryB + " with data " + JSON.stringify(updatedCountry, 2, null));
                         response.send(updatedCountry); // return the updated contact
                     } else {
-                        console.log("WARNING: There are not any country with name " + country);
+                        console.log("WARNING: There are not any country with name " + countryB);
                         response.sendStatus(404); // not found
                     }
-                }
-            });
+                });
         }
     }
 });
