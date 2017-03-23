@@ -19,11 +19,11 @@ var port = (process.env.PORT || 10000);
 var BASE_API_PATH = "/api/v1";
 
 //Base de datos mongoDB JOSÉ
-var db;
+var dbJose;
 //Base de datos mongoDB ANDRÉS
-var db1;
+var dbAndres;
 //Base de datos mongoDB ANTONY
-var db2;
+var dbAntony;
 
 MongoClient.connect(mdbURL, {native_parser:true}, function (err, database){
     
@@ -32,9 +32,9 @@ MongoClient.connect(mdbURL, {native_parser:true}, function (err, database){
         process.exit(1);
     }
     
-   db = database.collection("smi-stats");
-   db1 = database.collection("gdp-population-stats");
-   db2 = database.collection("rpc-stats");
+   dbJose = database.collection("smi-stats");
+   dbAndres = database.collection("gdp-population-stats");
+   dbAntony = database.collection("rpc-stats");
    
    //Solo pongo el servidor a arrancar si la base de datos está arrancada
    app.listen(port, () =>{
@@ -73,7 +73,7 @@ app.get(BASE_API_PATH + "/smi-stats/loadInitialData", function (request, respons
     
             console.log("INFO: Initializing data.");
     
-            db.find({}).toArray(function(err, countries){
+            dbJose.find({}).toArray(function(err, countries){
                 if(err){
                     response.sendStatus(500); // internal server error
                 }else{
@@ -81,8 +81,8 @@ app.get(BASE_API_PATH + "/smi-stats/loadInitialData", function (request, respons
                         console.log("INFO: Already Data.");
                         response.sendStatus(409);
                     }else{
-                     db.insert(spain);
-                     db.insert(france);
+                     dbJose.insert(spain);
+                     dbJose.insert(france);
                      response.sendStatus(201); //created!
                      console.log("INFO: Data initialized.");
                     }
@@ -97,7 +97,7 @@ app.get(BASE_API_PATH + "/smi-stats/loadInitialData", function (request, respons
 //con la función .toArray()
 app.get(BASE_API_PATH + "/smi-stats", function (request, response) {
     console.log("INFO: New GET request to /smi-stats");
-    db.find({}).toArray( function (err, smi_stats) {
+    dbJose.find({}).toArray( function (err, smi_stats) {
         if (err) {
             console.error('WARNING: Error getting data from DB');
             response.sendStatus(500); // internal server error
@@ -118,7 +118,7 @@ app.get(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New GET request to /smi-stats/" + country);
-        db.find({"country":country}).toArray(function (err, filteredSMI_STATS){
+        dbJose.find({"country":country}).toArray(function (err, filteredSMI_STATS){
             if (err) {
                 console.error('WARNING: Error getting data from DB');
                 response.sendStatus(500); // internal server error
@@ -150,7 +150,7 @@ app.post(BASE_API_PATH + "/smi-stats", function (request, response) {
             console.log("WARNING: The contact " + JSON.stringify(newCountry, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
-            db.find({}, function (err, smi_stats) {
+            dbJose.find({}, function (err, smi_stats) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
@@ -163,7 +163,7 @@ app.post(BASE_API_PATH + "/smi-stats", function (request, response) {
                         response.sendStatus(409); // conflict
                     } else {
                         console.log("INFO: Adding contact " + JSON.stringify(newCountry, 2, null));
-                        db.insert(newCountry);
+                        dbJose.insert(newCountry);
                         response.sendStatus(201); // created
                     }
                 }
@@ -203,7 +203,7 @@ app.put(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
             console.log("WARNING: The country " + JSON.stringify(updatedCountry, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
-            db.find({country:country}, function (err, smi_stats) {
+            dbJose.find({country:country}, function (err, smi_stats) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
@@ -223,7 +223,7 @@ app.put(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
                         console.log("WARNING: There is not any country with name " + country);
                         response.sendStatus(404); // not found
                     }else{
-                        db.update({country: country}, updatedCountry);
+                        dbJose.update({country: country}, updatedCountry);
                         response.send(updatedCountry); // return the updated contact
                     }
                 }
@@ -236,7 +236,7 @@ app.put(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
 //DELETE over a collection
 app.delete(BASE_API_PATH + "/smi-stats", function (request, response) {
     console.log("INFO: New DELETE request to /smi-stats");
-    db.remove({}, {multi: true}, function (err, numRemoved) {
+    dbJose.remove({}, {multi: true}, function (err, numRemoved) {
         if (err) {
             console.error('WARNING: Error removing data from DB');
             response.sendStatus(500); // internal server error
@@ -261,7 +261,7 @@ app.delete(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New DELETE request to /smi-stats/" + country);
-        db.remove({country: country}, function (err, numRemoved) {
+        dbJose.remove({country: country}, function (err, numRemoved) {
             if (err) {
                 console.error('WARNING: Error removing data from DB');
                 response.sendStatus(500); // internal server error
@@ -285,7 +285,7 @@ app.delete(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
 //GET every row of data
 app.get(BASE_API_PATH + "/gdp-population-stats", function (request, response) {
     console.log("INFO: New GET/ received");
-    db1.find({}).toArray(function (err, data) {
+    dbAndres.find({}).toArray(function (err, data) {
         if (err) {
             console.error('WARNING: Error getting data from DB');
             response.sendStatus(500); // internal server error
@@ -320,15 +320,15 @@ app.get(BASE_API_PATH + "/gdp-population-stats/:country", function (request, res
     
             console.log("INFO: Initializing data.");
     
-            db1.find({}).toArray(function(err, countries){
+            dbAndres.find({}).toArray(function(err, countries){
                 if(err){
                     response.sendStatus(500); // internal server error
                 }else{
                     if(countries.length > 0){
                         response.sendStatus(501);//Conflict
                     }else{
-                        db1.insert(alemania);
-                     db1.insert(francia);
+                        dbAndres.insert(alemania);
+                     dbAndres.insert(francia);
                      response.sendStatus(201); //created!
                      console.log("INFO: Data initialized.");
                     }
@@ -337,7 +337,7 @@ app.get(BASE_API_PATH + "/gdp-population-stats/:country", function (request, res
         }else{
             console.log("INFO: New GET request to /gdp-population-stats/" + country);
         
-            db1.findOne({ country: country }, function(err,data){
+            dbAndres.findOne({ country: country }, function(err,data){
                     if(err){
                         response.sendStatus(404);
                     }else{
@@ -362,7 +362,7 @@ app.post(BASE_API_PATH + "/gdp-population-stats", function (request, response) {
             console.log("WARNING: The country is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
-            db1.find({country: newCountry.country}, function (err, countriesBeforeInsertion) {
+            dbAndres.find({country: newCountry.country}, function (err, countriesBeforeInsertion) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
@@ -373,7 +373,7 @@ app.post(BASE_API_PATH + "/gdp-population-stats", function (request, response) {
                         response.sendStatus(409); // conflict
                     } else {
                         console.log("INFO: Adding contact " + JSON.stringify(newCountry, 2, null));
-                        db1.insert(newCountry);
+                        dbAndres.insert(newCountry);
                         response.sendStatus(201); // created
                     }
                 }
@@ -405,7 +405,7 @@ app.put(BASE_API_PATH + "/gdp-population-stats/:country", function (request, res
             console.log("WARNING: The country is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         }else{
-            db1.find({country: country}, function (err, countries) {
+            dbAndres.find({country: country}, function (err, countries) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
@@ -424,7 +424,7 @@ app.put(BASE_API_PATH + "/gdp-population-stats/:country", function (request, res
                         console.log("WARNING: There is not any country with name " + country);
                         response.sendStatus(404); // not found
                     }else{
-                        db1.update({country: country}, updatedCountry);
+                        dbAndres.update({country: country}, updatedCountry);
                         response.send(updatedCountry); // return the updated contact
                     }
                     
@@ -438,7 +438,7 @@ app.put(BASE_API_PATH + "/gdp-population-stats/:country", function (request, res
 //DELETE over all the rows
 app.delete(BASE_API_PATH + "/gdp-population-stats", function (request, response) {
     console.log("INFO: New FULL DELETE request");
-    db1.remove({}, {multi: true}, function (err, numRemoved) {
+    dbAndres.remove({}, {multi: true}, function (err, numRemoved) {
         if (err) {
             console.error('WARNING: Error removing data from DB');
             response.sendStatus(500); // internal server error
@@ -463,7 +463,7 @@ app.delete(BASE_API_PATH + "/gdp-population-stats/:country", function (request, 
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New DELETE request to /gdp-population-stats/" + country);
-        db1.remove({country: country}, {}, function (err, numRemoved) {
+        dbAndres.remove({country: country}, {}, function (err, numRemoved) {
             if (err) {
                 console.error('WARNING: Error removing data from DB');
                 response.sendStatus(500); // internal server error
@@ -502,7 +502,7 @@ app.get(BASE_API_PATH + "/rpc-stats/loadInitialData", function (request, respons
     
     console.log("INFO: Initializing data.");
     
-    db2.find({}).toArray(function(err, countries){
+    dbAntony.find({}).toArray(function(err, countries){
                 if(err){
                     response.sendStatus(500); // internal server error
                 }else{
@@ -510,8 +510,8 @@ app.get(BASE_API_PATH + "/rpc-stats/loadInitialData", function (request, respons
                         console.log("INFO: Already Data.");
                         response.sendStatus(409);
                     }else{
-                     db2.insert(alemania);
-                     db2.insert(francia);
+                     dbAntony.insert(alemania);
+                     dbAntony.insert(francia);
                      response.sendStatus(201); //created!
                      console.log("INFO: Data initialized.");
                     }
@@ -523,7 +523,7 @@ app.get(BASE_API_PATH + "/rpc-stats/loadInitialData", function (request, respons
 //GET every row of data
 app.get(BASE_API_PATH + "/rpc-stats", function (request, response) {
     console.log("INFO: New GET/ received");
-    db2.find({}).toArray(function (err, data) {
+    dbAntony.find({}).toArray(function (err, data) {
         if (err) {
             console.error('WARNING: Error getting data from DB');
             response.sendStatus(500); // internal server error
@@ -545,7 +545,7 @@ app.get(BASE_API_PATH + "/rpc-stats/:country", function (request, response) {
     }else {
             console.log("INFO: New GET request to /rpc-stats/" + country);
         
-            db2.findOne({ country: country }, function(err,data){
+            dbAntony.findOne({ country: country }, function(err,data){
                     if(err){
                         response.sendStatus(404);
                     }else{
@@ -568,7 +568,7 @@ app.post(BASE_API_PATH + "/rpc-stats", function (request, response) {
             console.log("WARNING: The country is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
-            db2.find({country: newCountry.country}, function (err, countriesBeforeInsertion) {
+            dbAntony.find({country: newCountry.country}, function (err, countriesBeforeInsertion) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
@@ -579,7 +579,7 @@ app.post(BASE_API_PATH + "/rpc-stats", function (request, response) {
                         response.sendStatus(409); // conflict
                     } else {
                         console.log("INFO: Adding contact " + JSON.stringify(newCountry, 2, null));
-                        db2.insert(newCountry);
+                        dbAntony.insert(newCountry);
                         response.sendStatus(201); // created
                     }
                 }
@@ -611,7 +611,7 @@ app.put(BASE_API_PATH + "/rpc-stats/:country", function (request, response){
             console.log("WARNING: The country is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         }else{
-            db2.find({country: country}, function (err, countries) {
+            dbAntony.find({country: country}, function (err, countries) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
@@ -621,7 +621,7 @@ app.put(BASE_API_PATH + "/rpc-stats/:country", function (request, response){
                         console.log("WARNING: There is not any country with name " + country);
                         response.sendStatus(404); // not found
                     }else{
-                        db2.update({country: country}, updatedCountry);
+                        dbAntony.update({country: country}, updatedCountry);
                         response.send(updatedCountry); // return the updated contact
                     }
                     
@@ -634,7 +634,7 @@ app.put(BASE_API_PATH + "/rpc-stats/:country", function (request, response){
 //DELETE over all the rows
 app.delete(BASE_API_PATH + "/rpc-stats", function (request, response) {
     console.log("INFO: New FULL DELETE request");
-    db2.remove({}, {multi: true}, function (err, numRemoved) {
+    dbAntony.remove({}, {multi: true}, function (err, numRemoved) {
         if (err) {
             console.error('WARNING: Error removing data from DB');
             response.sendStatus(500); // internal server error
@@ -657,7 +657,7 @@ app.delete(BASE_API_PATH + "/rpc-stats/:country", function (request, response) {
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New DELETE request to /gdp-population-stats/" + country);
-        db2.remove({country: country}, {}, function (err, numRemoved) {
+        dbAntony.remove({country: country}, {}, function (err, numRemoved) {
             if (err) {
                 console.error('WARNING: Error removing data from DB');
                 response.sendStatus(500); // internal server error
