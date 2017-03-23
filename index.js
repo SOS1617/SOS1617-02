@@ -51,7 +51,7 @@ app.use(helmet()); //improve security
 ////////////////////////////////////////////////CODIGO API JOSÉ////////////////////////////////////////////////////////////
 
 //Initializing with some data
-app.get(BASE_API_PATH + "/smi-stats/", function (request, response){
+app.get(BASE_API_PATH + "/smi-stats/loadInitialData", function (request, response){
     
             var spain = new Object();
             spain.country = "Spain";
@@ -299,7 +299,7 @@ app.get(BASE_API_PATH + "/gdp-population-stats/:country", function (request, res
         console.log("WARNING: New GET request to /gsp-population-stats/:country without country, sending 400...");
         response.sendStatus(400); // bad request
     } else {
-        if(country == ""){
+        if(country == "loadInitialData"){
             var alemania = new Object();
             alemania.country = "Alemania";
             alemania.year = 2017;
@@ -635,7 +635,7 @@ app.delete(BASE_API_PATH + "/rpc-stats/:country", function (request, response) {
 });
    
 //Initializing with some data
-app.get(BASE_API_PATH + "/rpc-stats/", function (request, response){
+app.get(BASE_API_PATH + "/rpc-stats/loadInitialData", function (request, response){
     
     var alemania = new Object();
     alemania.country = "Alemania";
