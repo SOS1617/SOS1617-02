@@ -6,16 +6,19 @@ var bodyParser = require("body-parser");
 var helmet = require("helmet");
 var path = require('path');
 var DataStore = require('nedb');
-var publicFolder = path.join(__dirname, 'public');
 
-var port = (process.env.PORT || 10000);
-var BASE_API_PATH = "/api/v1";
+//var publicFolder = path.join(__dirname, 'public');
+
 
 ////////////////////////////////////////CONEXIÓN CON BASE DE DATOS////////////////////////////////////////////////////////////
 
 //Conexión con base de datos mongoDB
 var MongoClient = require("mongodb").MongoClient;
 var mdbURL = "mongodb://admin:admin@ds139360.mlab.com:39360/sos1617-02";
+
+var port = (process.env.PORT || 10000);
+var BASE_API_PATH = "/api/v1";
+
 
 //Base de datos mongoDB JOSÉ
 var dbJose;
@@ -31,9 +34,9 @@ MongoClient.connect(mdbURL, {native_parser:true}, function (err, database){
         process.exit(1);
     }
     
-   dbJose = database.collection("smi-stats");
-   dbAndres = database.collection("gdp-population-stats");
-   dbAntony = database.collection("rpc-stats");
+       dbJose = database.collection("smi-stats");
+       dbAndres = database.collection("gdp-population-stats");
+       dbAntony = database.collection("rpc-stats");
    
    //Solo pongo el servidor a arrancar si la base de datos está arrancada
    app.listen(port, () =>{
@@ -47,11 +50,12 @@ var app = express();
 
 //BODYPARSER usa por defecto la codificación de JSON
 app.use(bodyParser.json()); //use default json enconding/decoding
+
 //HELMET aporta seguridad a nuestro servidor
 app.use(helmet()); //improve security
 
 //REDIRECCIONAMIENTO INICIAL A PÁGINA PRINCIPAL DE LA API
-app.use("/",express.static(publicFolder));
+app.use("/", express.static(path.join(__dirname, 'public')));
 
 
 
