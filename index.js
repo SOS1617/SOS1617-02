@@ -60,7 +60,7 @@ app.use("/", express.static(path.join(__dirname, BASE_API_PATH + "/")));
 
 ////////////////////////////////////////////////CÓDIGO URL BASE////////////////////////////////////////////////////////////
 
-app.get(BASE_API_PATH + "/", function(request, response){
+app.get("/", function(request, response){
     response.sendfile(publicFolder + "/index.html");
 });
 
