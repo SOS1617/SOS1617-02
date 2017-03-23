@@ -666,4 +666,5 @@ app.get(BASE_API_PATH + "/rpc-stats/loadInitialData", function (request, respons
                     }
                 }
             });
+            
 });
