@@ -4,8 +4,11 @@
 //Get a colección
 curl -XGET -H 'Content-type: application/json'  'http://sos1617-02.herokuapp.com/api/v1/smi-stats'
 
-//Post a colección
-curl -XPOST -H 'Content-type: application/json' -d '{ "country": "France", "year": "2017", "smi-year": "1480.3", "smi-year-variation": "0.93" }' 'http://sos1617-02.herokuapp.com/api/v1/smi-stats'
+//Post a colección con China
+curl -XPOST -H 'Content-type: application/json' -d '{ "country": "China", "year": "2013", "smi-year": "170.3 €", "smi-year-variation": "10.28%" }' 'http://sos1617-02.herokuapp.com/api/v1/smi-stats'
+
+//Post a colección con Japón
+curl -XPOST -H 'Content-type: application/json' -d '{ "country": "Japan", "year": "2014", "smi-year": "919.9 €", "smi-year-variation": "-19.91%" }' 'http://sos1617-02.herokuapp.com/api/v1/smi-stats'
 
 //Get a elemento
 curl -XGET -H 'Content-type: application/json'  'http://sos1617-02.herokuapp.com/api/v1/smi-stats/China'

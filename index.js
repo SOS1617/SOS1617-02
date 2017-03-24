@@ -126,15 +126,15 @@ app.get(BASE_API_PATH + "/smi-stats", function (request, response) {
 
 
 
-//2. GET a single resource
-app.get(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
+//2. GET a collection of a same year
+app.get(BASE_API_PATH + "/smi-stats/:year", function (request, response) {
     
     //Guardamos en una variable el parametro pasado por la consulta de la URL
-    var country = request.params.country;
-    var year = request.params.country;
+    var country = request.params.year;
+    var year = request.params.year;
     
     //Tratamos la petición a la api según si está entrando un año o un país
-    if(isNaN(request.params.country.charAt(0))){
+    if(isNaN(request.params.year.charAt(0))){
     
         //Si no llega ningún dato por la consulta, mandamos error
         if (!country) {
@@ -201,9 +201,46 @@ app.get(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
     }
 });
 
+//3. GET over a single resource
 
+app.get(BASE_API_PATH + "/smi-stats/:country/:year", function (request, response) {
+    
+    //Guardamos en una variable el parametro pasado por la consulta de la URL
+    var country = request.params.country;
+    var year = request.params.year;
+        //Si no llega ningún dato por la consulta, mandamos error
+        if (!country || !year) {
+            console.log("WARNING: New GET request to /smi-stats/:country/:year without country or year, sending 400...");
+            response.sendStatus(400); // bad request
+        } else {
+            console.log("INFO: New GET request to /smi-stats/" + country);
+            
+            //Buscamos en la DB si hay alguna entrada con los mismos parámetros que los introducidos y los guardamos en el array fileteredSMI_STATS
+            //Esta variable recogerá en un array todos los elementos que cumplan la confición de la búsqueda
+            dbJose.find({"country":country , $and:[{"year":year}]}).toArray(function (err, filteredSMI_STATS){
+                if (err) {
+                    console.error('WARNING: Error getting data from DB');
+                    response.sendStatus(500); // internal server error
+                } else {
+                    //Si el array es mayor que 0 es que hay al menos un elemento que lo cumple. 
+                    if (filteredSMI_STATS.length > 0) {
+                        //Devolvemos el primer elemento del array de todos los elementos que cumplan el criterio de búsqueda
+                        var smi_stat = filteredSMI_STATS[0]; //since we expect to have exactly ONE statics for this country 
+                        console.log("INFO: Sending smi-stats of "+country+" in "+year+": " + JSON.stringify(smi_stat, 2, null));
+                        response.send(smi_stat);
+                    } else {
+                        
+                        //Si no existiesen elementos en el array.
+                        console.log("WARNING: There are not any smi-stats registered in "+ year + " for country " + country);
+                        response.sendStatus(404); // not found
+                    }
+                }
+            });
+        }
+    }
+);
 
-//3. POST over a collection
+//4. POST over a collection
 app.post(BASE_API_PATH + "/smi-stats", function (request, response) {
     
     //Recogemos el cuerpo de la petición y lo guardamos en la variable. En ella tenemos ahora mismo los datos que hemos dado mediante la petición CURL
@@ -266,7 +303,7 @@ app.put(BASE_API_PATH + "/smi-stats", function (request, response) {
 });
 
 
-//4. PUT over a single resource
+//5. PUT over a single resource
 app.put(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
     
     //Guardamos los datos introducidos en el comando CURL del país
@@ -306,7 +343,7 @@ app.put(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
 });
 
 
-//5. DELETE over a collection
+//6. DELETE over a collection
 app.delete(BASE_API_PATH + "/smi-stats", function (request, response) {
     
     console.log("INFO: New DELETE request to /smi-stats");
@@ -331,24 +368,25 @@ app.delete(BASE_API_PATH + "/smi-stats", function (request, response) {
 });
 
 
-//6. DELETE over a single resource
-app.delete(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
+//7. DELETE over a single resource
+app.delete(BASE_API_PATH + "/smi-stats/:country/:year", function (request, response) {
     
     var country = request.params.country;
-    if (!country) {
-        console.log("WARNING: New DELETE request to /smi-stats/:country without name, sending 400...");
+    var year = request.params.year;
+    if (!country || !year) {
+        console.log("WARNING: New DELETE request to /smi-stats/:country/:year without country or year, sending 400...");
         response.sendStatus(400); // bad request
     } else {
         
-        console.log("INFO: New DELETE request to /smi-stats/" + country);
-        dbJose.remove({country: country}, function (err, numRemoved) {
+        console.log("INFO: New DELETE request to /smi-stats/" + country+"/"+year);
+        dbJose.remove({country: country, $and:[{"year":year}]}, function (err, numRemoved) {
             if (err) {
                 console.error('WARNING: Error removing data from DB');
                 response.sendStatus(500); // internal server error
             } else {
-                console.log("INFO: Countries removed: " + numRemoved);
-                if (numRemoved === 1) {
-                    console.log("INFO: The country with name " + country + " has been succesfully deleted, sending 204...");
+                console.log("INFO: Countries removed: " + numRemoved[1]);
+                if (numRemoved[1] === 1) {
+                    console.log("INFO: The country with name " + country + "and year "+year+" has been succesfully deleted, sending 204...");
                     response.sendStatus(204); // no content
                 } else {
                     console.log("WARNING: There are no countries to delete");
