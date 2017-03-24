@@ -71,13 +71,13 @@ app.get(BASE_API_PATH + "/smi-stats/loadInitialData", function (request, respons
     
             var spain = new Object();
             spain.country = "Spain";
-            spain.year = 2017;
+            spain.year = "2017";
             spain.smi_year = "825.70";
             spain.smi_year_variation = "8.01";
     
             var france = new Object();
             france.country = "France";
-            france.year = 2017;
+            france.year = "2017";
             france.smi_year = "1480.3";
             france.smi_year_variation = "0.93";
     
@@ -105,7 +105,7 @@ app.get(BASE_API_PATH + "/smi-stats/loadInitialData", function (request, respons
 });
 
 
-// GET a collection
+//1. GET a collection
 
 //En mongoDB nos devuelve un objeto que tenemos que transformar a un Array
 //con la función .toArray()
@@ -126,47 +126,84 @@ app.get(BASE_API_PATH + "/smi-stats", function (request, response) {
 
 
 
-// GET a single resource
+//2. GET a single resource
 app.get(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
     
     //Guardamos en una variable el parametro pasado por la consulta de la URL
     var country = request.params.country;
+    var year = request.params.country;
     
-    //Si no llega ningún dato por la consulta, mandamos error
-    if (!country) {
-        console.log("WARNING: New GET request to /smi-stats/:country without country, sending 400...");
-        response.sendStatus(400); // bad request
-    } else {
-        console.log("INFO: New GET request to /smi-stats/" + country);
-        
-        //Buscamos en la DB si hay alguna entrada con el mismo parámetro que el introducido y creamos un Array asociado a la variable filteredSMI_STATS
-        //Esta variable recogerá en un array todos los elementos que cumplan la confición de la búsqueda
-        dbJose.find({"country":country}).toArray(function (err, filteredSMI_STATS){
-            if (err) {
-                console.error('WARNING: Error getting data from DB');
-                response.sendStatus(500); // internal server error
-            } else {
-                //Si el array es mayor que 0 es que hay al menos un elemento que lo cumple. 
-                if (filteredSMI_STATS.length > 0) {
-                    
-                    //Recogemos el primer elemento que lo cumpla y lo devolvemos
-                    var smi_stat = filteredSMI_STATS[0]; //since we expect to have exactly ONE contact with this country name
-                    console.log("INFO: Sending contact: " + JSON.stringify(smi_stat, 2, null));
-                    response.send(smi_stat);
+    //Tratamos la petición a la api según si está entrando un año o un país
+    if(isNaN(request.params.country.charAt(0))){
+    
+        //Si no llega ningún dato por la consulta, mandamos error
+        if (!country) {
+            console.log("WARNING: New GET request to /smi-stats/:country without country, sending 400...");
+            response.sendStatus(400); // bad request
+        } else {
+            console.log("INFO: New GET request to /smi-stats/" + country);
+            
+            //Buscamos en la DB si hay alguna entrada con el mismo parámetro que el introducido y creamos un Array asociado a la variable filteredSMI_STATS
+            //Esta variable recogerá en un array todos los elementos que cumplan la confición de la búsqueda
+            dbJose.find({"country":country}).toArray(function (err, filteredSMI_STATS){
+                if (err) {
+                    console.error('WARNING: Error getting data from DB');
+                    response.sendStatus(500); // internal server error
                 } else {
-                    
-                    //Si no existiesen elementos en el array.
-                    console.log("WARNING: There are not any smi-stats for country " + country);
-                    response.sendStatus(404); // not found
+                    //Si el array es mayor que 0 es que hay al menos un elemento que lo cumple. 
+                    if (filteredSMI_STATS.length > 0) {
+                        
+                        //Devolvemos todos los elementos que cumplan el criterio de búsqueda
+                        var smi_stat = filteredSMI_STATS; //since we expect to have exactly ONE statics for this country 
+                        console.log("INFO: Sending stats of: " + JSON.stringify(smi_stat, 2, null));
+                        response.send(smi_stat);
+                    } else {
+                        
+                        //Si no existiesen elementos en el array.
+                        console.log("WARNING: There are not any smi-stats for country " + country);
+                        response.sendStatus(404); // not found
+                    }
                 }
-            }
-        });
+            });
+        }
+    }else{
+        
+       //Si no llega ningún dato por la consulta, mandamos error
+        if (!year) {
+            console.log("WARNING: New GET request to /smi-stats/:country without country, sending 400...");
+            response.sendStatus(400); // bad request
+        } else {
+            console.log("INFO: New GET request to /smi-stats/" + country);
+            
+            //Buscamos en la DB si hay alguna entrada con el mismo parámetro que el introducido y creamos un Array asociado a la variable filteredSMI_STATS
+            //Esta variable recogerá en un array todos los elementos que cumplan la confición de la búsqueda
+            dbJose.find({year:year}).toArray(function (err, filteredSMI_STATS){
+                if (err) {
+                    console.error('WARNING: Error getting data from DB');
+                    response.sendStatus(500); // internal server error
+                } else {
+                    //Si el array es mayor que 0 es que hay al menos un elemento que lo cumple. 
+                    if (filteredSMI_STATS.length > 0) {
+                        
+                        //Devolvemos todos los elementos que cumplan el criterio de búsqueda(están guardados en el array)
+                        var smi_stat = filteredSMI_STATS; //since we expect to have exactly ONE statics with this year
+                        console.log("INFO: Sending contact: " + JSON.stringify(smi_stat, 2, null));
+                        response.send(smi_stat);
+                    } else {
+                        
+                        //Si no existiesen elementos en el array.
+                        console.log("WARNING: There are not any smi-stats for the year " + year);
+                        response.sendStatus(404); // not found
+                    }
+                }
+            });
+        }
     }
 });
 
 
 
-//POST over a collection
+//3. POST over a collection
 app.post(BASE_API_PATH + "/smi-stats", function (request, response) {
     
     //Recogemos el cuerpo de la petición y lo guardamos en la variable. En ella tenemos ahora mismo los datos que hemos dado mediante la petición CURL
@@ -214,7 +251,7 @@ app.post(BASE_API_PATH + "/smi-stats", function (request, response) {
 });
 
 
-//POST over a single resource
+// POST over a single resource (PROHIBIDO)
 app.post(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
     var country = request.params.country;
     console.log("WARNING: New POST request to /smi-stats/" + country + ", sending 405...");
@@ -222,14 +259,14 @@ app.post(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
 });
 
 
-//PUT over a collection
+// PUT over a collection (PROHIBIDO)
 app.put(BASE_API_PATH + "/smi-stats", function (request, response) {
     console.log("WARNING: New PUT request to /smi-stats/, sending 405...");
     response.sendStatus(405); // method not allowed
 });
 
 
-//PUT over a single resource
+//4. PUT over a single resource
 app.put(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
     
     //Guardamos los datos introducidos en el comando CURL del país
@@ -269,7 +306,7 @@ app.put(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
 });
 
 
-//DELETE over a collection
+//5. DELETE over a collection
 app.delete(BASE_API_PATH + "/smi-stats", function (request, response) {
     
     console.log("INFO: New DELETE request to /smi-stats");
@@ -294,7 +331,7 @@ app.delete(BASE_API_PATH + "/smi-stats", function (request, response) {
 });
 
 
-//DELETE over a single resource
+//6. DELETE over a single resource
 app.delete(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
     
     var country = request.params.country;
