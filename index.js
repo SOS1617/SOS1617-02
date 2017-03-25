@@ -1,5 +1,6 @@
 //"use strict";
 //global __dirname */
+/*golbal assert*/
 
 var express = require("express");
 var bodyParser = require("body-parser");
@@ -349,15 +350,16 @@ app.delete(BASE_API_PATH + "/smi-stats", function (request, response) {
     console.log("INFO: New DELETE request to /smi-stats");
     
     //Lo borra todo
-    dbJose.remove({}, {multi: true}, function (err, numRemoved) {
+    dbJose.remove({}, {multi: true}, function (err, result) {
+        var numRemoved = JSON.parse(result);
         if (err) {
             console.error('WARNING: Error removing data from DB');
             response.sendStatus(500); // internal server error
         } else {
             //Se controla si el número de paises borrados es mayor que 0, respondemos que ya no hay contenido, pero cuando no es mayor que 0,
             //Se va al NotFound
-            if (numRemoved > 0) {
-                console.log("INFO: All the countries (" + numRemoved + ") have been succesfully deleted, sending 204...");
+            if (numRemoved.n > 0) {
+                console.log("INFO: All the countries (" + numRemoved.n + ") have been succesfully deleted, sending 204...");
                 response.sendStatus(204); // no content
             } else {
                 console.log("WARNING: There are no countries to delete");
@@ -378,15 +380,17 @@ app.delete(BASE_API_PATH + "/smi-stats/:country/:year", function (request, respo
         response.sendStatus(400); // bad request
     } else {
         
+        // {$set: {tags: []}}, {upsert: false, multi: true},
         console.log("INFO: New DELETE request to /smi-stats/" + country+"/"+year);
-        dbJose.remove({country: country, $and:[{"year":year}]}, function (err, numRemoved) {
+        dbJose.deleteOne({country: country, $and:[{"year":year}]}, function (err, result) {
+            var numRemoved= JSON.parse(result);
             if (err) {
                 console.error('WARNING: Error removing data from DB');
                 response.sendStatus(500); // internal server error
             } else {
-                console.log("INFO: Countries removed: " + numRemoved[1]);
-                if (numRemoved[1] === 1) {
-                    console.log("INFO: The country with name " + country + "and year "+year+" has been succesfully deleted, sending 204...");
+                console.log("INFO: Countries removed: " + numRemoved.n);
+                if (numRemoved.n === 1 ) {
+                    console.log("INFO: The stats with name " + country + "and year "+year+" has been succesfully deleted, sending 204...");
                     response.sendStatus(204); // no content
                 } else {
                     console.log("WARNING: There are no countries to delete");
