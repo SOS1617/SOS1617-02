@@ -81,6 +81,10 @@ app.get(BASE_API_PATH + "/smi-stats/loadInitialData", function (request, respons
             france.year = "2017";
             france.smi_year = "1480.3";
             france.smi_year_variation = "0.93";
+            
+            var china = { "country": "China", "year": "2013", "smi-year": "170.3 €", "smi-year-variation": "10.28%" };
+            var japan = { "country": "Japan", "year": "2014", "smi-year": "919.9 €", "smi-year-variation": "-19.91%" };
+            
     
             console.log("INFO: Initializing data.");
     
@@ -98,6 +102,8 @@ app.get(BASE_API_PATH + "/smi-stats/loadInitialData", function (request, respons
                     //Si no había datos, inserto los datos en la DB
                      dbJose.insert(spain);
                      dbJose.insert(france);
+                     dbJose.insert(japan);
+                     dbJose.insert(china);
                      response.sendStatus(201); //created!
                      console.log("INFO: Data initialized.");
                     }
