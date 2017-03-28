@@ -126,7 +126,7 @@ app.put(BASE_API_PATH + "/rpc-stats/:country", function (request, response){
         response.sendStatus(400); // bad request
     }else{
         console.log("INFO: New POST request to /gdp-population-stats");
-        if (!updatedCountry.country || !updatedCountry.year || !updatedCountry["gdp-year"] || !updatedCountry["population-year"]) {
+        if (!updatedCountry.country || !updatedCountry.year || !updatedCountry["rpc-year"] || !updatedCountry["rpc-variation"]) {
             console.log("WARNING: The country is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         }else{
