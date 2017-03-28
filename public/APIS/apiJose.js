@@ -255,8 +255,8 @@ app.put(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
     //Guardamos el parámetro introducido en la URL
     var countryB = request.params.country;
     
-    if (!updatedCountry) {
-        console.log("WARNING: New PUT request to /smi-stats/ without contact, sending 400...");
+    if (!updatedCountry || countryB != updatedCountry.country) {
+        console.log("WARNING: New PUT request to /smi-stats/ without country or the country is not the same, sending 400...");
         response.sendStatus(400); // bad request
         
     } else {
@@ -273,7 +273,8 @@ app.put(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
-                } else if(smi_stats.length > 0) {
+                } else{ 
+                    if(smi_stats.length > 0) {
                         dbJose.update({"country": countryB}, updatedCountry);
                         console.log("INFO: Modifying country with name " + countryB + " with data " + JSON.stringify(updatedCountry, 2, null));
                         response.send(updatedCountry); // return the updated contact
@@ -281,7 +282,9 @@ app.put(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
                         console.log("WARNING: There are not any country with name " + countryB);
                         response.sendStatus(404); // not found
                     }
-                });
+               } 
+                
+            });
         }
     }
 });
