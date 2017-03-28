@@ -1,29 +1,12 @@
-////////////////////////////////////////CONEXIÓN CON BASE DE DATOS////////////////////////////////////////////////////////////
+var exports = module.exports = {};
 
-//Conexión con base de datos mongoDB
-var MongoClient = require("mongodb").MongoClient;
-var mdbURL = "mongodb://admin:admin@ds139360.mlab.com:39360/sos1617-02";
-
-//Base de datos mongoDB JOSÉ
-var dbJose;
-
-
-MongoClient.connect(mdbURL, {native_parser:true}, function (err, database){
-    
-    if(err){
-        console.log("CAN NOT CONNECT TO DB"+err);
-        process.exit(1);
-    }
-    
-       dbJose = database.collection("smi-stats");
-});
-
+exports.register = function(app, dbJose, BASE_API_PATH) {
 
 
 ////////////////////////////////////////////////CODIGO API JOSÉ////////////////////////////////////////////////////////////
 
 //Initializing with some data
-module.exports.getInitialData = function (request, response){
+app.get(BASE_API_PATH + "/smi-stats/loadInitialData", function (request, response){
     
             var spain = new Object();
             spain.country = "Spain";
@@ -64,14 +47,14 @@ module.exports.getInitialData = function (request, response){
                     }
                 }
             });
-};
+});
 
 
 //1. GET a collection
 
 //En mongoDB nos devuelve un objeto que tenemos que transformar a un Array
 //con la función .toArray()
-module.exports.getStats = function (request, response) {
+app.get(BASE_API_PATH + "/smi-stats", function (request, response) {
     console.log("INFO: New GET request to /smi-stats");
     
     dbJose.find({}).toArray( function (err, smi_stats) {
@@ -84,13 +67,13 @@ module.exports.getStats = function (request, response) {
             response.send(smi_stats);
         }
     });
-};
+});
 
 
 
 //2. GET a collection of a same year
 
-module.exports.getStatsCountryYear = function (request, response) {
+app.get(BASE_API_PATH + "/smi-stats/:year", function (request, response) {
     
     //Guardamos en una variable el parametro pasado por la consulta de la URL
     var country = request.params.year;
@@ -162,11 +145,11 @@ module.exports.getStatsCountryYear = function (request, response) {
             });
         }
     }
-};
+});
 
 //3. GET over a single resource
 
-module.exports.getStatsCountry = function (request, response) {
+app.get(BASE_API_PATH + "/smi-stats/:country/:year", function (request, response) {
     
     //Guardamos en una variable el parametro pasado por la consulta de la URL
     var country = request.params.country;
@@ -192,18 +175,19 @@ module.exports.getStatsCountry = function (request, response) {
                         console.log("INFO: Sending smi-stats of "+country+" in "+year+": " + JSON.stringify(smi_stat, 2, null));
                         response.send(smi_stat);
                     } else {
-                        
+                        if(filteredSMI_STATS === 0){
                         //Si no existiesen elementos en el array.
                         console.log("WARNING: There are not any smi-stats registered in "+ year + " for country " + country);
                         response.sendStatus(404); // not found
+                        }
                     }
                 }
             });
         }
-};
+});
 
 //4. POST over a collection
-module.exports.postNewStats = function (request, response) {
+app.post(BASE_API_PATH + "/smi-stats", function (request, response) {
     
     //Recogemos el cuerpo de la petición y lo guardamos en la variable. En ella tenemos ahora mismo los datos que hemos dado mediante la petición CURL
     //para hacer el post a la colección
@@ -247,26 +231,26 @@ module.exports.postNewStats = function (request, response) {
             });
         }
     }
-};
+});
 
 
 // POST over a single resource (PROHIBIDO)
-module.exports.postNewCountryBAD = function (request, response) {
+app.post(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
     var country = request.params.country;
     console.log("WARNING: New POST request to /smi-stats/" + country + ", sending 405...");
     response.sendStatus(405); // method not allowed
-};
+});
 
 
 // PUT over a collection (PROHIBIDO)
-module.exports.putStatsBAD = function (request, response) {
+app.put(BASE_API_PATH + "/smi-stats", function (request, response) {
     console.log("WARNING: New PUT request to /smi-stats/, sending 405...");
     response.sendStatus(405); // method not allowed
-};
+});
 
 
 //5. PUT over a single resource
-module.exports.uploadCountryStats = function (request, response) {
+app.put(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
     
     //Guardamos los datos introducidos en el comando CURL del país
     var updatedCountry = request.body;
@@ -302,11 +286,11 @@ module.exports.uploadCountryStats = function (request, response) {
                 });
         }
     }
-};
+});
 
 
 //6. DELETE over a collection
-module.exports.deleteStats= function (request, response) {
+app.delete(BASE_API_PATH + "/smi-stats", function (request, response) {
     
     console.log("INFO: New DELETE request to /smi-stats");
     
@@ -328,11 +312,11 @@ module.exports.deleteStats= function (request, response) {
             }
         }
     });
-};
+});
 
 
 //7. DELETE over a single resource
-module.exports.deleteCountryStats = function (request, response) {
+app.delete(BASE_API_PATH + "/smi-stats/:country/:year", function (request, response) {
     
     var country = request.params.country;
     var year = request.params.year;
@@ -360,4 +344,6 @@ module.exports.deleteCountryStats = function (request, response) {
             }
         });
     }
+});
+    
 };

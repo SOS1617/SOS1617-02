@@ -10,7 +10,8 @@ var DataStore = require('nedb');
 
 var publicFolder = path.join(__dirname, 'public');
 
-
+//Módulo con api José
+var moduleSMI = require("./public/APIS/apiJose.js");
 
 
 ////////////////////////////////////////CONEXIÓN CON BASE DE DATOS////////////////////////////////////////////////////////////
@@ -22,7 +23,8 @@ var mdbURL = "mongodb://admin:admin@ds139360.mlab.com:39360/sos1617-02";
 var port = (process.env.PORT || 10000);
 var BASE_API_PATH = "/api/v1";
 
-
+//Base de datos mongoDB José
+var dbJose;
 //Base de datos mongoDB ANDRÉS
 var dbAndres;
 //Base de datos mongoDB ANTONY
@@ -35,8 +37,12 @@ MongoClient.connect(mdbURL, {native_parser:true}, function (err, database){
         process.exit(1);
     }
 
+        dbJose = database.collection("smi-stats");
        dbAndres = database.collection("gdp-population-stats");
        dbAntony = database.collection("rpc-stats");
+       
+       ///////////////////CONEXIÓN CON MÓDULO JOSÉ////////////////////////////
+       moduleSMI.register(app, dbJose, BASE_API_PATH);
    
    //Solo pongo el servidor a arrancar si la base de datos está arrancada
    app.listen(port, () =>{
@@ -64,27 +70,26 @@ app.get("/", function(request, response){
     response.sendfile(publicFolder + "/index.html");
 });
 
-////////////////////////////////////////////////CONEXIÓN CON MÓDULO JOSÉ/////////////////////////////////////////////////////
-
-
-var BASE_API_PATH_JOSE="/api/v1/smi-stats";
-var apiJose = require('./apiJose.js');
+/*
 
 //MÉTODOS GET
 app.get(BASE_API_PATH_JOSE + "/loadInitialData", apiJose.getInitialData);
 app.get(BASE_API_PATH_JOSE, apiJose.getStats);
-app.get(BASE_API_PATH_JOSE + "/:country/:year", apiJose.getStatsCountryYear);
-app.get(BASE_API_PATH_JOSE + "/:country", apiJose.getStatsCountry);
+app.get(BASE_API_PATH_JOSE + "/:year", apiJose.getStatsCountry);
+app.get(BASE_API_PATH_JOSE + "/:year", apiJose.getStatsCountryYear);
+
 //MÉTODOS POST
 app.post(BASE_API_PATH_JOSE, apiJose.postNewStats);
 app.post(BASE_API_PATH_JOSE +"/:country", apiJose.postNewCountryBAD);
+
 //MÉTODOS PUT
 app.post(BASE_API_PATH_JOSE, apiJose.putStatsBAD);
 app.post(BASE_API_PATH_JOSE +"/:country", apiJose.uploadCountryStats);
+
 //MÉTODOS DELETE
 app.delete(BASE_API_PATH_JOSE, apiJose.deleteStats);
 app.delete(BASE_API_PATH_JOSE + "/:country", apiJose.deleteCountryStats);
-
+*/
 
 ////////////////////////////////////////////////CODIGO API ANDRÉS////////////////////////////////////////////////////////////
 
