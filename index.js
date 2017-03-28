@@ -79,7 +79,7 @@ app.get("/", function(request, response){
     response.sendfile(publicFolder + "/index.html");
 });
 
-app.get("/test", function(request, response){
+app.get(BASE_API_PATH+"/test", function(request, response){
     response.sendfile(publicFolder + "/test.html");
 });
 /*
