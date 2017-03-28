@@ -203,7 +203,7 @@ app.post(BASE_API_PATH + "/smi-stats", function (request, response) {
             response.sendStatus(400); // bad request
             
         } else {
-            dbJose.find({}, function (err, smi_stats) {
+            dbJose.find({}).toArray(function (err, smi_stats) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
@@ -219,7 +219,6 @@ app.post(BASE_API_PATH + "/smi-stats", function (request, response) {
                         console.log("WARNING: The country " + JSON.stringify(newCountry, 2, null) + " already extis, sending 409...");
                         response.sendStatus(409); // conflict
                     } else {
-                        
                         //Si no existe ningún país que coincida con el que queremos añadir, lo insertamos en la DB
                         console.log("INFO: Adding country " + JSON.stringify(newCountry, 2, null));
                         dbJose.insert(newCountry);
