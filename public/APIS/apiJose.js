@@ -203,23 +203,29 @@ app.post(BASE_API_PATH + "/smi-stats", function (request, response) {
             response.sendStatus(400); // bad request
             
         } else {
-            dbJose.find({country: newCountry.country}, function (err, countriesBeforeInsertion) {
+            dbJose.find({}).toArray(function (err, smi_stats) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
                 } else {
                     
-                    if (countriesBeforeInsertion.length > 0) {
-                        console.log("WARNING: The contact " + JSON.stringify(newCountry, 2, null) + " already extis, sending 409...");
+                    //Esta variable recoge, mediante un callback, un array que se rellenará si existen en la DB países iguales a los que queremos 
+                    //insertar con el POST
+                    var countryBeforeInsertion = smi_stats.filter((country) => {
+                        return (country.country.localeCompare(newCountry.country, "en", {'sensitivity': 'base'}) === 0);
+                    });
+                    //Si hay algún país que queremos meter y ya estaba, devolvemos conflicto
+                    if (countryBeforeInsertion.length > 0) {
+                        console.log("WARNING: The country " + JSON.stringify(newCountry, 2, null) + " already extis, sending 409...");
                         response.sendStatus(409); // conflict
                     } else {
-                        console.log("INFO: Adding contact " + JSON.stringify(newCountry, 2, null));
+                        //Si no existe ningún país que coincida con el que queremos añadir, lo insertamos en la DB
+                        console.log("INFO: Adding country " + JSON.stringify(newCountry, 2, null));
                         dbJose.insert(newCountry);
                         response.sendStatus(201); // created
                     }
                 }
-                }
-            );
+            });
         }
     }
 });
