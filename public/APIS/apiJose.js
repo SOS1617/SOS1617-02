@@ -175,11 +175,9 @@ app.get(BASE_API_PATH + "/smi-stats/:country/:year", function (request, response
                         console.log("INFO: Sending smi-stats of "+country+" in "+year+": " + JSON.stringify(smi_stat, 2, null));
                         response.send(smi_stat);
                     } else {
-                        if(filteredSMI_STATS === 0){
                         //Si no existiesen elementos en el array.
                         console.log("WARNING: There are not any smi-stats registered in "+ year + " for country " + country);
                         response.sendStatus(404); // not found
-                        }
                     }
                 }
             });
