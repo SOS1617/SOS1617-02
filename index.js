@@ -79,8 +79,8 @@ app.get("/", function(request, response){
     response.sendfile(publicFolder + "/index.html");
 });
 
-app.get(BASE_API_PATH+"/test", function(request, response){
-    response.sendfile(publicFolder + "/test.html");
+app.get(BASE_API_PATH+"/tests", function(request, response){
+    response.sendfile(publicFolder + "/tests.html");
 });
 /*
 
