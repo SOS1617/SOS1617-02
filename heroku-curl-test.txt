@@ -47,3 +47,59 @@ curl -XDELETE -H "Content-type: application/json" 'http://sos1617-02.herokuapp.c
 
 ////////////////////////////////////////////CURL A HEROKU ///////////////////////////////////////////////////////
 
+Post a una coleccion:
+
+curl -XPOST -H "Content-type: application/json" -d '{
+  "country": "Suecia",
+  "year": "2012",
+  "rpc-year": "50.887.30",
+  "rpc-variation": "1,02%"
+}' 'http://localhost:8080/api/v1/rpc-stats/'
+
+Post a un recurso:
+
+curl -XPOST -H "Content-type: application/json" -d '{
+  "country": "Suecia",
+  "year": "2012",
+  "rpc-year": "50.887.30",
+  "rpc-variation": "1,02%"
+}' 'http://localhost:8080/api/v1/rpc-stats/Alemania'
+
+Get a un recurso:
+
+curl -XGET -H "Content-type: application/json" 'http://localhost:8080/api/v1/rpc-stats/Alemania'
+
+Get a una colección:
+
+curl -XGET -H "Content-type: application/json" 'http://localhost:8080/api/v1/rpc-stats'
+
+Put a la ruta base:
+
+curl -XPUT -H "Content-type: application/json" -d '{
+  "country": "Alemania",
+  "year": "2012",
+  "rpc-year": "50.887.30",
+  "rpc-variation": "1,02%"
+}' 'http://localhost:8080/api/v1/rpc-stats/'
+
+Put a un recurso:
+
+curl -XPUT -H "Content-type: application/json" -d '{
+  "country": "Alemania",
+    "year": 2014,
+    "rpcyear": "5498",
+    "rpcvariation": "1.64%"
+}' 'http://localhost:8080/api/v1/rpc-stats/Alemania'
+
+delete a la coleccion:
+
+curl -XDELETE -H "Content-type: application/json" 'http://localhost:8080/api/v1/rpc-stats/'
+
+delete a un recurso:
+
+curl -XDELETE -H "Content-type: application/json" -d '{
+  "country": "Alemania",
+    "year": 2014,
+    "rpcyear": "5498",
+    "rpcvariation": "1.64%"
+}' 'http://localhost:8080/api/v1/rpc-stats/Alemania'
