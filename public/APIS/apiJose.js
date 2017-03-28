@@ -212,7 +212,7 @@ app.post(BASE_API_PATH + "/smi-stats", function (request, response) {
                     //Esta variable recoge, mediante un callback, un array que se rellenará si existen en la DB países iguales a los que queremos 
                     //insertar con el POST
                     var countryBeforeInsertion = smi_stats.filter((country) => {
-                        return (country.name.localeCompare(newCountry.country, "en", {'sensitivity': 'base'}) === 0);
+                        return (country.name.localCompare(newCountry.country, "en", {'sensitivity': 'base'}) === 0);
                     });
                     //Si hay algún país que queremos meter y ya estaba, devolvemos conflicto
                     if (countryBeforeInsertion.length > 0) {
