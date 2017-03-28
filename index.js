@@ -17,7 +17,7 @@ var moduleSMI = require("./public/APIS/apiJose.js");
 var moduleGDP = require("./public/APIS/apiAndres.js");
 
 //Módulo con api Antoni
-var moduleGDP = require("./public/APIS/apiAntoni.js");
+var moduleRPC = require("./public/APIS/apiAntoni.js");
 
 
 ////////////////////////////////////////CONEXIÓN CON BASE DE DATOS////////////////////////////////////////////////////////////
