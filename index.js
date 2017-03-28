@@ -6,7 +6,6 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var helmet = require("helmet");
 var path = require('path');
-var DataStore = require('nedb');
 
 var publicFolder = path.join(__dirname, 'public');
 
@@ -17,7 +16,7 @@ var moduleSMI = require("./public/APIS/apiJose.js");
 var moduleGDP = require("./public/APIS/apiAndres.js");
 
 //Módulo con api Antoni
-var moduleGDP = require("./public/APIS/apiAntoni.js");
+var moduleRPC = require("./public/APIS/apiAntoni.js");
 
 
 ////////////////////////////////////////CONEXIÓN CON BASE DE DATOS////////////////////////////////////////////////////////////
@@ -52,7 +51,7 @@ MongoClient.connect(mdbURL, {native_parser:true}, function (err, database){
        ///////////////////CONEXIÓN CON MÓDULO ANDRES////////////////////////////
        moduleGDP.register(app, dbAndres, BASE_API_PATH);
        ///////////////////CONEXIÓN CON MÓDULO ANTONI////////////////////////////
-       moduleGDP.register(app, dbAntony, BASE_API_PATH);
+       moduleRPC.register(app, dbAntony, BASE_API_PATH);
    
    //Solo pongo el servidor a arrancar si la base de datos está arrancada
    app.listen(port, () =>{
