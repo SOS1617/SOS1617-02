@@ -79,6 +79,9 @@ app.get("/", function(request, response){
     response.sendfile(publicFolder + "/index.html");
 });
 
+app.get("/test", function(request, response){
+    response.sendfile(publicFolder + "/test.html");
+});
 /*
 
 //MÉTODOS GET
