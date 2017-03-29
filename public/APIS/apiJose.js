@@ -200,7 +200,7 @@ app.post(BASE_API_PATH + "/smi-stats", function (request, response) {
         //Si le falta algun parámetro al nuevo elemento que queremos introducir con el POST, devolvemos error
         if (!newCountry.country || !newCountry.year || !newCountry["smi-year"]|| !newCountry["smi-year-variation"]) {
             console.log("WARNING: The contact " + JSON.stringify(newCountry, 2, null) + " is not well-formed, sending 422...");
-            response.sendStatus(400); // bad request
+            response.sendStatus(422); // bad request
             
         } else {
             dbJose.find({}).toArray(function (err, smi_stats) {
