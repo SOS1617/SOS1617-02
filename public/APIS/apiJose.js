@@ -264,7 +264,7 @@ app.put(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
         //Si los datos recogidos en el comando CURL no contienen algunos de estos atributos, habrá error.
         if (!updatedCountry.country || !updatedCountry.year || !updatedCountry["smi-year"]|| !updatedCountry["smi-year-variation"]) {
             console.log("WARNING: The country " + JSON.stringify(updatedCountry, 2, null) + " is not well-formed, sending 422...");
-            response.sendStatus(400); // Bad Request
+            response.sendStatus(422); // Bad Request
         } else {
             //Buscamos los países que tengan el mismo nombre que el que se introduce en la URL
             //Los guardamos en un array
