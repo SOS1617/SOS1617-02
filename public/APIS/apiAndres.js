@@ -126,7 +126,7 @@ app.put(BASE_API_PATH + "/gdp-population-stats/:country", function (request, res
     var updatedCountry = request.body;
     var country = request.params.country;
     
-    if (!updatedCountry/* || updatedCountry.name != country*/) {
+    if (!updatedCountry || updatedCountry.name != country) {
         response.sendStatus(400); // bad request
     }else{
         console.log("INFO: New POST request to /gdp-population-stats");
