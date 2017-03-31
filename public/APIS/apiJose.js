@@ -5,6 +5,7 @@ exports.register = function(app, dbJose, BASE_API_PATH) {
 
 ////////////////////////////////////////////////CODIGO API JOSÉ////////////////////////////////////////////////////////////
 
+
 //Initializing with some data
 app.get(BASE_API_PATH + "/smi-stats/loadInitialData", function (request, response){
     

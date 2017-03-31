@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!--todas las etiquetas que usen angular tienen que tener el atrubito ng-app -->
+<html ng-app="RESTClient">
+    <head>
+        <title>SOS1617-02</title>
+        <!-- carga bootstrap css -->
+        <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+        <!-- carga bootstrap tema -->
+        <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" type="text/css" />
+        <!-- carga jquery -->
+        <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
+        <!-- carga bootstrap javascript -->
+        <script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <!-- carga angular -->
+        <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+        <script type="text/javascript">
+        
+            var app = angular.module("RESTClient",[]);
+            console.log("App initialized!");
+            //Inicializando controlador
+            //Usamos el modelo indicando el $scope y en la función accedemos al modelo. El callback es el último elemento del array
+            
+            //$http : Módulo para hacer peticiones http
+            app.controller("MainCtrl",["$scope","$http", function($scope,$http){
+                $scope.url="https://sos1617-02-jgg-sandbox-sos161702jgg.c9users.io/api/v1/smi-stats";  
+                $scope.send=function(){
+                
+                    $http.get($scope.url).then(function(response){
+                        $scope.data = JSON.stringify(response.data, null, 2);
+                    });
+                }
+            }]);     
+            
+        </script>
+    </head>
+    <body ng-controller="MainCtrl">
+        
+        <h1>My REST client</h1>
+        <label>URL:</label>
+        <!-- asociando el control input a una propiedad test que está dentro del modelo, entonces cada vez que el usuario escriba en input, 
+        estará actualizando el modelo -->
+        <input  class="form-control"/ ng-model="url">
+        <button class="btn btn-primary" ng-click="send()">Send</button>
+        <textarea rows="20" class="form-control" ng-model="data"></textarea>
+        
+    </body>
+</html>
