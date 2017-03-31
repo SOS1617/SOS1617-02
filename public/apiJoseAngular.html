@@ -22,7 +22,7 @@
             
             //$http : Módulo para hacer peticiones http
             app.controller("MainCtrl",["$scope","$http", function($scope,$http){
-                $scope.url="https://sos1617-02-jgg-sandbox-sos161702jgg.c9users.io/api/v1/smi-stats";  
+                $scope.url="https://sos1617-02.herokuapp.com/api/v1/smi-stats";  
                 $scope.send=function(){
                 
                     $http.get($scope.url).then(function(response){
