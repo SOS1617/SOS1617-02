@@ -62,6 +62,7 @@ MongoClient.connect(mdbURL, {native_parser:true}, function (err, database){
 
 var app = express();
 
+app.use("/", express.static(path.join(__dirname,"public")));
 
 //BODYPARSER usa por defecto la codificación de JSON
 app.use(bodyParser.json()); //use default json enconding/decoding
@@ -69,19 +70,19 @@ app.use(bodyParser.json()); //use default json enconding/decoding
 //HELMET aporta seguridad a nuestro servidor
 app.use(helmet()); //improve security
 
-//REDIRECCIONAMIENTO INICIAL A PÁGINA PRINCIPAL DE LA API
-//app.use("/", express.static(path.join(__dirname, BASE_API_PATH + "/")));
-
 
 ////////////////////////////////////////////////CÓDIGO URL BASE////////////////////////////////////////////////////////////
-
-app.get("/", function(request, response){
-    response.sendfile(publicFolder + "/index.html");
-});
 
 app.get(BASE_API_PATH+"/tests", function(request, response){
     response.sendfile(publicFolder + "/tests.html");
 });
+
+app.get(BASE_API_PATH+"/angular", function(request, response){
+    response.sendfile(publicFolder + "/apiJoseAngular.html");
+});
+
+
+
 /*
 
 //MÉTODOS GET
