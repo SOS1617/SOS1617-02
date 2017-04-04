@@ -50,7 +50,7 @@ curl -XDELETE -H "Content-type: application/json" 'http://sos1617-02.herokuapp.c
 Post a una coleccion:
 
 curl -XPOST -H "Content-type: application/json" -d '{
-  "country": "Suecia",
+  "country": "bbc",
   "year": "2012",
   "rpc-year": "50.887.30",
   "rpc-variation": "1,02%"
