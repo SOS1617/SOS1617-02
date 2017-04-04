@@ -341,18 +341,6 @@ app.post(BASE_API_PATH + "/smi-stats", function (request, response) {
                         console.error('WARNING: Error getting data from DB');
                         response.sendStatus(500); // internal server error
                     } else {
-                        
-                        //Esta variable recoge, mediante un callback, un array que se rellenará si existen en la DB países iguales a los que queremos 
-                        //insertar con el POST
-                        var countryBeforeInsertion = smi_stats.filter((country) => {
-                            return (country.country.localeCompare(newCountry.country, "en", {'sensitivity': 'base'}) === 0);
-                        });
-                        //Si hay algún país que queremos meter y ya estaba, devolvemos conflicto
-                        if (countryBeforeInsertion.length >= 0) {
-                            console.log("WARNING: The country " + JSON.stringify(newCountry, 2, null) + " already extis, sending 409...");
-                            response.sendStatus(409); // conflict
-                        } else {
-                            
                             //Esta variable recoge, mediante un callback, un array que se rellenará si existen en la DB países iguales a los que queremos 
                             //insertar con el POST
                             var countryBeforeInsertion = smi_stats.filter((country) => {
@@ -368,8 +356,6 @@ app.post(BASE_API_PATH + "/smi-stats", function (request, response) {
                                 dbJose.insert(newCountry);
                                 response.sendStatus(201); // created
                             }
-                        }
-                
                     }
                 });
             }
