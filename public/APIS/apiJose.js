@@ -85,14 +85,14 @@ app.get(BASE_API_PATH + "/smi-stats/loadInitialData", function (request, respons
     if(apiKeyCheck(request,response)==true){
         
             var spain = { "country": "Spain", "year": "2017", "smi-year": "825.70 €", "smi-year-variation": "8.01%" };
-            var spain = { "country": "Spain", "year": "2016", "smi-year": "825.70 €", "smi-year-variation": "8.01%" };
-            var spain = { "country": "Spain", "year": "2015", "smi-year": "825.70 €", "smi-year-variation": "8.01%" };
-            var spain = { "country": "Spain", "year": "2014", "smi-year": "825.70 €", "smi-year-variation": "8.01%" };
+            // var spain = { "country": "Spain", "year": "2016", "smi-year": "825.70 €", "smi-year-variation": "8.01%" };
+            //var spain = { "country": "Spain", "year": "2015", "smi-year": "825.70 €", "smi-year-variation": "8.01%" };
+            //var spain = { "country": "Spain", "year": "2014", "smi-year": "825.70 €", "smi-year-variation": "8.01%" };
             
             var france = { "country": "France", "year": "2017", "smi-year": "1480.3 €", "smi-year-variation": "0.93%" };
-            var france = { "country": "France", "year": "2016", "smi-year": "1480.3 €", "smi-year-variation": "0.93%" };
-            var france = { "country": "France", "year": "2015", "smi-year": "1480.3 €", "smi-year-variation": "0.93%" };
-            var france = { "country": "France", "year": "2014", "smi-year": "1480.3 €", "smi-year-variation": "0.93%" };
+            //var france = { "country": "France", "year": "2016", "smi-year": "1480.3 €", "smi-year-variation": "0.93%" };
+            //var france = { "country": "France", "year": "2015", "smi-year": "1480.3 €", "smi-year-variation": "0.93%" };
+            //var france = { "country": "France", "year": "2014", "smi-year": "1480.3 €", "smi-year-variation": "0.93%" };
             
             var china = { "country": "China", "year": "2013", "smi-year": "170.3 €", "smi-year-variation": "10.28%" };
             var japan = { "country": "Japan", "year": "2014", "smi-year": "919.9 €", "smi-year-variation": "-19.91%" };
