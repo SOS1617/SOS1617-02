@@ -216,7 +216,7 @@ app.post(BASE_API_PATH + "/smi-stats", function (request, response) {
                         return (country.country.localeCompare(newCountry.country, "en", {'sensitivity': 'base'}) === 0);
                     });
                     //Si hay algún país que queremos meter y ya estaba, devolvemos conflicto
-                    if (countryBeforeInsertion.length > 0) {
+                    if (countryBeforeInsertion.length >= 0) {
                         console.log("WARNING: The country " + JSON.stringify(newCountry, 2, null) + " already extis, sending 409...");
                         response.sendStatus(409); // conflict
                     } else {

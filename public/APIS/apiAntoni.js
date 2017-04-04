@@ -240,22 +240,28 @@ app.get(BASE_API_PATH + "/rpc-stats/:country",function(request,response){
 app.post(BASE_API_PATH + "/rpc-stats", function (request, response) {
     var newCountry = request.body;
     if (!newCountry) {
-        console.log("WARNING: New POST request to /gdp-population-stats/ without Country to create, sending 400...");
+        console.log("WARNING: New POST request to /rpc-stats/ without Country to create, sending 400...");
         response.sendStatus(400); // bad request
     } else {
-        console.log("INFO: New POST request to /gdp-population-stats");
+        console.log("INFO: New POST request to /rpc-stats");
         if (!newCountry.country || !newCountry.year || !newCountry["rpc-year"] || !newCountry["rpc-variation"]) {
-            console.log("WARNING: The country is not well-formed, sending 422...");
-            response.sendStatus(409); // unprocessable entity
+            console.log("WARNING: The country is not well-formed, sending 409...");
+            console.log(newCountry);
+            response.sendStatus(422); // unprocessable entity
         } else {
-            dbAntony.find({country: newCountry.country}, function (err, countriesBeforeInsertion) {
+            
+            
+            dbAntony.find({country: newCountry.country}).toArray(function (err, rpc_stats) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
                 } else {
-                    
-                    if (countriesBeforeInsertion.length > 0) {
-                        console.log("WARNING: The contact " + JSON.stringify(newCountry, 2, null) + " already extis, sending 409...");
+                    console.log(rpc_stats);
+                    var countryBeforeInsertion = rpc_stats.filter((country) => {
+                        return (country.country.localeCompare(newCountry.country, "en", {'sensitivity': 'base'}) === 0);
+                    });
+                    if (countryBeforeInsertion.length > 0) {
+                        console.log("WARNING: The country " + JSON.stringify(newCountry, 2, null) + " already extis, sending 409...");
                         response.sendStatus(409); // conflict
                     } else {
                         console.log("INFO: Adding contact " + JSON.stringify(newCountry, 2, null));
@@ -330,7 +336,7 @@ app.put(BASE_API_PATH + "/rpc-stats/:country", function (request, response){
     });
 });*/
 
-/*app.delete(BASE_API_PATH + "/rpc-stats/:country", function (request, response) {
+app.delete(BASE_API_PATH + "/rpc-stats/:country", function (request, response) {
     var country = request.params.country;
     if (!country) {
         console.log("WARNING: New DELETE request to /gdp-population-stats/:country without name, sending 400...");
@@ -353,7 +359,7 @@ app.put(BASE_API_PATH + "/rpc-stats/:country", function (request, response){
             }
         });
     }
-});*/
+});
 
     
     app.delete(BASE_API_PATH + "/rpc-stats/:country/:year", function (request, response) {
