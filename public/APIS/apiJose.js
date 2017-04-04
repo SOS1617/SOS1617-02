@@ -136,10 +136,11 @@ app.get(BASE_API_PATH + "/smi-stats", function (request, response) {
     var qyear = request.query.year;
     //PAGINACIÓN
     
-    //var l = request.query.limit;
-    //var o = request.query.offset;
-    // var l = 1;
-    //var o = 0;
+    //The limit() function in MongoDB is used to specify the maximum number of results to be returned
+    var l = parseInt(request.query.limit,10);
+    //A veces se requiere devolver un cierto número de resultados después de un cierto número de documentos. skip(offset) puede hacer este trabajo.
+    var o = parseInt(request.query.offset,10);
+    
     
     if(apiKeyCheck(request,response)==true){
         
@@ -165,8 +166,8 @@ app.get(BASE_API_PATH + "/smi-stats", function (request, response) {
         }else{
         
             console.log("INFO: New GET request to /smi-stats");
-        
-                    dbJose.find({}).toArray( function (err, smi_stats) {
+            console.log("INFO: New GET request to /smi-stats with pagination and "+ l +" elements");
+                    dbJose.find({}).skip(o).limit(l).toArray( function (err, smi_stats) {
                         if (err) {
                             console.error('WARNING: Error getting data from DB');
                             response.sendStatus(500); // internal server error
