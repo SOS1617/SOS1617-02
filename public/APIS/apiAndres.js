@@ -1,13 +1,71 @@
 var exports = module.exports = {};
 
 exports.register = function(app, dbAndres, BASE_API_PATH) {
+    
+var apiKey = ["GVAODcH3"];
+
+function checkApiKey(request, response){
+    var introducedKey = request.query.apikey;
+    var res;
+    
+    if(introducedKey == apiKey){
+        console.log("API KEY accepted.");
+        res = true;
+    }else{
+        
+        if(!introducedKey){
+            console.log("ERROR: No API KEY was introduced.");
+            response.sendStatus(401);
+            res = false;
+        }
+        console.log("ERROR: The API KEY received was not correct.");
+        response.sendStatus(403);
+        res = false;
+    }
+    return res;
+}
 
 ////////////////////////////////////////////////CODIGO API ANDRÉS////////////////////////////////////////////////////////////
 
 //GET every row of data
 app.get(BASE_API_PATH + "/gdp-population-stats", function (request, response) {
     console.log("INFO: New GET/ received");
-    dbAndres.find({}).toArray(function (err, data) {
+    
+    if(checkApiKey(request, response) === false){
+        return; //this is basically like a break
+    }
+    
+    var limit = parseInt(request.query.limit, 10); //This is the number of elements to be returned (by default is 10).
+    var offset = parseInt(request.query.offset, 0); //This is the starting point from which we return 'limit' elements.
+    //We use this variables in db.find();
+    
+    //These are used for searches
+    var country = request.query.country;
+    var year = parseInt(request.query.year);
+    
+    if(country || year){
+        
+        dbAndres.find({"country":country, $and:[{"year":year}]}).toArray(function (err, filteredData){
+            if (err) {
+                console.error('WARNING: Error getting data from DB');
+                response.sendStatus(500); // internal server error
+            } else {
+                //Si el array es mayor que 0 es que hay al menos un elemento que lo cumple. 
+                if (filteredData.length > 0) {
+                var data = filteredData[0];
+                    console.log("INFO-SEARCH: Sending smi-stats of "+country+" in " +year);
+                    response.send(data);
+                    } else {
+                        //Si no existiesen elementos en el array.
+                        console.log("WARNING-SEARCH: There are not any stats registered in "+ year +"  for country " + country);
+                        response.sendStatus(404); // not found
+                    }
+                }
+        });
+        
+    }else{
+        
+        dbAndres.find({}).skip(offset).limit(limit).toArray(function (err, data) {
         if (err) {
             console.error('WARNING: Error getting data from DB');
             response.sendStatus(500); // internal server error
@@ -15,13 +73,20 @@ app.get(BASE_API_PATH + "/gdp-population-stats", function (request, response) {
             console.log("INFO: Sending out every row of data");
             response.send(data);
         }
-    });
+        });
+    }
+    
+    
 });
 
 
 //GET a single row
 app.get(BASE_API_PATH + "/gdp-population-stats/:country", function (request, response) {
     var country = request.params.country;
+    
+    if(checkApiKey(request, response) === false){
+        return; //this is basically like a break
+    }
     
     if (!country) {
         console.log("WARNING: New GET request to /gsp-population-stats/:country without country, sending 400...");
@@ -81,6 +146,12 @@ app.get(BASE_API_PATH + "/gdp-population-stats/:country", function (request, res
 
 //POST over a collection
 app.post(BASE_API_PATH + "/gdp-population-stats", function (request, response) {
+    
+    if(checkApiKey(request, response) === false){
+        return; //this is basically like a break
+    }
+    
+    
     var newCountry = request.body;
     if (!newCountry) {
         console.log("WARNING: New POST request to /gdp-population-stats/ without Country to create, sending 400...");
@@ -113,16 +184,32 @@ app.post(BASE_API_PATH + "/gdp-population-stats", function (request, response) {
 
 //post to one country--> method not allowed!!
 app.post(BASE_API_PATH + "/gdp-population-stats/:country", function (request, response){
+    
+    if(checkApiKey(request, response) === false){
+        return; //this is basically like a break
+    }
+    
     response.sendStatus(405);//method not allowed
 });
 
 //PUT to the entire api (update all the elements)
 app.put(BASE_API_PATH + "/gdp-population-stats", function (request, response){
+    
+    if(checkApiKey(request, response) === false){
+        return; //this is basically like a break
+    }
+    
    response.sendStatus(405);//Method not allowed!! 
 });
 
 //update a single element
 app.put(BASE_API_PATH + "/gdp-population-stats/:country", function (request, response){
+    
+    if(checkApiKey(request, response) === false){
+        return; //this is basically like a break
+    }
+    
+    
     var updatedCountry = request.body;
     var country = request.params.country;
     
@@ -166,6 +253,12 @@ app.put(BASE_API_PATH + "/gdp-population-stats/:country", function (request, res
 
 //DELETE over all the rows
 app.delete(BASE_API_PATH + "/gdp-population-stats", function (request, response) {
+    
+    if(checkApiKey(request, response) === false){
+        return; //this is basically like a break
+    }
+    
+    
     console.log("INFO: New FULL DELETE request");
     dbAndres.remove({}, {multi: true}, function (err, numRemoved) {
         if (err) {
@@ -188,6 +281,12 @@ app.delete(BASE_API_PATH + "/gdp-population-stats", function (request, response)
 
 //DELETE over a single country
 app.delete(BASE_API_PATH + "/gdp-population-stats/:country", function (request, response) {
+    
+    if(checkApiKey(request, response) === false){
+        return; //this is basically like a break
+    }
+    
+    
     var country = request.params.country;
     if (!country) {
         console.log("WARNING: New DELETE request to /gdp-population-stats/:country without name, sending 400...");

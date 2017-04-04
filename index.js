@@ -41,7 +41,7 @@ MongoClient.connect(mdbURL, {native_parser:true}, function (err, database){
         process.exit(1);
     }
 
-        dbJose = database.collection("smi-stats");
+       dbJose = database.collection("smi-stats");
        dbAndres = database.collection("gdp-population-stats");
        dbAntony = database.collection("rpc-stats");
        
