@@ -4,6 +4,33 @@ exports.register = function(app, dbAntony, BASE_API_PATH){
     
     ////////////////////////////////////////////////CODIGO API ANTONY////////////////////////////////////////////////////////////
 
+
+//CREACIÓN DE LA APIKEY///
+
+var apikeyAntoni = "GVAODcH3";
+function checkApiKey(request, response){
+    var introducedKey = request.query.apikey;
+    var res;
+    
+    if(introducedKey == apikeyAntoni){
+        console.log("API KEY accepted.");
+        res = true;
+    }else{
+        
+        if(!introducedKey){
+            console.log("ERROR: No API KEY was introduced.");
+            response.sendStatus(401);
+            res = false;
+        }
+        console.log("ERROR: The API KEY received was not correct.");
+        response.sendStatus(403);
+        res = false;
+    }
+    return res;
+}
+
+
+
 //Initializing with some data
 app.get(BASE_API_PATH + "/rpc-stats/loadInitialData", function (request, response){
     
@@ -40,8 +67,61 @@ app.get(BASE_API_PATH + "/rpc-stats/loadInitialData", function (request, respons
 });
 
 
+app.get(BASE_API_PATH + "/rpc-stats",function(request,response){
+    
+    if(checkApiKey(request, response) === false){
+        return; //this is basically like a break
+    }
+    
+    var qcountry = request.query.country;
+    var qyear = request.query.year; 
+    var offset= parseInt(request.query.offset,0);
+    
+    var limit=parseInt(request.query.limit,10);
+    
+    console.log("INFO: New GET/ received");
+    
+     if(qcountry || qyear){
+            
+                dbAntony.find({"country":qcountry, $and:[{"year":qyear}]}).toArray(function (err, filteredRPC_STATS){
+                        if (err) {
+                            console.error('WARNING: Error getting data from DB');
+                            response.sendStatus(500); // internal server error
+                        } else {
+                            //Si el array es mayor que 0 es que hay al menos un elemento que lo cumple. 
+                            if (filteredRPC_STATS.length > 0) {
+                                var rpc_stat = filteredRPC_STATS[0];
+                                console.log("INFO-SEARCH: Sending rpc-stats of "+qcountry+" in " +qyear+": " + JSON.stringify(rpc_stat, 2, null));
+                                response.send(rpc_stat);
+                            } else {
+                                //Si no existiesen elementos en el array.
+                                console.log("WARNING-SEARCH: There are not any rpc-stats registered in "+ qyear +"  for country " + qcountry);
+                                response.sendStatus(404); // not found
+                            }
+                        }
+                    });
+        }else{
+        
+            console.log("INFO: New GET request to /rpc-stats");
+        
+                    dbAntony.find({}).skip(offset).limit(limit).toArray(function (err, data) {
+        if (err) {
+            console.error('WARNING: Error getting data from DB');
+            response.sendStatus(500); // internal server error
+        } else {
+            console.log("INFO: Sending out every row of data");
+            response.send(data);
+        }
+        });
+        }
+    
+    
+    
+});
+
+
 //GET every row of data
-app.get(BASE_API_PATH + "/rpc-stats", function (request, response) {
+/*app.get(BASE_API_PATH + "/rpc-stats", function (request, response) {
     console.log("INFO: New GET/ received");
     dbAntony.find({}).toArray(function (err, data) {
         if (err) {
@@ -52,13 +132,53 @@ app.get(BASE_API_PATH + "/rpc-stats", function (request, response) {
             response.send(data);
         }
     });
-});
+});*/
+
+/*app.get(BASE_API_PATH + "/rpc-stats/country/year=:year",function(request,response){
+    
+    var year = request.params.year;
+    
+    if(!year){
+        console.log("WARNING: New GET request to /rpc-stats/country?year=year, sending 400...");
+        response.sendStatus(400); // bad request
+    }else{
+        
+        console.log("INFO: New GET request to /rpc-stats/country?year=" + year);
+        
+        dbAntony.find({"year":year }).toArray(function (err, filteredRPC_STATS){
+                if (err) {
+                    console.error('WARNING: Error getting data from DB');
+                    response.sendStatus(500); // internal server error
+                } else {
+                    //Si el array es mayor que 0 es que hay al menos un elemento que lo cumple. 
+                    if (filteredRPC_STATS.length > 0) {
+                        //Devolvemos el primer elemento del array de todos los elementos que cumplan el criterio de búsqueda
+                        var rpc_stat = filteredRPC_STATS; //since we expect to have exactly ONE statics for this country 
+                        console.log("INFO: Sending rpc-stats of "+year +JSON.stringify(rpc_stat, 2, null));
+                        response.send(rpc_stat);
+                    } else {
+                        //Si no existiesen elementos en el array.
+                        console.log("WARNING: There are not any rpc-stats registered in   for country " + year);
+                        response.sendStatus(404); // not found
+                    }
+                }
+            });
+            
+    }
+    
+    
+});*/
+
 
 //Get by year
 
 app.get(BASE_API_PATH + "/rpc-stats/:year", function (request, response) {
     
     //Guardamos en una variable el parametro pasado por la consulta de la URL
+    
+    if(checkApiKey(request, response) === false){
+        return; //this is basically like a break
+    }
     var country = request.params.year;
     var year = request.params.year;
     
@@ -67,12 +187,12 @@ app.get(BASE_API_PATH + "/rpc-stats/:year", function (request, response) {
     
         //Si no llega ningún dato por la consulta, mandamos error
         if (!country) {
-            console.log("WARNING: New GET request to /smi-stats/:country without country, sending 400...");
+            console.log("WARNING: New GET request to /rpc-stats/:country without country, sending 400...");
             response.sendStatus(400); // bad request
         } else {
-            console.log("INFO: New GET request to /smi-stats/" + country);
+            console.log("INFO: New GET request to /rpc-stats/" + country);
             
-            //Buscamos en la DB si hay alguna entrada con el mismo parámetro que el introducido y creamos un Array asociado a la variable filteredSMI_STATS
+            //Buscamos en la DB si hay alguna entrada con el mismo parámetro que el introducido y creamos un Array asociado a la variable filteredRPC_STATS
             //Esta variable recogerá en un array todos los elementos que cumplan la confición de la búsqueda
             dbAntony.find({"country":country}).toArray(function (err, filteredRPC_STATS){
                 if (err) {
@@ -89,7 +209,7 @@ app.get(BASE_API_PATH + "/rpc-stats/:year", function (request, response) {
                     } else {
                         
                         //Si no existiesen elementos en el array.
-                        console.log("WARNING: There are not any smi-stats for country " + country);
+                        console.log("WARNING: There are not any rpc-stats for country " + country);
                         response.sendStatus(404); // not found
                     }
                 }
@@ -99,12 +219,12 @@ app.get(BASE_API_PATH + "/rpc-stats/:year", function (request, response) {
         
        //Si no llega ningún dato por la consulta, mandamos error
         if (!year) {
-            console.log("WARNING: New GET request to /smi-stats/:country without country, sending 400...");
+            console.log("WARNING: New GET request to /rpc-stats/:country without country, sending 400...");
             response.sendStatus(400); // bad request
         } else {
-            console.log("INFO: New GET request to /smi-stats/" + country);
+            console.log("INFO: New GET request to /rpc-stats/" + country);
             
-            //Buscamos en la DB si hay alguna entrada con el mismo parámetro que el introducido y creamos un Array asociado a la variable filteredSMI_STATS
+            //Buscamos en la DB si hay alguna entrada con el mismo parámetro que el introducido y creamos un Array asociado a la variable filteredRPC_STATS
             //Esta variable recogerá en un array todos los elementos que cumplan la confición de la búsqueda
             dbAntony.find({year:year}).toArray(function (err, filteredRPC_STATS){
                 if (err) {
@@ -121,13 +241,14 @@ app.get(BASE_API_PATH + "/rpc-stats/:year", function (request, response) {
                     } else {
                         
                         //Si no existiesen elementos en el array.
-                        console.log("WARNING: There are not any smi-stats for the year " + year);
+                        console.log("WARNING: There are not any rpc-stats for the year " + year);
                         response.sendStatus(404); // not found
                     }
                 }
             });
         }
     }
+    
 });
 
 
@@ -137,8 +258,13 @@ app.get(BASE_API_PATH + "/rpc-stats/:year", function (request, response) {
 app.get(BASE_API_PATH + "/rpc-stats/:country/:year", function (request, response) {
     
     //Guardamos en una variable el parametro pasado por la consulta de la URL
+    
+    if(checkApiKey(request, response) === false){
+        return; //this is basically like a break
+    }
     var country = request.params.country;
     var year = request.params.year;
+    
         //Si no llega ningún dato por la consulta, mandamos error
         if (!country || !year) {
             console.log("WARNING: New GET request to /rpc-stats/:country/:year without country or year, sending 400...");
@@ -166,13 +292,16 @@ app.get(BASE_API_PATH + "/rpc-stats/:country/:year", function (request, response
                 }
             });
         }
+    
 });
 
 //Get by country
 
 app.get(BASE_API_PATH + "/rpc-stats/:country",function(request,response){
     
-    
+    if(checkApiKey(request, response) === false){
+        return; //this is basically like a break
+    }
     var country= request.params.country;
     
     if(!country){
@@ -212,7 +341,6 @@ app.get(BASE_API_PATH + "/rpc-stats/:country",function(request,response){
 
 
 
-
 //GET a single row
 /*app.get(BASE_API_PATH + "/rpc-stats/:country", function (request, response) {
     var country = request.params.country;
@@ -238,6 +366,10 @@ app.get(BASE_API_PATH + "/rpc-stats/:country",function(request,response){
 
 //POST over a collection
 app.post(BASE_API_PATH + "/rpc-stats", function (request, response) {
+    
+    if(checkApiKey(request, response) === false){
+        return; //this is basically like a break
+    }
     var newCountry = request.body;
     if (!newCountry) {
         console.log("WARNING: New POST request to /rpc-stats/ without Country to create, sending 400...");
@@ -276,11 +408,17 @@ app.post(BASE_API_PATH + "/rpc-stats", function (request, response) {
 
 //post to one country--> method not allowed!!
 app.post(BASE_API_PATH + "/rpc-stats/:country", function (request, response){
+    if(checkApiKey(request, response) === false){
+        return; //this is basically like a break
+    }
     response.sendStatus(405);//method not allowed
 });
 
 //PUT to the entire api (update all the elements)
 app.put(BASE_API_PATH + "/rpc-stats", function (request, response){
+    if(checkApiKey(request, response) === false){
+        return; //this is basically like a break
+    }
    response.sendStatus(405);//Method not allowed!! 
 });
 
