@@ -23,6 +23,10 @@
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
     "helmet": "^3.5.0",
+    "jwt-simple": "^0.5.1",
+    "method-override": "^2.3.8",
+    "momen": "0.0.0",
+    "moment": "^2.18.1",
     "mongodb": "^2.2.25",
     "nedb": "^1.8.0",
     "path": "^0.12.7"
