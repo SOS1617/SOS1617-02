@@ -476,6 +476,9 @@ app.put(BASE_API_PATH + "/rpc-stats/:country", function (request, response){
 
 app.delete(BASE_API_PATH + "/rpc-stats/:country", function (request, response) {
     var country = request.params.country;
+    if(checkApiKey(request, response) === false){
+        return; //this is basically like a break
+    }
     if (!country) {
         console.log("WARNING: New DELETE request to /gdp-population-stats/:country without name, sending 400...");
         response.sendStatus(400); // bad request
@@ -504,6 +507,9 @@ app.delete(BASE_API_PATH + "/rpc-stats/:country", function (request, response) {
     
     var country = request.params.country;
     var year = request.params.year;
+    if(checkApiKey(request, response) === false){
+        return; //this is basically like a break
+    }
     if (!country || !year) {
         console.log("WARNING: New DELETE request to /rpc-stats/:country/:year without country or year, sending 400...");
         response.sendStatus(400); // bad request
@@ -533,6 +539,10 @@ app.delete(BASE_API_PATH + "/rpc-stats/:country", function (request, response) {
     app.delete(BASE_API_PATH + "/rpc-stats", function (request, response) {
     
     console.log("INFO: New DELETE request to /rpc-stats");
+    
+    if(checkApiKey(request, response) === false){
+        return; //this is basically like a break
+    }
     
     //Lo borra todo
     dbAntony.remove({}, {multi: true}, function (err, result) {
