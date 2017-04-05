@@ -9,13 +9,13 @@ var path = require('path');
 var publicFolder = path.join(__dirname, 'public');
 
 //Módulo con api José
-var moduleSMI = require("./public/APIS/apiJose.js");
+var moduleSMI = require("./APIS/apiJose.js");
 
 //Módulo con api Andrés
-var moduleGDP = require("./public/APIS/apiAndres.js");
+var moduleGDP = require("./APIS/apiAndres.js");
 
 //Módulo con api Antoni
-var moduleRPC = require("./public/APIS/apiAntoni.js");
+var moduleRPC = require("./APIS/apiAntoni.js");
 
 
 ////////////////////////////////////////CONEXIÓN CON BASE DE DATOS////////////////////////////////////////////////////////////
