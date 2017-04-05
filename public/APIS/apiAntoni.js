@@ -7,7 +7,7 @@ exports.register = function(app, dbAntony, BASE_API_PATH){
 
 //CREACIÓN DE LA APIKEY///
 
-var apikeyAntoni = "GVAODcH3";
+var apikeyAntoni = "GVAODantM";
 function checkApiKey(request, response){
     var introducedKey = request.query.apikey;
     var res;
