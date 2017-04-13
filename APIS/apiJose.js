@@ -331,7 +331,7 @@ app.post(BASE_API_PATH + "/smi-stats", function (request, response) {
             console.log("INFO: New POST request to /smi-stats with body: " + JSON.stringify(newCountry, 2, null));
             
             //Si le falta algun parámetro al nuevo elemento que queremos introducir con el POST, devolvemos error
-            if (!newCountry.country || !newCountry.year || !newCountry['smi-year']|| !newCountry['smi-year-variation']) {
+            if (!newCountry.country || !newCountry.year /*|| !newCountry['smi-year']|| !newCountry['smi-year-variation']*/) {
                 console.log("WARNING: The stats " + JSON.stringify(newCountry, 2, null) + " is not well-formed, sending 422...");
                 response.sendStatus(422); // bad request
                 
@@ -482,7 +482,7 @@ app.delete(BASE_API_PATH + "/smi-stats/:country/:year", function (request, respo
                 } else {
                     console.log("INFO: Countries removed: " + numRemoved.n);
                     if (numRemoved.n === 1 ) {
-                        console.log("INFO: The stats with name " + country + "and year "+year+" has been succesfully deleted, sending 204...");
+                        console.log("INFO: The stats with name " + country + " and year "+year+" has been succesfully deleted, sending 204...");
                         response.sendStatus(204); // no content
                     } else {
                         console.log("WARNING: There are no countries to delete");
