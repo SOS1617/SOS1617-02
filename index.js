@@ -78,8 +78,8 @@ app.get(BASE_API_PATH+"/tests", function(request, response){
     response.sendfile(publicFolder + "/tests.html");
 });
 
-app.get(BASE_API_PATH+"/angular", function(request, response){
-    response.sendfile(publicFolder + "/apiJoseAngular.html");
+app.get(BASE_API_PATH+"/smi-angular", function(request, response){
+    response.sendfile(publicFolder + "/angularSMI/index.html");
 });
 
 
