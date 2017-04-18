@@ -1,6 +1,6 @@
 angular
     .module("RPCManagerApp")
-    .controller("ListCtrl",["$scope", "$http", function($scope, $http){
+    .controller("list-ctrl",["$scope", "$http", function($scope, $http){
         
         $scope.url = "/api/v1/rpc-stats";
 
@@ -18,26 +18,26 @@ angular
             $http
                 .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
                 .then(function(response){
-                    $scope.data = JSON.stringify(response.data, null, 2); // null,2 sirve para renderizar el JSON, que lo muestre bonito, etc...
+                    $scope.data = JSON.stringify(response.data, null, 2); 
                     $scope.stats = response.data;
                 });
             }   
     
     
     //GET A UN CONJUNTO CON PAGINACIÓN
-        $scope.getData = function(){
+        $scope.getStats = function(){
            
             $http
                 .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
                 .then(function(response){
-                    $scope.data = JSON.stringify(response.data, null, 2); // null,2 sirve para renderizar el JSON, que lo muestre bonito, etc...
+                    $scope.data = JSON.stringify(response.data, null, 2);
                     $scope.stats = response.data;
                 });
             
         } 
    
         //MÉTODO PARA AÑADIR UN PAÍS    
-        $scope.addStats = function(){
+        $scope.postStats = function(){
             $http
             //$scope.newCountry guarda el país que le estoy metiendo
                 .post($scope.url+"?apikey="+ $scope.apikey, $scope.newCountry)
@@ -49,12 +49,12 @@ angular
         
         
         //MÉTODO PARA MODIFICAR UN PAÍS    
-        $scope.editStats = function(){
+        $scope.putStats = function(){
             $http
             //$scope.newCountry guarda el país que le estoy metiendo
                 .put($scope.url +"/"+ $scope.newCountry.country + "?apikey="+ $scope.apikey, $scope.newCountry)
                 .then(function(response){
-                    console.log( $scope.newCountry.country + "rpc has been modified. "  );
+                    console.log( $scope.newCountry.country + "rpc has been succesfully modified. "  );
                     refresh();
                 });
         }
@@ -81,14 +81,14 @@ angular
         
         
         //MÉTODO PARA LAS BÚSQUEDAS
-        $scope.searches = function(){
+     /*  $scope.searches = function(){
             $http
                 .get($scope.url+"?apikey="+$scope.apikey+"&country="+$scope.newCountry.country+"&year="+$scope.newCountry.year)
                 .then(function(response){
                     console.log("The search of: "+$scope.newCountry.country +" in year "+ $scope.newCountry.year+ " works correctly");
-                    $scope.data = JSON.stringify(response.data, null, 2); // null,2 sirve para renderizar el JSON, que lo muestre bonito, etc...
+                    $scope.data = JSON.stringify(response.data, null, 2); 
                     $scope.stats = response.data; 
                 });
-        }
+        }*/
            
 }]);  
