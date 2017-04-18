@@ -1,5 +1,86 @@
-<head>
-    <body>
-        <h1>My app</h1>
-    </body>
+
+<!DOCTYPE html>
+<html ng-app="RPCManagerApp">
+    <head>
+    <title>My app</title>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+        <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" type="text/css" />
+        <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <!-- carga angular -->
+        <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+        <!--POR CADA ELEMENTO DE ANGULAR UN ARCHIVO DISTINTO
+        EN UN LADO LA CONFIGURACIÓN DE LA APP
+        Y POR OTRO EL CONTROLADOR
+        ESTOS ARCHIVOS LOS INCLUIMOS-->
+        <script type="text/javascript" src="/angularRPC/rpc-manager-app.js"></script>
+        <script type="text/javascript" src="/angularRPC/list-ctrl.js"></script>
 </head>
+
+      <body>
+        <!-- el controlador se añade a una parte del body-->
+        <div ng-controller="list-ctrl">
+            <h1>Rent Per Capita</h1>
+            <table class="table table-bordered">
+                <thead>
+                    <tr><h4>APIKEY: rXD8D2b1vP</h4></tr>
+                    <tr>
+                        <th>Introduce APIKEY<input class="form-control" ng-model="apikey"></th>
+                        <th class="text-center"><button class="btn-primary" ng-click="getData()">GET DATA</button></th>
+                    </tr>
+                    <tr>
+                        <th>Introduce LIMIT<input class="form-control" ng-model="limit"></th>
+                        <th>Introduce OFFSET<input class="form-control" ng-model="offset"></th>
+                        <th class="text-center"><button class="btn-primary" ng-click="getData()">GET DATA</button></th>
+                    </tr>
+                    <tr>
+                        <th class="text-center"><button class="btn-danger" ng-click="deleteAllStats()">DELETE ALL STATS</button></th>
+                        <th class="text-center"><button class="btn-primary" ng-click="loadInitialData()">LOAD STATS</button></th>
+                    </tr>
+                </thead>
+            </table>
+            <h2>Stats of some countries</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Country</th>
+                        <th>Year</th>
+                        <th>Smi-year</th>
+                        <th>Smi-year-variation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input class="form-control" ng-model="newCountry.country"></td>
+                        <td><input class="form-control" ng-model="newCountry.year"></td>
+                        <td><input class="form-control" ng-model="newCountry['smi-year']" ></td>
+                        <td><input class="form-control" ng-model="newCountry['smi-year-variation']" ></td>
+                        <td ><button class="btn-primary" ng-click="addStats()">ADD STATS</button></td>
+                    </tr>
+                    <tr>
+                        <td><input class="form-control" ng-model="newCountry.country"></td>
+                        <td><input class="form-control" ng-model="newCountry.year"></td>
+                        <td><input class="form-control" ng-model="newCountry['smi-year']" ></td>
+                        <td><input class="form-control" ng-model="newCountry['smi-year-variation']" ></td>
+                        <td ><button class="btn-warning" ng-click="editStats()">EDIT STATS</button></td>
+                    </tr>
+                    <tr>
+                        <td><input class="form-control" ng-model="newCountry.country"></td>
+                        <td><input class="form-control" ng-model="newCountry.year"></td>
+                        <td ><button class="btn-warning" ng-click="searches()">SEARCH</button></td>
+                    </tr>
+                    <!-- asume que en el controlador hay un array que se llama contacts y genera un tr por cada elemento del array-->
+                    <tr ng-repeat="stat in stats">
+                        <td>{{stat.country}}</td>
+                        <td>{{stat.year}}</td>
+                        <td>{{stat['smi-year']}}</td>
+                        <td>{{stat['smi-year-variation']}}</td>
+                        <td><button class="btn-danger" ng-click="deleteOneCountry(stat.country,stat.year)">DELETE</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        
+    </body>
+</html>
