@@ -82,6 +82,10 @@ app.get(BASE_API_PATH+"/smi-angular", function(request, response){
     response.sendfile(publicFolder + "/angularSMI/index.html");
 });
 
+app.get(BASE_API_PATH+"/rpc-angular", function(request, response){
+    response.sendfile(publicFolder + "/angularRPC/index.html");
+});
+
 
 
 /*
