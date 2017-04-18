@@ -86,6 +86,10 @@ app.get(BASE_API_PATH+"/rpc-angular", function(request, response){
     response.sendfile(publicFolder + "/angularRPC/index.html");
 });
 
+app.get(BASE_API_PATH+"/gdp-angular", function(request, response){
+    response.sendfile(publicFolder + "/angularGDP/index.html");
+});
+
 
 
 /*
