@@ -2,7 +2,7 @@ angular
     .module("GdpManagerApp")
     .controller("list-ctrl",["$scope", "$http", function($scope, $http){
         
-        $scope.url = "/api/v1/gdp-population-stats";
+        $scope.url = "/api/v2/gdp-population-stats";
         $scope.offset = 0;
         $scope.limit = 0;
         console.log("Controller initialized ");

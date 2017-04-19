@@ -13,10 +13,12 @@ var moduleSMI = require("./APIS/apiJose.js");
 
 //Módulo con api Andrés
 var moduleGDP = require("./APIS/apiAndres.js");
+var moduleGDP_v2 = require("./APIS/apiAndres_v2.js");
 
 //Módulo con api Antoni
 var moduleRPC = require("./APIS/apiAntoni.js");
 
+var BASE_API_PATH = "/api";
 
 ////////////////////////////////////////CONEXIÓN CON BASE DE DATOS////////////////////////////////////////////////////////////
 
@@ -25,7 +27,7 @@ var MongoClient = require("mongodb").MongoClient;
 var mdbURL = "mongodb://admin:admin@ds139360.mlab.com:39360/sos1617-02";
 
 var port = (process.env.PORT || 10000);
-var BASE_API_PATH = "/api/v1";
+
 
 //Base de datos mongoDB José
 var dbJose;
@@ -46,11 +48,12 @@ MongoClient.connect(mdbURL, {native_parser:true}, function (err, database){
        dbAntony = database.collection("rpc-stats");
        
        ///////////////////CONEXIÓN CON MÓDULO JOSÉ////////////////////////////
-       moduleSMI.register(app, dbJose, BASE_API_PATH);
+       moduleSMI.register(app, dbJose, BASE_API_PATH + "/v1");
        ///////////////////CONEXIÓN CON MÓDULO ANDRES////////////////////////////
-       moduleGDP.register(app, dbAndres, BASE_API_PATH);
+       moduleGDP.register(app, dbAndres, BASE_API_PATH + "/v1");
+       moduleGDP_v2.register(app, dbAndres, BASE_API_PATH + "/v2");
        ///////////////////CONEXIÓN CON MÓDULO ANTONI////////////////////////////
-       moduleRPC.register(app, dbAntony, BASE_API_PATH);
+       moduleRPC.register(app, dbAntony, BASE_API_PATH + "/v1");
    
    //Solo pongo el servidor a arrancar si la base de datos está arrancada
    app.listen(port, () =>{
@@ -89,7 +92,6 @@ app.get(BASE_API_PATH+"/rpc-angular", function(request, response){
 app.get(BASE_API_PATH+"/gdp-angular", function(request, response){
     response.sendfile(publicFolder + "/angularGDP/index.html");
 });
-
 
 
 /*
