@@ -25,6 +25,8 @@ function checkApiKey(request, response){
     return res;
 }
 
+
+
 ////////////////////////////////////////////////CODIGO API ANDRÉS////////////////////////////////////////////////////////////
 
 //GET every row of data
@@ -96,14 +98,14 @@ app.get(BASE_API_PATH + "/gdp-population-stats/:country", function (request, res
             var alemania = new Object();
             alemania.country = "Alemania";
             alemania.year = 2017;
-            alemania["gdp-year"] = "3.533.860 M€";
-            alemania["population-year"] = 81416745;
+            alemania.gdpyear = "3.533.860 M€";
+            alemania.populationyear = 81416745;
 
             var francia = new Object();
             francia.country = "Francia";
             francia.year = 2014;
-            francia["gdp-year"] = "2.633.576 M\u20ac";
-            francia["population-year"] = 814545;
+            francia.gdpyear = "2.633.576 M\u20ac";
+            francia.populationyear = 814545;
     
             console.log("INFO: Initializing data.");
     
