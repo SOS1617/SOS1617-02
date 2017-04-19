@@ -20,8 +20,10 @@ angular
             $http
                 .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
                 .then(function(response){
+                   
                     $scope.data = JSON.stringify(response.data, null, 2); // null,2 sirve para renderizar el JSON, que lo muestre bonito, etc...
                     $scope.stats = response.data;
+                    console.log("all"+ JSON.stringify($scope.stats));
                 });
             }   
     
@@ -32,8 +34,11 @@ angular
             $http
                 .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
                 .then(function(response){
+                    console.log("APIKEY is correct.");
+                    
                     $scope.data = JSON.stringify(response.data, null, 2); // null,2 sirve para renderizar el JSON, que lo muestre bonito, etc...
                     $scope.stats = response.data;
+                    console.log("All stats are send.");
                 });
             
         } 
@@ -88,8 +93,13 @@ angular
                 .get($scope.url+"?apikey="+$scope.apikey+"&country="+$scope.newCountry.country+"&year="+$scope.newCountry.year)
                 .then(function(response){
                     console.log("The search of: "+$scope.newCountry.country +" in year "+ $scope.newCountry.year+ " works correctly");
-                    $scope.data = JSON.stringify(response.data, null, 2); // null,2 sirve para renderizar el JSON, que lo muestre bonito, etc...
-                    $scope.stats = response.data; 
+                    var x = [];
+                    x.push(response.data);
+                    
+                    $scope.data = JSON.stringify(x, null, 2); // null,2 sirve para renderizar el JSON, que lo muestre bonito, etc...
+                    $scope.stats =$scope.data;
+                    //$scope.index = $scope.newCountry._id;
+                  console.log("search"+ $scope.stats);
                 });
         }
            
