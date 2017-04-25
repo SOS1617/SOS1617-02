@@ -79,9 +79,18 @@ angular
                 });
         } 
         
+        $scope.getSearch = function(country,year){
+            $http.get($scope.url+"/" + country + "?apikey="+ $scope.apikey).
+                then(function(response) {
+                   console.log("The search has aported succesfully results" +country);
+                   
+                });
+            
+        }
+        
         
         //MÉTODO PARA LAS BÚSQUEDAS
-     /*  $scope.searches = function(){
+       $scope.searches = function(){
             $http
                 .get($scope.url+"?apikey="+$scope.apikey+"&country="+$scope.newCountry.country+"&year="+$scope.newCountry.year)
                 .then(function(response){
@@ -89,6 +98,6 @@ angular
                     $scope.data = JSON.stringify(response.data, null, 2); 
                     $scope.stats = response.data; 
                 });
-        }*/
+        }
            
 }]);  

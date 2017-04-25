@@ -1,0 +1,23 @@
+ <h2>Post & put operations</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Country</th>
+                        <th>Year</th>
+                        <th>rpc-year</th>
+                        <th>rpc-variation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                    <tr>
+                        <td><input class="form-control" ng-model="updatedCountry.country"></td>
+                        <td><input class="form-control" ng-model="updatedCountry.year"></td>
+                        <td><input class="form-control" ng-model="updatedCountry['rpc-year']" ></td>
+                        <td><input class="form-control" ng-model="updatedCountry['rpc-variation']" ></td>
+                        <td ><button class="btn-primary" ng-click="updateStats()">EDIT</button></td>
+                    </tr>
+                     
+            </tbody>
+            </table>
+              
