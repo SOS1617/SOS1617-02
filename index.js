@@ -81,15 +81,15 @@ app.get(BASE_API_PATH+"/tests", function(request, response){
     response.sendfile(publicFolder + "/tests.html");
 });
 
-app.get(BASE_API_PATH+"/v1/smi-angular", function(request, response){
+app.get("/smi-angular", function(request, response){
     response.sendfile(publicFolder + "/angularSMI/index.html");
 });
 
-app.get(BASE_API_PATH+"/v1/rpc-angular", function(request, response){
+app.get("/rpc-angular", function(request, response){
     response.sendfile(publicFolder + "/angularRPC/index.html");
 });
 
-app.get(BASE_API_PATH+"/v1/gdp-angular", function(request, response){
+app.get("/gdp-angular", function(request, response){
     response.sendfile(publicFolder + "/angularGDP/index.html");
 });
 

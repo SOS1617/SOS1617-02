@@ -1,0 +1,21 @@
+<h1>Edit Country Stat</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Country</th>
+            <th>Year</th>
+            <th>GDP</th>
+            <th>Population</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{updatedCountry.country}}</td>
+            <td><input class="form-control" ng-model="updatedCountry.year"/></td>
+            <td><input class="form-control" ng-model="updatedCountry['gdp-year']"/></td>
+            <td><input class="form-control" ng-model="updatedCountry['population-year']"/></td>
+            <td><button class="btn btn-primary" ng-click="updateData()">Update Country</button></td>
+        </tr>
+    </tbody>
+</table>
