@@ -1,17 +1,10 @@
 angular.module("GdpManagerApp",["ngRoute"]).config(function ($routeProvider){
     
     $routeProvider
-    .when("/",{
-       templateUrl : "/list.html",
-       controller: "list-ctrl"
-    })
-    .when("/country/:name",{
-       templateUrl : "edit.html",
-       controller: "edit-ctrl"
-    });
-    
-    
-    
+      .when("/country",{
+         templateUrl : "edit.html",
+         controller: "edit-ctrl.js"
+      });
     
 console.log("GdpManagerApp initialized and configured successfully!");
 });
