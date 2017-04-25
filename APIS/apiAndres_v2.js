@@ -105,6 +105,30 @@ app.get(BASE_API_PATH + "/gdp-population-stats/:country", function (request, res
             francia.year = 2014;
             francia["gdp-year"] = "2.633.576 M\u20ac";
             francia["population-year"] = 814545;
+            
+            var holanda = new Object();
+            holanda.country = "Holanda";
+            holanda.year = 2010;
+            holanda["gdp-year"] = "1.546.576 M\u20ac";
+            holanda["population-year"] = 44545;
+            
+            var italia = new Object();
+            italia.country = "Italia";
+            italia.year = 2017;
+            italia["gdp-year"] = "2.553.576 M\u20ac";
+            italia["population-year"] = 4545;
+            
+            var portugal = new Object();
+            portugal.country = "Portugal";
+            portugal.year = 2004;
+            portugal["gdp-year"] = "2.3453.576 M\u20ac";
+            portugal["population-year"] = 814545;
+            
+            var finlandia = new Object();
+            finlandia.country = "Finlandia";
+            finlandia.year = 2000;
+            finlandia["gdp-year"] = "2.63376 M\u20ac";
+            finlandia["population-year"] = 33545;
     
             console.log("INFO: Initializing data.");
     
@@ -116,10 +140,18 @@ app.get(BASE_API_PATH + "/gdp-population-stats/:country", function (request, res
                         dbAndres.remove({});
                         dbAndres.insert(alemania);
                         dbAndres.insert(francia);
+                        dbAndres.insert(holanda);
+                        dbAndres.insert(italia);
+                        dbAndres.insert(portugal);
+                        dbAndres.insert(finlandia);
                         response.sendStatus(201); //created!
                     }else{
-                     dbAndres.insert(alemania);
-                     dbAndres.insert(francia);
+                        dbAndres.insert(alemania);
+                        dbAndres.insert(francia);
+                        dbAndres.insert(holanda);
+                        dbAndres.insert(italia);
+                        dbAndres.insert(portugal);
+                        dbAndres.insert(finlandia);
                      response.sendStatus(201); //created!
                      console.log("INFO: Data initialized.");
                     }

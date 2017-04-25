@@ -1,15 +1,27 @@
 angular
     .module("GdpManagerApp")
-    .controller("edit-ctrl",["$scope", "$http", function($scope, $http){
+    .controller("edit-ctrl",["$scope", "$http","$routeParams", function($scope, $http, $routeParams){
         console.log("Edit controller initialized!");
-        $scope.url = "/api/v2/gdp-population-stats";
+        $scope.url = "/api/v2/gdp-population-stats/";
+        $scope.apikey = "GVAODcH3";
         
         function refresh(){
             $http
-                .get($scope.url + "/Alemania")
+                .get($scope.url + $routeParams.name +"?apikey=GVAODcH3")
                 .then(function (response){
                     $scope.updatedCountry = response.data[0];
                 });
-        }
+        };
+        
         refresh();
+        
+        $scope.updateData = function(){
+            $http
+                .put($scope.url + $routeParams.name +"?apikey=GVAODcH3", $scope.updatedCountry)
+                .then(function(response){
+                    refresh();
+                    console.log($scope.url + $routeParams.name + "?apikey="+ $scope.apikey, $scope.updatedCountry);
+                    console.log("editData OK");
+                });
+        };
 }]);  

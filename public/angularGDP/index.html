@@ -28,68 +28,7 @@
 
     </head>
 <body>
-<div ng-controller="list-ctrl">
-<h2>GDP-Population stats</h2>
-
-
-<div>First of all, please introduce a valid apikey: (hint: GVAODcH3)
-<input class="form-control" ng-model="apikey" placeholder="GVAODcH3">
-<button class="btn btn-primary" ng-click="getAllData()">Get All Data</button>
-<button class="btn btn-primary" ng-click="loadInitialData()">Load Initial Data</button>
-</div>
-
-<div>Now please specify a value for limit and offset (pagination)</br>
-Limit: <input class="form-control" ng-model="limit">
-Offset: <input class="form-control" ng-model="offset">
-<button class="btn btn-primary" ng-click="getDataPaginated()">Get Data</button>
-</div>
-
-<div>If you want to edit a country, please do it here</br>
-Country: <input class="form-control" ng-model="newCountry.country">
-Year: <input class="form-control" ng-model="newCountry.year">
-Gdp-year: <input class="form-control" ng-model="newCountry['gdp-year']">
-Population-year: <input class="form-control" ng-model="newCountry['population-year']">
-<button class="btn btn-primary" ng-click="editData()">Edit Data</button>
-</div>
-
-<div>If you want to delete all countries, you can do it here:</br>
-<button class="btn btn-danger" ng-click="deleteAllData()">Delete All Data</button>
-</div>
-
-<div>Search for a specific country:</br>
-Country: <input class="form-control" ng-model="newCountry.country">
-Year: <input class="form-control" ng-model="newCountry.year">
-<button class="btn btn-primary" ng-click="search()">Search</button>
-</div>
-
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Country</th>
-            <th>Year</th>
-            <th>GDP</th>
-            <th>Population</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><input class="form-control" ng-model="newCountry.country"/></td>
-            <td><input class="form-control" ng-model="newCountry.year"/></td>
-            <td><input class="form-control" ng-model="newCountry['gdp-year']"/></td>
-            <td><input class="form-control" ng-model="newCountry['population-year']"/></td>
-            <td><button class="btn btn-primary" ng-click="addData()"/>Add Country</td>
-        </tr>
-        <tr ng-repeat="country in countries">
-            <td>{{country.country}}</td>
-            <td>{{country.year}}</td>
-            <td>{{country['gdp-year']}}</td>
-            <td>{{country['population-year']}}</td>
-            <td><button class="btn btn-danger" ng-click="deleteOneData(country.country)">Delete</button></td>
-        </tr>
-    </tbody>
-</table>
+<div ng-view>
 </div>
 </body>
 </html>

@@ -4,7 +4,7 @@ angular
         
         $scope.url = "/api/v2/gdp-population-stats";
         $scope.offset = 0;
-        $scope.limit = 0;
+        $scope.limit = 2;
         console.log("List controller initialized ");
         
         //Load initial data
@@ -29,18 +29,7 @@ angular
             
         } 
         
-        //Get some elements (pagination)
-        $scope.getDataPaginated = function(){
-           
-            $http
-                .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
-                .then(function(response){
-                    $scope.data = JSON.stringify(response.data, null, 2); 
-                    $scope.countries = response.data;
-                    console.log("getDataPaginated OK");
-                });
-            
-        } 
+        
         
         //Add an element
         $scope.addData = function(){
@@ -89,6 +78,41 @@ angular
                     $scope.data = JSON.stringify(response.data, null, 2);
                     $scope.countries = response.data; 
                 });
-        }
+        };
            
+        //Pagination
+        
+        $scope.getDataPaginated = function(){
+           
+            $http
+                .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
+                .then(function(response){
+                    $scope.data = JSON.stringify(response.data, null, 2); 
+                    $scope.countries = response.data;
+                    console.log("getDataPaginated OK");
+                });
+            
+        };
+        
+        $scope.getPreviousPage = function(){
+            $scope.offset -= 2;
+            $http
+                .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
+                .then(function(response){
+                    $scope.data = JSON.stringify(response.data, null, 2); 
+                    $scope.countries = response.data;
+                    console.log("getDataPaginated OK");
+                });
+        };
+        
+        $scope.getNextPage = function(){
+            $scope.offset += 2;
+            $http
+                .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
+                .then(function(response){
+                    $scope.data = JSON.stringify(response.data, null, 2); 
+                    $scope.countries = response.data;
+                    console.log("getDataPaginated OK");
+                });
+        };
 }]);  
