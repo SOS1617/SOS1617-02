@@ -5,7 +5,7 @@ angular
         $scope.url = "/api/v2/gdp-population-stats";
         $scope.offset = 0;
         $scope.limit = 0;
-        console.log("Controller initialized ");
+        console.log("List controller initialized ");
         
         //Load initial data
         $scope.loadInitialData= function(){
