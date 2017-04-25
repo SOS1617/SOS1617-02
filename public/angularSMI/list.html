@@ -1,0 +1,68 @@
+<h1>Minimum interprofessional salary</h1>
+<table class="table table-bordered">
+    <thead>
+        <tr><h4>APIKEY: rXD8D2b1vP</h4></tr>
+        <tr>
+            <th>Introduce APIKEY<input class="form-control" ng-model="apikey"></th>
+            <th class="text-center"><button class="btn-primary" ng-click="getData()">GET DATA</button></th>
+        </tr>
+        <tr>
+            <th>Introduce LIMIT<input class="form-control" ng-model="limit"></th>
+            <th>Introduce OFFSET<input class="form-control" ng-model="offset"></th>
+            <th class="text-center"><button class="btn-primary" ng-click="getData()">GET DATA</button></th>
+        </tr>
+        <tr>
+            <th class="text-center"><button class="btn-danger" ng-click="deleteAllStats()">DELETE ALL STATS</button></th>
+            <th class="text-center"><button class="btn-primary" ng-click="loadInitialData()">LOAD STATS</button></th>
+        </tr>
+    </thead>
+</table>
+<h2>Stats of some countries</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Country</th>
+            <th>Year</th>
+            <th>Smi-year</th>
+            <th>Smi-year-variation</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><input class="form-control" ng-model="newCountry.country"></td>
+            <td><input class="form-control" ng-model="newCountry.year"></td>
+            <td><input class="form-control" ng-model="newCountry['smi-year']" ></td>
+            <td><input class="form-control" ng-model="newCountry['smi-year-variation']" ></td>
+            <td ><button class="btn-primary" ng-click="addStats()">ADD STATS</button></td>
+        </tr>
+        <tr>
+            <td><input class="form-control" ng-model="newCountry.country"></td>
+            <td><input class="form-control" ng-model="newCountry.year"></td>
+            <td><input class="form-control" ng-model="newCountry['smi-year']" ></td>
+            <td><input class="form-control" ng-model="newCountry['smi-year-variation']" ></td>
+            <td ><button class="btn-warning" ng-click="editStats()">EDIT STATS</button></td>
+        </tr>
+        <tr>
+            <td><h4 class="text-center">SEARCH</h4></td>
+            <td><input class="form-control" ng-model="newCountry.country" placeholder="Country"></td>
+            <td><input class="form-control" ng-model="newCountry.year" placeholder="Spain"></td>
+           <!-- <td ><button class="btn-warning" ng-click="searches()">SEARCH</button></td>-->
+        </tr>
+        <tr ng-repeat="stat in searchs">
+            <td>{{stat.country}}</td>
+            <td>{{stat.year}}</td>
+            <td>{{stat['smi-year']}}</td>
+            <td>{{stat['smi-year-variation']}}</td>
+        </tr>
+        
+        
+        <!-- asume que en el controlador hay un array que se llama stats y genera un tr por cada elemento del array-->
+        <tr ng-repeat="stat in stats">
+            <td><a href="#!/smi/{{stat.country}}">{{stat.country}}</a></td>
+            <td>{{stat.year}}</td>
+            <td>{{stat['smi-year']}}</td>
+            <td>{{stat['smi-year-variation']}}</td>
+            <td><button class="btn-danger" ng-click="deleteOneCountry(stat.country,stat.year)">DELETE</button></td>
+        </tr>
+    </tbody>
+</table>
