@@ -87,6 +87,15 @@ angular
                     $scope.errorMessage = bootbox.alert("Correct. The country "+$scope.newCountry.country+" have been updated.");
                     console.log( $scope.newCountry.country + " stats has been modified. "  );
                     refresh();
+                },function(response){
+                   
+                        if (response.status == 422) {
+                            $scope.errorMessage = bootbox.alert("Country empty");
+                        }
+                        if (response.status == 404) {
+                            $scope.errorMessage = bootbox.alert("Country not exists");
+                        } 
+                    
                 });
         }
         
@@ -129,11 +138,21 @@ angular
                 .get($scope.url+"?apikey="+$scope.apikey+results)
                 .then(function(response){
                     console.log("The search of: "+$scope.newCountry.country +" in year "+ $scope.newCountry.year+ " works correctly");
-                    
-                    $scope.data = JSON.stringify(x, null, 2); // null,2 sirve para renderizar el JSON, que lo muestre bonito, etc...
-                    $scope.stats =$scope.data;
-                    //$scope.index = $scope.newCountry._id;
+                    var x = [];
+                    x.push(response.data);
+                  //  $scope.data = JSON.stringify(x, null, 2); // null,2 sirve para renderizar el JSON, que lo muestre bonito, etc...
+                    $scope.stats =x;
                   console.log($scope.stats);
+                },
+                function(response){
+                   
+                        if (response.status == 422) {
+                            $scope.errorMessage = bootbox.alert("Country search empty");
+                        }
+                        if (response.status == 404) {
+                            $scope.errorMessage = bootbox.alert("Country not exists");
+                        } 
+                    
                 });
         }
         

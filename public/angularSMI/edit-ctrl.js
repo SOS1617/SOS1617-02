@@ -22,6 +22,10 @@ angular
     
      //MÉTODO PARA MODIFICAR UN PAÍS    
         $scope.editStats = function(){
+            
+            
+            delete $scope.updatedCountry._id;
+            
             $http
             //$scope.newCountry guarda el país que le estoy metiendo
                 .put($scope.url+ $routeParams.country + "?apikey="+ $scope.apikey, $scope.updatedCountry)
