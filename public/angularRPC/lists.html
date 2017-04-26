@@ -1,0 +1,59 @@
+<h2>RPC List</h2>
+            <h1>Rent Per Capita</h1>
+            <table class="table">
+                <thead>
+                    <tr><h4>APIKEY: GVAODcH3</h4></tr>
+                    <tr>
+                        <th>Introduce APIKEY<input class="form-control" ng-model="apikey"></th>
+                        <th class="text-center"><button class="btn-primary" ng-click="getStats()">GET RPC STATS</button></th>
+                    </tr>
+                  
+                    <tr>
+                        <th class="text-center"><button class="btn-secondary" ng-click="deleteAllStats()">DELETE ALL STATS</button></th>
+                        <th class="text-center"><button class="btn-secondary" ng-click="loadInitialData()">LOAD INITIAL STATS</button></th>
+                    </tr>
+                     <tr>
+                        <th>Set the LIMIT<input class="form-control" ng-model="limit"></th>
+                        <th>Set OFFSET<input class="form-control" ng-model="offset"></th>
+                        <th><button class="btn-primary" ng-click="getStats()">GET RPC STATS</button></th>
+                    </tr>
+                    
+                    <tr>
+                        <th>Country <input class="form-control" ng-model="newCountry.country"/></th>
+                        <th>Year <input class="form-control" ng-model="newCountry.year"/></th>
+                        <th><button class="btn-primary" ng-click="searches()">SEARCH RPC STATS</button></th>
+                    </tr>
+                </thead>
+            </table>
+            
+            <table class="table">
+                <thead>
+                    
+                    <tr>
+                        <th>Country</th>
+                        <th>Year</th>
+                        <th>rpc-year</th>
+                        <th>rpc-variation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     <tr>
+                        <td><input class="form-control" ng-model="newCountry.country"></td>
+                        <td><input class="form-control" ng-model="newCountry.year"></td>
+                        <td><input class="form-control" ng-model="newCountry['rpc-year']" ></td>
+                        <td><input class="form-control" ng-model="newCountry['rpc-variation']" ></td>
+                        <td><button class="btn-primary" ng-click="postStats()">POST DATA</button></td>
+                    </tr>
+                  
+                     
+                    
+                    <!-- asume que en el controlador hay un array que se llama contacts y genera un tr por cada elemento del array-->
+                    <tr ng-repeat="stat in stats">
+                        <td><a href="#!/edit/{{stat.country}}">{{stat.country}}</a></td>
+                        <td>{{stat.year}}</td>
+                        <td>{{stat['rpc-year']}}</td>
+                        <td>{{stat['rpc-variation']}}</td>
+                        <td><button class="btn" ng-click="deleteOneCountry(stat.country,stat.year)">DELETE</button></td>
+                    </tr>
+                </tbody>
+            </table>

@@ -26,9 +26,8 @@
     "helmet": "^3.5.0",
     "jwt-simple": "^0.5.1",
     "method-override": "^2.3.8",
-    "momen": "0.0.0",
     "moment": "^2.18.1",
-    "mongodb": "^2.2.25",
+    "mongodb": "^2.2.26",
     "nedb": "^1.8.0",
     "path": "^0.12.7",
     "phantomjs": "^2.1.7"

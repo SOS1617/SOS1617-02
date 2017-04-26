@@ -96,6 +96,10 @@ app.get(BASE_API_PATH + "/smi-stats/loadInitialData", function (request, respons
             //var france = { "country": "France", "year": "2014", "smi-year": "1480.3 €", "smi-year-variation": "0.93%" };
             
             var china = { "country": "China", "year": "2013", "smi-year": "170.3 €", "smi-year-variation": "10.28%" };
+            var australia = { "country": "Australia", "year": "2013", "smi-year": "170.3 €", "smi-year-variation": "10.28%" };
+            var pakistan = { "country": "Pakistan", "year": "2013", "smi-year": "170.3 €", "smi-year-variation": "10.28%" };
+            var indonesia = { "country": "Indonesia", "year": "2013", "smi-year": "170.3 €", "smi-year-variation": "10.28%" };
+            var portugal = { "country": "Portugal", "year": "2013", "smi-year": "170.3 €", "smi-year-variation": "10.28%" };
             var japan = { "country": "Japan", "year": "2014", "smi-year": "919.9 €", "smi-year-variation": "-19.91%" };
             
     
@@ -117,6 +121,10 @@ app.get(BASE_API_PATH + "/smi-stats/loadInitialData", function (request, respons
                      dbJose.insert(france);
                      dbJose.insert(japan);
                      dbJose.insert(china);
+                     dbJose.insert(australia);
+                     dbJose.insert(pakistan);
+                     dbJose.insert(indonesia);
+                     dbJose.insert(portugal);
                      response.sendStatus(201); //created!
                      console.log("INFO: Data initialized.");
                     }
