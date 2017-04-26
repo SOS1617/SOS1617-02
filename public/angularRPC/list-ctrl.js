@@ -22,6 +22,16 @@ angular
                     $scope.stats = response.data;
                 });
             }   
+            
+              function refreshOne(){
+            $http
+                .get($scope.url+"?apikey="+ $scope.apikey +"&country="+ $scope.newCountry.country +"&year="+$scope.newCountry.year)
+                .then(function(response){
+                    $scope.data = JSON.stringify(response.data, null, 2); 
+                    $scope.stats = response.data[0];
+                });
+            }   
+    
     
     
     //GET A UN CONJUNTO CON PAGINACIÓN
@@ -96,7 +106,9 @@ angular
                 .then(function(response){
                     console.log("The search of: "+$scope.newCountry.country +" in year "+ $scope.newCountry.year+ " works correctly");
                     $scope.data = JSON.stringify(response.data, null, 2); 
-                    $scope.stats = response.data; 
+                    $scope.stats = response.data[0]; 
+                    console.log(response.data);
+                    refreshOne();
                 });
         }
            

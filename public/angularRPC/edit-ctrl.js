@@ -1,4 +1,4 @@
-angular.module("RPCManagerApp").controller("edit-ctrl",["$scope","$http","$routeParams",function($scope,$http,$routeParams){
+angular.module("RPCManagerApp").controller("edit-ctrl",["$scope","$http","$routeParams","$location",function($scope,$http,$routeParams,$location){
     
     console.log("Edit controller initialized");
     $scope.url="/api/v1/rpc-stats/";
@@ -17,7 +17,8 @@ angular.module("RPCManagerApp").controller("edit-ctrl",["$scope","$http","$route
                 .put($scope.url + $routeParams.country + "?apikey="+ $scope.apikey, $scope.updatedCountry)
                 .then(function(response){
                     console.log( $scope.updatedCountry.country + "rpc has been succesfully modified. "  );
-                    refresh();
+                    $location.path("/");
+                    
                 });
         }
             
