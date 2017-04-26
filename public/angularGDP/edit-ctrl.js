@@ -16,13 +16,14 @@ angular
         refresh();
         
         $scope.updateData = function(){
+            delete $scope.updatedCountry._id;
+            
             $http
                 .put($scope.url + $routeParams.name +"?apikey=GVAODcH3", $scope.updatedCountry)
                 .then(function(response){
                     refresh();
                     console.log($scope.url + $routeParams.name + "?apikey="+ $scope.apikey, $scope.updatedCountry);
                     console.log("editData OK");
-                    location.path("/angularGDP");
                 });
         };
 }]);  
