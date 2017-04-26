@@ -4,7 +4,8 @@ angular
     .controller("ListCtrl",["$scope", "$http", function($scope, $http){
         
         $scope.url = "/api/v1/smi-stats";
-
+        $scope.offset = 0;
+        $scope.limit = 2;
         console.log("List controller initialized ");
         
         //CARGAR DATOS
@@ -114,19 +115,51 @@ angular
         
         //MÉTODO PARA LAS BÚSQUEDAS
        $scope.searches = function(){
+            var results = "";
+
+            if ($scope.newCountry.country !== undefined && $scope.newCountry.country !== "") {
+                results = results + "&country=" + $scope.newCountry.country;
+            }
+           
+            if ($scope.newCountry.year !== undefined && $scope.newCountry.year !== "") {
+                results = results + "&year=" + $scope.newCountry.year;
+            }
+
             $http
-                .get($scope.url+"?apikey="+$scope.apikey+"&country="+$scope.newCountry.country+"&year="+$scope.newCountry.year)
+                .get($scope.url+"?apikey="+$scope.apikey+results)
                 .then(function(response){
                     console.log("The search of: "+$scope.newCountry.country +" in year "+ $scope.newCountry.year+ " works correctly");
-                    var x = [];
-                    x.push(response.data);
                     
                     $scope.data = JSON.stringify(x, null, 2); // null,2 sirve para renderizar el JSON, que lo muestre bonito, etc...
-                    //$scope.stats= [];
-                    $scope.searchs =$scope.data;
+                    $scope.stats =$scope.data;
                     //$scope.index = $scope.newCountry._id;
-                  console.log("search"+ $scope.searchs);
+                  console.log($scope.stats);
                 });
         }
+        
+        
+        //PAGINACIÓN
+     
+        $scope.getPreviousPage = function(){
+            $scope.offset -= 2;
+            $http
+                .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
+                .then(function(response){
+                    $scope.data = JSON.stringify(response.data, null, 2); 
+                    $scope.stats = response.data;
+                    console.log("left Pagination: OK");
+                });
+        };
+        
+        $scope.getNextPage = function(){
+            $scope.offset += 2;
+            $http
+                .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
+                .then(function(response){
+                    $scope.data = JSON.stringify(response.data, null, 2); 
+                    $scope.stats = response.data;
+                    console.log("Right Pagination: OK");
+                });
+        };
            
 }]);  
