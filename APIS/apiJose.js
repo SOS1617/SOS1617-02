@@ -503,5 +503,14 @@ app.delete(BASE_API_PATH + "/smi-stats/:country/:year", function (request, respo
     }
     
 });
+
+
+///PAGINACIÓN///
+app.filter('startFromGrid', function() {
+   return function(input, start) {
+      start = +start;
+      return input.slice(start);
+   };
+});
     
 };

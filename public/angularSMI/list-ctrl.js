@@ -4,9 +4,16 @@ angular
     .controller("ListCtrl",["$scope", "$http", function($scope, $http){
         
         $scope.url = "/api/v1/smi-stats";
-        $scope.offset = 0;
-        $scope.limit = 2;
+        // $scope.offset = 0;
+        //$scope.limit = 2;
         console.log("List controller initialized ");
+        
+        
+        //PAGINACIÓN
+        $scope.currentPage = 0;
+        $scope.pageSize = 4; // Esta la cantidad de registros que deseamos mostrar por página
+        $scope.pages = [];
+        
         
         //CARGAR DATOS
         $scope.loadInitialData= function(){
@@ -20,12 +27,12 @@ angular
         
     function refresh(){
             $http
-                .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
+                .get($scope.url+"?apikey="+ $scope.apikey)
                 .then(function(response){
-                    
                     
                     $scope.data = JSON.stringify(response.data, null, 2); // null,2 sirve para renderizar el JSON, que lo muestre bonito, etc...
                     $scope.stats = response.data;
+                    $scope.configPages();
                     console.log("all"+ JSON.stringify($scope.stats));
                 });
     }   
@@ -35,13 +42,14 @@ angular
         $scope.getData = function(){
            
             $http
-                .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
+                .get($scope.url+"?apikey="+ $scope.apikey)
                 .then(function(response){
                     console.log("APIKEY is correct.");
                     $scope.errorMessage = bootbox.alert("APIKEY Correct. All stats are sent.");
                     
                     $scope.data = JSON.stringify(response.data, null, 2); // null,2 sirve para renderizar el JSON, que lo muestre bonito, etc...
                     $scope.stats = response.data;
+                    $scope.configPages();
                     console.log("All stats are send.");
                 },function(response){
                     if(response.status==401){
@@ -126,22 +134,24 @@ angular
        $scope.searches = function(){
             var results = "";
 
-            if ($scope.newCountry.country !== undefined && $scope.newCountry.country !== "") {
-                results = results + "&country=" + $scope.newCountry.country;
+            if ($scope.newSearch.country !== undefined && $scope.newSearch.country !== "") {
+                results = results + "&country=" + $scope.newSearch.country;
             }
            
-            if ($scope.newCountry.year !== undefined && $scope.newCountry.year !== "") {
-                results = results + "&year=" + $scope.newCountry.year;
+            if ($scope.newSearch.year !== undefined && $scope.newSearch.year !== "") {
+                results = results + "&year=" + $scope.newSearch.year;
             }
 
             $http
                 .get($scope.url+"?apikey="+$scope.apikey+results)
                 .then(function(response){
-                    console.log("The search of: "+$scope.newCountry.country +" in year "+ $scope.newCountry.year+ " works correctly");
+                    console.log("The search of: "+$scope.newSearch.country +" in year "+ $scope.newSearch.year+ " works correctly");
                     var x = [];
                     x.push(response.data);
                   //  $scope.data = JSON.stringify(x, null, 2); // null,2 sirve para renderizar el JSON, que lo muestre bonito, etc...
                     $scope.stats =x;
+                    $scope.configPages();
+                    
                   console.log($scope.stats);
                 },
                 function(response){
@@ -158,27 +168,40 @@ angular
         
         
         //PAGINACIÓN
-     
-        $scope.getPreviousPage = function(){
-            $scope.offset -= 2;
-            $http
-                .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
-                .then(function(response){
-                    $scope.data = JSON.stringify(response.data, null, 2); 
-                    $scope.stats = response.data;
-                    console.log("left Pagination: OK");
-                });
+        $scope.configPages = function() {
+           $scope.pages.length = 0;
+           var ini = $scope.currentPage - 4;
+           var fin = $scope.currentPage + 5;
+           console.log("Pagination is working correctly")
+           if (ini < 1) {
+              ini = 1;
+              if (Math.ceil($scope.stats.length / $scope.pageSize) > 10) fin = 10;
+              else fin = Math.ceil($scope.stats.length / $scope.pageSize);
+           } else {
+              if (ini >= Math.ceil($scope.stats.length / $scope.pageSize) - 10) {
+                 ini = Math.ceil($scope.stats.length / $scope.pageSize) - 10;
+                 fin = Math.ceil($scope.stats.length / $scope.pageSize);
+              }
+           }
+           if (ini < 1) ini = 1;
+           for (var i = ini; i <= fin; i++) {
+              $scope.pages.push({ no: i });
+           }
+           if ($scope.currentPage >= $scope.pages.length)
+              $scope.currentPage = $scope.pages.length - 1;
         };
         
-        $scope.getNextPage = function(){
-            $scope.offset += 2;
-            $http
-                .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
-                .then(function(response){
-                    $scope.data = JSON.stringify(response.data, null, 2); 
-                    $scope.stats = response.data;
-                    console.log("Right Pagination: OK");
-                });
+        $scope.setPage = function(index) {
+           $scope.currentPage = index - 1;
         };
+        
+        
+        
            
-}]);  
+}]).filter('startFromGrid', function() {
+    return function(input, start) {
+        if (!input || !input.length) { return; }
+        start =+ start;
+        return input.slice(start);
+    }
+});  
