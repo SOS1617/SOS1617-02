@@ -31,7 +31,7 @@ angular
         
     function refresh(){
             $http
-                .get($scope.url+"?apikey="+ $scope.apikey)
+                .get($scope.url)
                 .then(function(response){
                     
                     $scope.data = JSON.stringify(response.data, null, 2); // null,2 sirve para renderizar el JSON, que lo muestre bonito, etc...
@@ -231,7 +231,7 @@ angular
            $scope.currentPage = index - 1;
         };
         
-        
+       refresh(); 
         
            
 }]).filter('startFromGrid', function() {

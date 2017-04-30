@@ -53,6 +53,6 @@ angular
                 );
                 
         }
-    
     refresh();
+    
 }]);
