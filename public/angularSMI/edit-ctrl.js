@@ -1,3 +1,6 @@
+/* global angular */
+/* global Materialize */
+
 //Obtengo el modulo y creo el controlador sobre él
 angular
     .module("SMIManagerApp")
@@ -23,24 +26,26 @@ angular
      //MÉTODO PARA MODIFICAR UN PAÍS    
         $scope.editStats = function(){
             
-            
+            //Elimino el campo ID porque el objeto que le paso para editar tiene que venir ir sin el ID
             delete $scope.updatedCountry._id;
             
             $http
             //$scope.newCountry guarda el país que le estoy metiendo
                 .put($scope.url+ $routeParams.country + "?apikey="+ $scope.apikey, $scope.updatedCountry)
                 .then(function(response){
-                    $scope.errorMessage = bootbox.alert("Correct. The country "+$routeParams.country+" have been updated.");
+                    
                     console.log( $routeParams.country + " stats has been modified. "  );
+                    Materialize.toast('Correct. The country '+$routeParams.country+' have been updated.', 4000, 'rounded');
+                    
                     $location.path("/");
                     
                 },function(response){
                    
                         if (response.status == 422) {
-                            $scope.errorMessage = bootbox.alert("Country empty");
+                            Materialize.toast('Country empty.', 4000, 'rounded');
                         }
                         if (response.status == 404) {
-                            $scope.errorMessage = bootbox.alert("Country not exists");
+                            Materialize.toast('Country not exists.', 4000, 'rounded');
                         } 
                     
                 }
