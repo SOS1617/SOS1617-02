@@ -65,7 +65,7 @@ MongoClient.connect(mdbURL, {native_parser:true}, function (err, database){
 var app = express();
 
 
-app.use("/", express.static(path.join(__dirname,"public")));
+app.use("/", express.static(publicFolder));
 
 //BODYPARSER usa por defecto la codificación de JSON
 app.use(bodyParser.json()); //use default json enconding/decoding
@@ -81,7 +81,7 @@ app.get(BASE_API_PATH+"/tests", function(request, response){
     response.sendfile(publicFolder + "/tests.html");
 });
 
-app.get("/smi-angular", function(request, response){
+/*app.get("/smi-angular", function(request, response){
     response.sendfile(publicFolder + "/angularSMI/index.html");
 });
 
@@ -92,29 +92,6 @@ app.get("/rpc-angular", function(request, response){
 app.get("/gdp-angular", function(request, response){
     response.sendfile(publicFolder + "/angularGDP/index.html");
 });
-
-
-/*
-
-//MÉTODOS GET
-app.get(BASE_API_PATH_JOSE + "/loadInitialData", apiJose.getInitialData);
-app.get(BASE_API_PATH_JOSE, apiJose.getStats);
-app.get(BASE_API_PATH_JOSE + "/:year", apiJose.getStatsCountry);
-app.get(BASE_API_PATH_JOSE + "/:year", apiJose.getStatsCountryYear);
-
-//MÉTODOS POST
-app.post(BASE_API_PATH_JOSE, apiJose.postNewStats);
-app.post(BASE_API_PATH_JOSE +"/:country", apiJose.postNewCountryBAD);
-
-//MÉTODOS PUT
-app.post(BASE_API_PATH_JOSE, apiJose.putStatsBAD);
-app.post(BASE_API_PATH_JOSE +"/:country", apiJose.uploadCountryStats);
-
-//MÉTODOS DELETE
-app.delete(BASE_API_PATH_JOSE, apiJose.deleteStats);
-app.delete(BASE_API_PATH_JOSE + "/:country", apiJose.deleteCountryStats);
 */
-
-
 
 

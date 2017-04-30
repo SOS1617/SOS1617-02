@@ -1,113 +1,64 @@
 <!DOCTYPE html>
-<html>
+<!--todas las etiquetas que usen angular tienen que tener el atrubito ng-app -->
+<html ng-app="G2ManagerApp">
     <head>
-      <title>SOS1617-02</title>
-        <h1>Welcome to SOS1617-02 API REST</h1>
-        <p>In this API we analyse the existing relationship between rent per capita (RPC),
-        Gross Domestic Product (GDP) and Interprofessional minimum wage (SMI)</p>
-        <p>You can find the group's GitHub repository <a href="https://github.com/SOS1617/SOS1617-02">here</a></p>
+        <title>Group-02 APP</title>
+        
+        <!-- using materialize-->
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        
+        <!--BOOTSTRAP-->
+        <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+        <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" type="text/css" />
+        <!--MATERIALIZE-->
+        <link rel="stylesheet" href="/bower_components/materialize/dist/css/materialize.min.css" type="text/css" />
+        <link rel="stylesheet" href="/bower_components/materialize/dist/css/materialize.min.css" type="text/css" media="screen,projection"/>
+        
+        <!--JAVASCRIPT-->
+        <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/bower_components/materialize/dist/js/materialize.min.js"></script>
+        
+        
+        <!-- carga angular -->
+        <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+        <script type="text/javascript" src="/bower_components/angular-route/angular-route.min.js"></script>
+        
+        <!--POR CADA ELEMENTO DE ANGULAR UN ARCHIVO DISTINTO EN UN LADO LA CONFIGURACIÓN DE LA APP
+        Y POR OTRO EL CONTROLADOR
+        ESTOS ARCHIVOS LOS INCLUIMOS-->
+        
+        <!--CARGA APPS-->
+        <script type="text/javascript" src="g2-manager-app.js"></script>
+        <script type="text/javascript" src="/angularSMI/smi-manager-app.js"></script>
+        <script type="text/javascript" src="/angularRPC/rpc-manager-app.js"></script>
+        <script type="text/javascript" src="/angularGDP/gdp-manager-app.js"></script>
+        
+        <!--Carga controladores SMI-->
+        <script type="text/javascript" src="/angularSMI/list-ctrl.js"></script>
+        <script type="text/javascript" src="/angularSMI/edit-ctrl.js"></script>
+        
+        <!--Carga controladores RPC-->
+        <script type="text/javascript" src="/angularRPC/list-ctrl.js"></script>
+        <script type="text/javascript" src="/angularRPC/edit-ctrl.js"></script>
+        
+        <!--Carga controladores GDP-->
+        <script type="text/javascript" src="/angularGDP/list-ctrl.js"></script>
+        <script type="text/javascript" src="/angularGDP/edit-ctrl.js"></script>
+        
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
     </head>
+    <!--Creamos el controlador asociado al body-->
+    <!--Distribuimos un controlador por caada tipo de interfaz que tenemos -->
     <body>
-      <table width="280" cellspacing="1" cellpadding="3" border="0" bgcolor="#1E679A">
-        <tr>
-          <td><font color="#FFFFFF" face="arial, verdana, helvetica">
-            <b>Members of the group</b>
-          </font></td>
-        </tr>
-        <tr>
-          <td bgcolor="#ffffcc">
-            <font face="arial, verdana, helvetica">
-              -Antoni Mujico. <a href="https://github.com/AntoniMujico">Github profile</a><br>
-              -José Gallardo. <a href="https://github.com/Sojer23">Github profile</a><br>
-              -Andrés García. <a href="https://github.com/Garcicasti">Github profile</a><br>
-            </font>
-          </td>
-        </tr>
-      </table>
-
-      <p> </p>
-
-      <table width="500" cellspacing="1" cellpadding="3" border="0" bgcolor="#1E679A">
-        <tr>
-          <td><font color="#FFFFFF" face="arial, verdana, helvetica">
-            <b>Data sources:</b>
-          </font></td>
-        </tr>
-        <tr>
-          <td bgcolor="#ffffcc">
-            <font face="arial, verdana, helvetica">
-              -Interprofessional minimum wage. This data source represents the minimum wage any professional should have. Available <a href="http://sos1617-02.herokuapp.com/api/v1/smi-stats?apikey=rXD8D2b1vP">here</a> <br>
-              -Gross domestic product by country (GDP). This is a monetary measure of the market value of all final goods and services produced in a period (yearly). Available <a href="https://sos1617-02.herokuapp.com/api/v1/gdp-population-stats?apikey=GVAODcH3">here</a> <br>
-              -Rent per capita by country (RPC). This is a macroeconomic indicator of productivity and ecnonomic development. Available <a href="http://sos1617-02.herokuapp.com/api/v1/rpc-stats/?apikey=GVAODcH3">here</a><br>
-              <p>For more information about these data sources please refer to
-              <a href="https://docs.google.com/spreadsheets/d/1DW20EzexLKis0knLLtzMP8BPIcE47uyKFk98egVCMBY/edit?usp=sharing">this Google Doc</a>
-              </p>
-            </font>
-          </td>
-        </tr>
-      </table>
-      
-      <table width="500" cellspacing="1" cellpadding="3" border="0" bgcolor="#1E679A">
-        <tr>
-          <td><font color="#FFFFFF" face="arial, verdana, helvetica">
-            <b>Postman Tests</b>
-          </font></td>
-        </tr>
-        <tr>
-          <td bgcolor="#ffffcc">
-            <font face="arial, verdana, helvetica">
-              <p>You can find all the Postman tests
-              <a href="https://sos1617-02.herokuapp.com/api/v1/tests">right here</a>
-              </p>
-            </font>
-          </td>
-        </tr>
-      </table>
-      
-      
-      <table width="500" cellspacing="1" cellpadding="3" border="0" bgcolor="#1E679A">
-        <tr>
-          <td><font color="#FFFFFF" face="arial, verdana, helvetica">
-            <b>FRONTENDS</b>
-          </font></td>
-        </tr>
-        <tr>
-          <td bgcolor="#ffffcc">
-            <font face="arial, verdana, helvetica">
-              <a href=      <table width="500" cellspacing="1" cellpadding="3" border="0" bgcolor="#1E679A">
-        <tr>
-          <td bgcolor="#ffffcc">
-            <font face="arial, verdana, helvetica">
-              <p>You can find <b>José Gallardo</b> frontend here: 
-              <a href="http://sos1617-02.herokuapp.com/smi-angular">Minimum interprofessional salary</a>
-              </p>
-            </font>
-          </td>
-        </tr>
-        <tr>
-          <td bgcolor="#ffffcc">
-            <font face="arial, verdana, helvetica">
-              <p>You can find <b>Antoni Mujico.</b> frontend here: 
-              <a href="http://sos1617-02.herokuapp.com/rpc-angular">Rent per capital</a>
-              </p>
-            </font>
-          </td>
-        </tr>
-        <tr>
-          <td bgcolor="#ffffcc">
-            <font face="arial, verdana, helvetica">
-              <p>You can find <b>Andrés García's</b> frontend here: 
-              <a href="http://sos1617-02.herokuapp.com/gdp-angular">Gross domestic product (GDP)</a>
-              </p>
-            </font>
-          </td>
-        </tr>
-      </table>
-              </p>
-            </font>
-          </td>
-        </tr>
-      </table>
-      
+        <!-- el controlador se añade a una parte del body-->
+        <div ng-view>
+            
+        </div>
+        
+        
     </body>
 </html>

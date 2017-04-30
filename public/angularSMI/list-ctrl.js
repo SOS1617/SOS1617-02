@@ -3,8 +3,8 @@
 
 //Obtengo el modulo y creo el controlador sobre él
 angular
-    .module("SMIManagerApp")
-    .controller("ListCtrl",["$scope", "$http", function($scope, $http){
+    .module("G2ManagerApp")
+    .controller("SMIListCtrl",["$scope", "$http", function($scope, $http){
         
         $scope.url = "/api/v1/smi-stats";
         // $scope.offset = 0;

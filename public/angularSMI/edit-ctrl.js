@@ -3,8 +3,8 @@
 
 //Obtengo el modulo y creo el controlador sobre él
 angular
-    .module("SMIManagerApp")
-    .controller("EditCtrl",["$scope", "$http","$routeParams","$location", function($scope, $http,$routeParams,$location){
+    .module("G2ManagerApp")
+    .controller("SMIEditCtrl",["$scope", "$http","$routeParams","$location", function($scope, $http,$routeParams,$location){
         
         $scope.url = "/api/v1/smi-stats/";
         $scope.apikey="rXD8D2b1vP";
@@ -37,7 +37,7 @@ angular
                     console.log( $routeParams.country + " stats has been modified. "  );
                     Materialize.toast('Correct. The country '+$routeParams.country+' have been updated.', 4000, 'rounded');
                     
-                    $location.path("/");
+                    $location.path("/smi/");
                     
                 },function(response){
                    
@@ -51,6 +51,7 @@ angular
                 }
                 
                 );
+                
         }
     
     refresh();

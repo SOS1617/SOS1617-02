@@ -1,6 +1,6 @@
 angular
-    .module("RPCManagerApp")
-    .controller("list-ctrl",["$scope", "$http", function($scope, $http){
+    .module("G2ManagerApp")
+    .controller("rpc-list-ctrl",["$scope", "$http", function($scope, $http){
         
         $scope.url = "/api/v1/rpc-stats";
 

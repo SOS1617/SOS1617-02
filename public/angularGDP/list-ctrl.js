@@ -1,6 +1,6 @@
 angular
-    .module("GdpManagerApp")
-    .controller("list-ctrl",["$scope", "$http", function($scope, $http){
+    .module("G2ManagerApp")
+    .controller("gdp-list-ctrl",["$scope", "$http", function($scope, $http){
         
         $scope.url = "/api/v2/gdp-population-stats";
         $scope.offset = 0;
