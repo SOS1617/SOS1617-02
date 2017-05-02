@@ -18,7 +18,7 @@ describe('Add result', function () {
 				//SELECCIONO EL BOTON CUYO TEXTO SEA ADD
 				element(by.buttonText('add')).click().then(function (){
 
-					element.all(by.repeater('dataUnit in data')).then(function (stats){
+					element.all(by.repeater('stat in stats')).then(function (stats){
 						expect(stats.length).toEqual(initialStats.length+1);
 					});
 				

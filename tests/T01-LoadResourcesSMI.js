@@ -13,6 +13,6 @@ describe('Data is loaded', function () {
 	    browser.driver.sleep(10000);
 		var smi = element.all(by.repeater('stat in stats'));
 
-		expect(smi.count()).toBeGreaterThan(2);
+		expect(smi.count()).toBeGreaterThan(1);
 	});
 });
