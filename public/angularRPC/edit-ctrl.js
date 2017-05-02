@@ -12,6 +12,7 @@ angular.module("RPCManagerApp").controller("edit-ctrl",["$scope","$http","$route
             } 
             
     $scope.updateStats = function(){
+        delete $scope.updatedCountry._id;
             $http
             //$scope.newCountry guarda el país que le estoy metiendo
                 .put($scope.url + $routeParams.country + "?apikey="+ $scope.apikey, $scope.updatedCountry)

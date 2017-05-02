@@ -9,12 +9,14 @@ angular
         $scope.loadInitialData= function(){
             $http.get($scope.url+"/loadInitialData?apikey="+$scope.apikey)
             .then(function(){
+                $scope.errorMessage = bootbox.alert("Countries added, Apikey correct.");
                 console.log("Load initial data: OK");
                 refresh();
             })
         }
         
     function refresh(){
+        
             $http
                 .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
                 .then(function(response){
@@ -104,11 +106,13 @@ angular
             $http
                 .get($scope.url+"?apikey="+$scope.apikey+"&country="+$scope.newCountry.country+"&year="+$scope.newCountry.year)
                 .then(function(response){
+                     var x=[];
+                     x.push(response.data);
                     console.log("The search of: "+$scope.newCountry.country +" in year "+ $scope.newCountry.year+ " works correctly");
                     $scope.data = JSON.stringify(response.data, null, 2); 
-                    $scope.stats = response.data[0]; 
-                    console.log(response.data);
-                    refreshOne();
+                    $scope.stats = x; 
+                  
+    
                 });
         }
            

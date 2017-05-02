@@ -431,7 +431,7 @@ app.put(BASE_API_PATH + "/rpc-stats/:country", function (request, response){
     if (!updatedCountry || updatedCountry.country != country) {
         response.sendStatus(400); // bad request
     }else{
-        console.log("INFO: New POST request to /gdp-population-stats");
+        console.log("INFO: New PUT request to /rpc-stats");
         if (!updatedCountry.country || !updatedCountry.year || !updatedCountry["rpc-year"] || !updatedCountry["rpc-variation"]) {
             console.log("WARNING: The country is not well-formed, sending 422...");
             response.sendStatus(409); // unprocessable entity
@@ -448,6 +448,7 @@ app.put(BASE_API_PATH + "/rpc-stats/:country", function (request, response){
                     }else{
                         dbAntony.update({country: country}, updatedCountry);
                         response.send(updatedCountry); // return the updated contact
+                        console.log("PUT DONE");
                     }
                     
                 }
