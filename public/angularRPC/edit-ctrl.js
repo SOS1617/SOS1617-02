@@ -1,4 +1,4 @@
-angular.module("RPCManagerApp").controller("edit-ctrl",["$scope","$http","$routeParams","$location",function($scope,$http,$routeParams,$location){
+angular.module("G2ManagerApp").controller("rpc-edit-ctrl",["$scope","$http","$routeParams","$location",function($scope,$http,$routeParams,$location){
     
     console.log("Edit controller initialized");
     $scope.url="/api/v1/rpc-stats/";

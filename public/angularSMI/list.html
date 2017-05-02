@@ -1,65 +1,115 @@
-<h1>Minimum interprofessional salary</h1>
-<table class="table table-bordered">
-    <thead>
-        <tr><h4>APIKEY: rXD8D2b1vP</h4></tr>
-        <tr>
-            <th>Introduce APIKEY<input class="form-control" ng-model="apikey"></th>
-            <th class="text-center"><button class="btn-primary" ng-click="getData()">GET DATA</button></th>
-        </tr>
-        <tr>
-            <th>Introduce LIMIT<input class="form-control" ng-model="limit"></th>
-            <th>Introduce OFFSET<input class="form-control" ng-model="offset"></th>
-            <th class="text-center"><button class="btn-primary" ng-click="getData()">GET DATA</button></th>
-        </tr>
-        <tr>
-            <th class="text-center"><button class="btn-danger" ng-click="deleteAllStats()">DELETE ALL STATS</button></th>
-            <th class="text-center"><button class="btn-primary" ng-click="loadInitialData()">LOAD STATS</button></th>
-        </tr>
-    </thead>
-</table>
-<h2>Stats of some countries</h2>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Country</th>
-            <th>Year</th>
-            <th>Smi-year</th>
-            <th>Smi-year-variation</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><input class="form-control" ng-model="newCountry.country"></td>
-            <td><input class="form-control" ng-model="newCountry.year"></td>
-            <td><input class="form-control" ng-model="newCountry['smi-year']" ></td>
-            <td><input class="form-control" ng-model="newCountry['smi-year-variation']" ></td>
-            <td ><button class="btn-primary" ng-click="addStats()">ADD STATS</button></td>
-            <td ><button class="btn-warning" ng-click="editStats()">EDIT STATS</button></td>
-            <td ><button class="btn-warning" ng-click="searches()">SEARCH</button></td>
-        </tr>
-       <!-- <tr>
-            <td><input class="form-control" ng-model="newCountry.country"></td>
-            <td><input class="form-control" ng-model="newCountry.year"></td>
-            <td><input class="form-control" ng-model="newCountry['smi-year']" ></td>
-            <td><input class="form-control" ng-model="newCountry['smi-year-variation']" ></td>
-            <td ><button class="btn-warning" ng-click="editStats()">EDIT STATS</button></td>
-            <td ><button class="btn-warning" ng-click="searches()">SEARCH</button></td>
-        </tr>
-        <tr>
-            <td><h4 class="text-center">SEARCH</h4></td>
-            <td><input class="form-control" ng-model="newCountry.country" placeholder="Country"></td>
-            <td><input class="form-control" ng-model="newCountry.year" placeholder="Year"></td>
+<div class="container">
+    
             
-        </tr>-->
+    <nav>
+        <div class="nav-wrapper">
+          <span class="brand-logo">Minimum Interprofessional Salary</span>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="/angularSMI/index.html">SMI</a></li>
+            <li><a href="/angularGDP/index.html">GDP</a></li>
+            <li><a href="/angularRPC/index.html">RPC</a></li>
+          </ul>
+        </div>
+     </nav>
+     </br>
+    
+    
+    <div class="row">
+        <div class="input-field col s4">
+        <h6 class="text-center">Introduce APIKEY: <b>rXD8D2b1vP</b><input class="form-control" ng-model="apikey"></h6>
         
-        <!-- asume que en el controlador hay un array que se llama stats y genera un tr por cada elemento del array-->
-        <tr ng-repeat="stat in stats">
-            <td><a href="#!/smi/{{stat.country}}">{{stat.country}}</a></td>
-            <td>{{stat.year}}</td>
-            <td>{{stat['smi-year']}}</td>
-            <td>{{stat['smi-year-variation']}}</td>
-            <td><button class="btn-danger" ng-click="deleteOneCountry(stat.country,stat.year)">DELETE</button></td>
-        </tr>
-    </tbody>
-    <tfoot><button class="btn btn-warning" ng-click="getPreviousPage()">Previous page</button><button class="btn btn-warning" ng-click="getNextPage()">Next page</button></tfoot>
-</table>
+        </div>
+        <div class="input-field col s4" >
+            <p class="text-center"><button class="btn waves-effect waves-light red" type="submit" name="action" ng-click="getData()">GET DATA<i class="material-icons right">send</i></button>
+        </div>
+       <!-- <div class="input-field col s4">
+         <h6>Introduce Limit<input class="form-control" ng-model="limit"></h6>
+        </div>
+        <div class="input-field col s4">
+         <h6>Introduce OFFSET<input class="form-control" ng-model="offset"></h6>
+        </div>-->
+      </div>
+      <div class="line">
+          
+      </div>
+    
+    <div class="row">
+    <h5 class="text-center">SMI of some countries</h5>
+    </div>
+    
+    <div class="row">
+        <div class="input-field col s4">
+         <h6>Introduce Country<input class="form-control" ng-model="newSearch.country"></h6>
+        </div>
+        <div class="input-field col s4">
+         <h6>Introduce Year<input class="form-control" ng-model="newSearch.year"></h6>
+        </div>
+        <div class="input-field col s4">
+        <a class="btn-floating btn-large red" ng-click="searches()"><i class="large material-icons">search</i></a>
+        </div>
+     </div>
+      
+    <table class="highlight">
+        <thead>
+            <tr>
+                <th>Country</th>
+                <th>Year</th>
+                <th>Smi-year</th>
+                <th>Smi-year-variation</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input class="form-control" ng-model="newCountry.country"></td>
+                <td><input class="form-control" ng-model="newCountry.year"></td>
+                <td><input class="form-control" ng-model="newCountry['smi-year']" ></td>
+                <td><input class="form-control" ng-model="newCountry['smi-year-variation']" ></td>
+                <td><button class="btn-floating btn-large waves-effect waves-light green" ng-click="addStats()"><i class="material-icons">add</i></button></td>
+                <td ><a class="btn-floating btn-large red" ng-click="editStats()"><i class="large material-icons">mode_edit</i></a></td>
+            </tr>
+            <!-- asume que en el controlador hay un array que se llama stats y genera un tr por cada elemento del array-->
+            <tr ng-repeat="stat in stats | startFromGrid: currentPage * pageSize | limitTo: pageSize">
+                <td><a href="#!/smi/{{stat.country}}">{{stat.country}}</a></td>
+                <td>{{stat.year}}</td>
+                <td>{{stat['smi-year']}}</td>
+                <td>{{stat['smi-year-variation']}}</td>
+                <td><a class="btn-floating btn-large red" ng-click="deleteOneCountry(stat.country,stat.year)"><i class="large material-icons">delete</i></a></td>
+                <td><a class="btn-floating btn-large red" href="#!/smi/{{stat.country}}"><i class="large material-icons">mode_edit</i></a></td>
+            </tr>
+            
+    
+        </tbody>
+        
+    </table>
+    <div class="line">
+        <p class="text-center">
+                <button class="btn waves-effect waves-light red" type='button'  ng-disabled='currentPage == 0' ng-click='currentPage = currentPage - 1'>&laquo;</button>
+                
+                <!-- Navegar a una página especifica-->
+                <button  class="btn waves-effect waves-light red" type='button' ng-disabled='currentPage == page.no - 1' ng-click='setPage(page.no)' ng-repeat='page in pages'>{{page.no}}</button>
+                
+                <!-- Navegar hacia adelante -->
+                 <button class="btn waves-effect waves-light red" type='button' ng-disabled='currentPage >= stats.length/pageSize - 1' ng-click='currentPage = currentPage + 1'>&raquo;</button>
+        </p>
+    </div>
+    
+    
+    
+    <footer class="page-footer">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 s12">
+                  <a class="waves-effect waves-light btn green" ng-click="loadInitialData()"><i class="material-icons left">send</i>LOAD STATS</a>
+              </div>
+              <div class="col l4 offset-l2 s12">
+                  <a class="waves-effect waves-light btn red" ng-click="deleteAllStats()"><i class="material-icons left">delete</i>DELETE ALL</a>
+              </div>
+            </div>
+          </div>
+          <div class="footer-copyright">
+            <div class="container">
+            © 2017 SOS. José Gallardo Gallardo.
+            </div>
+          </div>
+        </footer>
+</div>

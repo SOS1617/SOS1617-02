@@ -7,12 +7,6 @@
 <button class="btn btn-primary" ng-click="loadInitialData()">Load Initial Data</button>
 </div>
 
-<div>Now please specify a value for limit and offset (pagination)</br>
-Limit: <input class="form-control" ng-model="limit">
-Offset: <input class="form-control" ng-model="offset">
-<button class="btn btn-primary" ng-click="getDataPaginated()">Get Data</button>
-</div>
-
 <div>If you want to edit a country, please do it here</br>
 Country: <input class="form-control" ng-model="newCountry.country">
 Year: <input class="form-control" ng-model="newCountry.year">
@@ -51,7 +45,7 @@ Year: <input class="form-control" ng-model="newCountry.year">
             <td><button class="btn btn-primary" ng-click="addData()"/>Add Country</td>
         </tr>
         <tr ng-repeat="country in countries">
-            <td><a href="#!/country/{{country.country}}">{{country.country}}</a></td>
+            <td><a href="#!/gdp/country/{{country.country}}">{{country.country}}</a></td>
             <td>{{country.year}}</td>
             <td>{{country['gdp-year']}}</td>
             <td>{{country['population-year']}}</td>

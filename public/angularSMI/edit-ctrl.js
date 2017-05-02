@@ -1,7 +1,10 @@
+/* global angular */
+/* global Materialize */
+
 //Obtengo el modulo y creo el controlador sobre él
 angular
-    .module("SMIManagerApp")
-    .controller("EditCtrl",["$scope", "$http","$routeParams","$location", function($scope, $http,$routeParams,$location){
+    .module("G2ManagerApp")
+    .controller("SMIEditCtrl",["$scope", "$http","$routeParams","$location", function($scope, $http,$routeParams,$location){
         
         $scope.url = "/api/v1/smi-stats/";
         $scope.apikey="rXD8D2b1vP";
@@ -22,27 +25,34 @@ angular
     
      //MÉTODO PARA MODIFICAR UN PAÍS    
         $scope.editStats = function(){
+            
+            //Elimino el campo ID porque el objeto que le paso para editar tiene que venir ir sin el ID
+            delete $scope.updatedCountry._id;
+            
             $http
             //$scope.newCountry guarda el país que le estoy metiendo
                 .put($scope.url+ $routeParams.country + "?apikey="+ $scope.apikey, $scope.updatedCountry)
                 .then(function(response){
-                    $scope.errorMessage = bootbox.alert("Correct. The country "+$routeParams.country+" have been updated.");
+                    
                     console.log( $routeParams.country + " stats has been modified. "  );
-                    $location.path("/");
+                    Materialize.toast('Correct. The country '+$routeParams.country+' have been updated.', 4000, 'rounded');
+                    
+                    $location.path("/smi/");
                     
                 },function(response){
                    
                         if (response.status == 422) {
-                            $scope.errorMessage = bootbox.alert("Country empty");
+                            Materialize.toast('Country empty.', 4000, 'rounded');
                         }
                         if (response.status == 404) {
-                            $scope.errorMessage = bootbox.alert("Country not exists");
+                            Materialize.toast('Country not exists.', 4000, 'rounded');
                         } 
                     
                 }
                 
                 );
+                
         }
-    
     refresh();
+    
 }]);

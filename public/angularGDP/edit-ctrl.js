@@ -1,6 +1,6 @@
 angular
-    .module("GdpManagerApp")
-    .controller("edit-ctrl",["$scope", "$http","$routeParams", function($scope, $http, $routeParams){
+    .module("G2ManagerApp")
+    .controller("gdp-edit-ctrl",["$scope", "$http","$routeParams","$location", function($scope, $http, $routeParams, $location){
         console.log("Edit controller initialized!");
         $scope.url = "/api/v2/gdp-population-stats/";
         $scope.apikey = "GVAODcH3";
@@ -16,6 +16,8 @@ angular
         refresh();
         
         $scope.updateData = function(){
+            delete $scope.updatedCountry._id;
+            
             $http
                 .put($scope.url + $routeParams.name +"?apikey=GVAODcH3", $scope.updatedCountry)
                 .then(function(response){
