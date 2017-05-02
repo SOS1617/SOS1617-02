@@ -6,6 +6,9 @@ angular
     .module("G2ManagerApp")
     .controller("SMIListCtrl",["$scope", "$http", function($scope, $http){
         
+        if(!$scope.apikey){
+            $scope.apikey = "rXD8D2b1vP";
+        }
         $scope.url = "/api/v1/smi-stats";
         // $scope.offset = 0;
         //$scope.limit = 2;
@@ -31,7 +34,7 @@ angular
         
     function refresh(){
             $http
-                .get($scope.url)
+                .get($scope.url+"?apikey="+ $scope.apikey)
                 .then(function(response){
                     
                     $scope.data = JSON.stringify(response.data, null, 2); // null,2 sirve para renderizar el JSON, que lo muestre bonito, etc...

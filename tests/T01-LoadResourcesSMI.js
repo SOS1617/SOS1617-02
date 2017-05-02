@@ -9,7 +9,7 @@ describe('Data is loaded', function () {
 	    
 		browser.get('https://sos1617-02.herokuapp.com/#!/smi/');
 		
-		//Espera 2 segundos
+		//Espera 10 segundos
 	    browser.driver.sleep(10000);
 		var smi = element.all(by.repeater('stat in stats'));
 
