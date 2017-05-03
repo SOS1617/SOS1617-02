@@ -1,0 +1,28 @@
+{
+  "name": "public",
+  "homepage": "https://github.com/SOS1617/SOS1617-02",
+  "authors": [
+    "SOS1617_jgg <josegallardog95@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-route": "^1.6.4",
+    "bootbox.js": "bootbox#^4.4.0",
+    "angular": "^1.6.4",
+    "highcharts": "^5.0.10",
+    "jquery": "^3.2.1",
+    "materialize": "^0.98.2",
+    "bootstrap": "^3.3.7",
+    "highcharts-ng": "^1.1.0",
+    "chart.js": "^2.5.0"
+  }
+}

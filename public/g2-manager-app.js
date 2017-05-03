@@ -7,6 +7,9 @@ angular.module("G2ManagerApp",["ngRoute"]).config(function($routeProvider){
     .when("/",{
         templateUrl:"/principal.html"
     })
+    .when("/analitycs",{
+        templateUrl:"/analitycs.html"
+    })
     
     ///////SMI///////
     .when("/smi",{
@@ -14,10 +17,25 @@ angular.module("G2ManagerApp",["ngRoute"]).config(function($routeProvider){
         controller: "SMIListCtrl"
     })
     
+    .when("/smi/hc-graph",{
+        templateUrl: "/angularSMI/hc-graph.html",
+        controller: "SMIHCGraphCtrl"
+    })
+    .when("/smi/gc-graph",{
+        templateUrl: "/angularSMI/gc-graph.html",
+        controller: "SMIGCGraphCtrl"
+    })
+    .when("/smi/cjs-graph",{
+        templateUrl: "/angularSMI/cjs-graph.html",
+        controller: "SMICJSGraphCtrl"
+    })
+    
     .when("/smi/:country",{
         templateUrl: "/angularSMI/edit.html",
         controller: "SMIEditCtrl"
     })
+    
+    
     
     ///////RPC///////
     .when('/rpc',{
