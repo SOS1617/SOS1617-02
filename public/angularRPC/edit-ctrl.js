@@ -1,3 +1,4 @@
+/*global angular*/
 angular.module("G2ManagerApp").controller("rpc-edit-ctrl",["$scope","$http","$routeParams","$location",function($scope,$http,$routeParams,$location){
     
     console.log("Edit controller initialized");

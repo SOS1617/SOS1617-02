@@ -23,6 +23,7 @@
     "materialize": "^0.98.2",
     "bootstrap": "^3.3.7",
     "highcharts-ng": "^1.1.0",
-    "chart.js": "^2.5.0"
+    "chart.js": "^2.5.0",
+    "canvas-js": "^2.3.0"
   }
 }

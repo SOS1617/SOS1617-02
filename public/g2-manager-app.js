@@ -49,6 +49,16 @@ angular.module("G2ManagerApp",["ngRoute"]).config(function($routeProvider){
         controller:"rpc-edit-ctrl"
     })
     
+    .when("/rpc/hc-graph",{
+        templateUrl: "/angularRPC/hc-graph.html",
+        controller: "RPCHCGraphCtrl"
+    })
+    
+    .when("/rpc/gc-graph",{
+        templateUrl: "/angularRPC/gc-graph.html",
+        controller: "RPCGCGraphCtrl"
+    })
+    
     ///////GDP///////
     .when("/gdp",{
          templateUrl : "/angularGDP/list.html",

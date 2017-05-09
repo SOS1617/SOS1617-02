@@ -48,13 +48,27 @@
                      
                     
                     <!-- asume que en el controlador hay un array que se llama contacts y genera un tr por cada elemento del array-->
-                    <tr ng-repeat="stat in stats">
+                    <tr ng-repeat="stat in stats | startFromGrid: currentPage * pageSize | limitTo: pageSize">
                         <td><a href="#!/rpc/edit/{{stat.country}}">{{stat.country}}</a></td>
                         <td>{{stat.year}}</td>
-                        <td>{{stat['rpc-year']}}</td>
-                        <td>{{stat['rpc-variation']}}</td>
+                        <td>{{stat['rpcyear']}}</td>
+                        <td>{{stat['rpcvariation']}}</td>
                         <td><button class="btn" ng-click="deleteOneCountry(stat.country,stat.year)">DELETE</button></td>
                     </tr>
                     
                 </tbody>
+                <tfooter>
+                    <tr>
+                        
+                   
+                <!-- Navegar hacia atrás -->
+                <button type='button' ng-disabled='currentPage == 0' ng-click='currentPage = currentPage - 1'>&laquo;</button>
+
+                <!-- Navegar a una página especifica-->
+                <button type='button' ng-disabled='currentPage == page.no - 1' ng-click='setPage(page.no)' ng-repeat='page in pages'>{{page.no}}</button>
+
+                <!-- Navegar hacia adelante -->
+                 <button type='button' ng-disabled='currentPage >= stats.length/pageSize - 1' ng-click='currentPage = currentPage + 1'>&raquo;</button>
+                 </tr>
+                </tfooter>
             </table>
