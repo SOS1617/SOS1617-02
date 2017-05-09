@@ -6,9 +6,11 @@ angular.module("G2ManagerApp",["ngRoute"]).config(function($routeProvider){
     $routeProvider
     .when("/",{
         templateUrl:"/principal.html"
+        //We don't need any controller here since this is a static page
     })
     .when("/analitycs",{
         templateUrl:"/analitycs.html"
+        //We don't need any controller here since this is a static page
     })
     
     ///////SMI///////
@@ -55,11 +57,23 @@ angular.module("G2ManagerApp",["ngRoute"]).config(function($routeProvider){
          controller: "gdp-list-ctrl"
       })
       
-      .when("/gdp/country/:name",{
+    .when("/gdp/country/:name",{
          templateUrl : "/angularGDP/edit.html",
          controller: "gdp-edit-ctrl"
-      });
+    })
+    .when("/gdp/hc-graph",{
+        templateUrl: "/angularGDP/hc-graph.html",
+        controller: "GDPHCGraphCtrl"
+    })
+    .when("/gdp/gc-graph",{
+        templateUrl: "/angularGDP/gc-graph.html",
+        controller: "GDPGCGraphCtrl"
+    })
+    .when("/gdp/chtst-graph",{
+        templateUrl: "/angularGDP/chtst-graph.html",
+        controller: "GDPCHTSTGraphCtrl"
+    });
     
-    console.log("Group 2 APP Initialize");
+    console.log("Group 2 APP Initialized");
 });
             

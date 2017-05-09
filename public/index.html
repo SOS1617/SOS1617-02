@@ -8,20 +8,20 @@
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         
-        <!--BOOTSTRAP-->
-        <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
-        <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" type="text/css" />
-        <!--MATERIALIZE-->
-        <link rel="stylesheet" href="/bower_components/materialize/dist/css/materialize.min.css" type="text/css" />
-        <link rel="stylesheet" href="/bower_components/materialize/dist/css/materialize.min.css" type="text/css" media="screen,projection"/>
-        
         <!--JAVASCRIPT-->
         <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
         <script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="/bower_components/materialize/dist/js/materialize.min.js"></script>
         
+        <!--BOOTSTRAP-->
+        <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+        <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" type="text/css" />
         
-        <!-- carga angular -->
+        <!--MATERIALIZE-->
+        <link rel="stylesheet" href="/bower_components/materialize/dist/css/materialize.min.css" type="text/css" />
+        <link rel="stylesheet" href="/bower_components/materialize/dist/css/materialize.min.css" type="text/css" media="screen,projection"/>
+        
+        <!--CARGA ANGULAR-->
         <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
         <script type="text/javascript" src="/bower_components/angular-route/angular-route.min.js"></script>
         
@@ -31,7 +31,12 @@
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <!--CARGA CHARTJS-->
         <script type="text/javascript" src="/bower_components/chart.js/dist/Chart.js"></script>
-
+        <!--CARGA NOTIFY.JS-->
+        <script type="text/javascript" src="/bower_components/notify-js/notify.js"></script>
+        <!--CARGA CHARTIST-->
+        <link rel="stylesheet" href="bower_components/chartist/dist/chartist.min.css">
+        <script src="bower_components/chartist/dist/chartist.min.js"></script>
+        
         
         <!--POR CADA ELEMENTO DE ANGULAR UN ARCHIVO DISTINTO EN UN LADO LA CONFIGURACIÓN DE LA APP
         Y POR OTRO EL CONTROLADOR
@@ -39,9 +44,9 @@
         
         <!--CARGA APPS-->
         <script type="text/javascript" src="g2-manager-app.js"></script>
-        <script type="text/javascript" src="/angularSMI/smi-manager-app.js"></script>
+        <!--<script type="text/javascript" src="/angularSMI/smi-manager-app.js"></script>
         <script type="text/javascript" src="/angularRPC/rpc-manager-app.js"></script>
-        <script type="text/javascript" src="/angularGDP/gdp-manager-app.js"></script>
+        <script type="text/javascript" src="/angularGDP/gdp-manager-app.js"></script>-->
         
         <!--Carga controladores SMI-->
         <script type="text/javascript" src="/angularSMI/list-ctrl.js"></script>
@@ -57,6 +62,9 @@
         <!--Carga controladores GDP-->
         <script type="text/javascript" src="/angularGDP/list-ctrl.js"></script>
         <script type="text/javascript" src="/angularGDP/edit-ctrl.js"></script>
+        <script type="text/javascript" src="/angularGDP/hc-graph-ctrl.js"></script>
+        <script type="text/javascript" src="/angularGDP/gc-graph-ctrl.js"></script>
+        <script type="text/javascript" src="/angularGDP/chtst-graph-ctrl.js"></script>
         
         <!--Let browser know website is optimized for mobile-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>

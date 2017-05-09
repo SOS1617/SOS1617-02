@@ -97,37 +97,37 @@ app.get(BASE_API_PATH + "/gdp-population-stats/:country", function (request, res
             var alemania = new Object();
             alemania.country = "Alemania";
             alemania.year = 2017;
-            alemania["gdp-year"] = "3.533.860 M€";
+            alemania["gdp-year"] = "3533860";
             alemania["population-year"] = 81416745;
 
             var francia = new Object();
             francia.country = "Francia";
             francia.year = 2014;
-            francia["gdp-year"] = "2.633.576 M\u20ac";
+            francia["gdp-year"] = "2633576";
             francia["population-year"] = 814545;
             
             var holanda = new Object();
             holanda.country = "Holanda";
             holanda.year = 2010;
-            holanda["gdp-year"] = "1.546.576 M\u20ac";
+            holanda["gdp-year"] = "1546576";
             holanda["population-year"] = 44545;
             
             var italia = new Object();
             italia.country = "Italia";
             italia.year = 2017;
-            italia["gdp-year"] = "2.553.576 M\u20ac";
+            italia["gdp-year"] = "2553576";
             italia["population-year"] = 4545;
             
             var portugal = new Object();
             portugal.country = "Portugal";
             portugal.year = 2004;
-            portugal["gdp-year"] = "2.3453.576 M\u20ac";
+            portugal["gdp-year"] = "23453576";
             portugal["population-year"] = 814545;
             
             var finlandia = new Object();
             finlandia.country = "Finlandia";
             finlandia.year = 2000;
-            finlandia["gdp-year"] = "2.63376 M\u20ac";
+            finlandia["gdp-year"] = "263376";
             finlandia["population-year"] = 33545;
     
             console.log("INFO: Initializing data.");

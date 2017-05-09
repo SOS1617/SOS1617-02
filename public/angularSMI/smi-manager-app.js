@@ -13,6 +13,6 @@ angular.module("SMIManagerApp",["ngRoute"]).config(function($routeProvider){
         controller: "SMIEditCtrl"
     });
     
-    console.log("App initialized!");
+    console.log("App SMIManagerApp initialized!");
 });
             
