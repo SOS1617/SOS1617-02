@@ -9,10 +9,10 @@ angular
         
         function checkApiKey(){
              if(!$scope.apikey){
-             $scope.errorMessage = bootbox.alert("Error!! API Key is blank");
+             $.notify("Error! API Key was empty!", "warn");
              }else{
                  if($scope.apikey != "GVAODcH3"){
-                    $scope.errorMessage = bootbox.alert("Error!! API Key is not correct");
+                    $.notify("Error! API Key was incorrect!", "error");
                 }
              }
         }
@@ -34,7 +34,7 @@ angular
             $http.get($scope.url+"/loadInitialData?apikey="+$scope.apikey)
             .then(function(){
                 console.log("Load initial data: OK");
-                $scope.errorMessage = bootbox.alert("Done! Initial Data was created.");
+                $.notify("Load Initial data Complete!", "success");
                 refresh();
             })
         }
@@ -47,22 +47,24 @@ angular
                 .then(function(response){
                     $scope.data = JSON.stringify(response.data, null, 2); 
                     $scope.countries = response.data;
+                    $.notify("Get all data complete!", "success");
                     console.log("GetAllData OK");
                 });
             
         } 
         
         
-        /*
+        
         //Add an element
         $scope.addData = function(){
         $http
             .post($scope.url+"?apikey="+ $scope.apikey, $scope.newCountry)
             .then(function(response){
                 console.log($scope.newCountry.country + "Data added." );
+                 $.notify("Data added", "success");
             });
         } 
-        */
+        
         
         //Edit an element
         $scope.editData = function(){
@@ -70,6 +72,7 @@ angular
                 .put($scope.url +"/"+ $scope.newCountry.country + "?apikey="+ $scope.apikey, $scope.newCountry)
                 .then(function(response){
                     console.log("editData OK");
+                     $.notify("Data updated", "success");
                     refresh();
                 });
         }
@@ -82,19 +85,19 @@ angular
                 .delete($scope.url+"?apikey="+ $scope.apikey)
                 .then(function(response){
                     console.log("deleteAllData OK");
-                    $scope.errorMessage = bootbox.alert("All data was deleted.");
+                    $.notify("All Data was deleted", "info");
                     refresh();
                 });
         }
         
         //Delete an element
-        checkApiKey();
         $scope.deleteOneData = function(country,year){
+            checkApiKey();
             $http
                 .delete($scope.url +"/"+ country +"/?apikey="+$scope.apikey)
                 .then(function(response){
                     console.log("deleteOneData OK");
-                    $scope.errorMessage = bootbox.alert("The stat was deleted.");
+                   $.notify("Load Initial data Complete!", "info");
                     refresh();
                 });
         } 
@@ -105,9 +108,14 @@ angular
             $http
                 .get($scope.url+"?apikey="+$scope.apikey+"&country="+$scope.newCountry.country+"&year="+$scope.newCountry.year)
                 .then(function(response){
-                    console.log("search OK");
-                    $scope.data = JSON.stringify(response.data, null, 2);
-                    $scope.countries = response.data;
+                    if(response.statusCode == 404){
+                        $.notify("Error 404: Not found!", "error");
+                    }else{
+                        console.log("search OK");
+                        $.notify("Search OK", "info");
+                        $scope.data = JSON.stringify(response.data, null, 2);
+                        $scope.countries = response.data;
+                    }
                 });
         };
            
