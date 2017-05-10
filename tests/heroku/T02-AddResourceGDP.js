@@ -2,7 +2,7 @@ describe('Add result', function () {
 	it('should add a new result', function (){
 		browser.get('https://sos1617-02.herokuapp.com/#!/gdp/');
 
-	element.all(by.repeater('stat in stats')).then(function (initialStats){
+	element.all(by.repeater('country in countries')).then(function (initialStats){
 				
 	
 				browser.driver.sleep(4000);
