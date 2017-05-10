@@ -4,7 +4,7 @@ angular
         
         $scope.url = "/api/v2/gdp-population-stats";
         $scope.offset = 0;
-        $scope.limit = 2;
+        $scope.limit = 20;
         $scope.apikey = "GVAODcH3";
         console.log("List controller initialized ");
         
