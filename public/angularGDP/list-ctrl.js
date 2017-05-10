@@ -5,6 +5,7 @@ angular
         $scope.url = "/api/v2/gdp-population-stats";
         $scope.offset = 0;
         $scope.limit = 2;
+        $scope.apikey = "GVAODcH3";
         console.log("List controller initialized ");
         
         function checkApiKey(){
@@ -27,6 +28,7 @@ angular
                 });
         };
         
+        refresh();
         
         //Load initial data
         $scope.loadInitialData= function(){
@@ -52,8 +54,7 @@ angular
                 });
             
         } 
-        
-        
+      
         
         //Add an element
         $scope.addData = function(){
@@ -114,7 +115,7 @@ angular
                         console.log("search OK");
                         $.notify("Search OK", "info");
                         $scope.data = JSON.stringify(response.data, null, 2);
-                        $scope.countries = response.data;
+                        $scope.countries = response.data[0];
                     }
                 });
         };
@@ -136,6 +137,9 @@ angular
         };
         
         $scope.getPreviousPage = function(){
+            if($scope.offset === 0){
+                return;
+            }
             $scope.offset -= 2;
             $http
                 .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
@@ -156,4 +160,8 @@ angular
                     console.log("getDataPaginated OK");
                 });
         };
+        
+        function getNumberOfPages(){
+            
+        }
 }]);  
