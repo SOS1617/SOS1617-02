@@ -17,7 +17,7 @@ describe('Add result', function () {
 				element(by.buttonText('Add Country')).click().then(function (){
 
 					element.all(by.repeater('country in countries')).then(function (countries){
-						expect(stats.length).toEqual(initialStats.length+1);
+						expect(countries.length).toEqual(initialStats.length+1);
 					});
 				
 				});
