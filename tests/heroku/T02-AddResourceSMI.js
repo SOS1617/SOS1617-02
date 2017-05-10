@@ -12,8 +12,8 @@ describe('Add result', function () {
 	//ACCIÓN DE ESCRIBIR DENTRO DE LOS INPUTS
 				element(by.model('newCountry.country')).sendKeys('Rusia');
 				element(by.model('newCountry.year')).sendKeys('2014');
-				element(by.model("newCountry['smi-year']")).sendKeys('2000€');
-				element(by.model("newCountry['smi-year-variation']")).sendKeys('30%');
+				element(by.model("newCountry['smi-year']")).sendKeys('2000.34');
+				element(by.model("newCountry['smi-year-variation']")).sendKeys('3.0');
 				
 				//SELECCIONO EL BOTON CUYO TEXTO SEA ADD
 				element(by.buttonText('add')).click().then(function (){
