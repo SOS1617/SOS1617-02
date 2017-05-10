@@ -35,33 +35,89 @@ angular
         $http.get("/api/v1/rpc-stats"+ "?" + "apikey=" + $scope.apikey).then(function(response){
             
             
+            
+            Highcharts.chart('container', {
+    chart: {
+        type: 'line',
+        inverted: false
+    },
+    title: {
+        text: 'Browser market shares. January, 2015 to May, 2015'
+    },
+    subtitle: {
+        text: 'Click the columns to view versions. Source: <a href="http://netmarketshare.com">netmarketshare.com</a>.'
+    },
+    xAxis: {
+                    categories: $scope.categorias
+                },
+                yAxis: {
+            title: {
+                countries: $scope.rpcyear
+            }   
+                },
+    legend: {
+        enabled: false
+    },
+    plotOptions: {
+        series: {
+            borderWidth: 0,
+            dataLabels: {
+                enabled: true,
+                format: '{point.y:.1f}%'
+            }
+        }
+    },
+
+    tooltip: {
+        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+    },
+
+    series:[{
+                    name: 'RPC Year',
+                    data: $scope.rpcyear
+                }],
+    
+});
+
+
+            
             //RPC en 2014
             Highcharts.chart('container',{
                 title: {
                     text: 'WORLD RPC 2014'
                 },
                 chart: {
-                    type: 'column'
+                    type: 'line',
+                    inverted: false
                 },
                 xAxis: {
                     categories: $scope.categorias
                 },
+                yAxis: {
+            title: {
+                countries: $scope.rpcyear
+            }   
+                },
+                 tooltip: {
+        valueSuffix: '€'
+    },
+
+    plotOptions: {
+        columnrange: {
+            dataLabels: {
+                enabled: true,
+                formatter: function () {
+                    return this.y + '°€';
+                }
+            }
+        }
+    },
+                
                 legend: {
-                    layout: 'vertical',
-                    floating: true,
-                    backgroundColor: '#FFFFFF',
-                    //align: 'left',
-                    verticalAlign: 'top',
-                    align: 'right',
-                    y: 0,
-                    x: 0
-                },
-                tooltip: {
-                    formatter: function () {
-                        return '<b>' + this.series.name + '</b><br/>' +
-                            capitalizeFirstLetter(this.x) + ': ' + this.y+ '€';
-                    }
-                },
+        enabled: false
+    },
+                
                 series:[{
                     name: 'RPC Year',
                     data: $scope.rpcyear
@@ -70,32 +126,41 @@ angular
             
             //VAriacion rpc 2013 2014
             Highcharts.chart('container1',{
-                title: {
-                    text: 'RPC VARIATION 2013 to 2014'
+               title: {
+                    text: 'WORLD RPC VARIATION 2013 TO 2014'
                 },
                 chart: {
-                    type: 'column'
+                    type: 'line',
+                    inverted: false
                 },
                 xAxis: {
                     categories: $scope.categorias
                 },
+                yAxis: {
+            title: {
+                countries: $scope.rpcvariation
+            }   
+                },
+                 tooltip: {
+        valueSuffix: '€'
+    },
+
+    plotOptions: {
+        columnrange: {
+            dataLabels: {
+                enabled: true,
+                formatter: function () {
+                    return this.y + '°€';
+                }
+            }
+        }
+    },
+                
                 legend: {
-                    layout: 'vertical',
-                    floating: true,
-                    backgroundColor: '#FFFFFF',
-                    //align: 'left',
-                    verticalAlign: 'top',
-                    align: 'right',
-                    y: 0,
-                    x: 0
-                },
-                tooltip: {
-                    formatter: function () {
-                        return '<b>' + this.series.name + '</b><br/>' +
-                            capitalizeFirstLetter(this.x) + ': ' + this.y + '%';
-                    }
-                },
-                series:[ {
+        enabled: false
+    },
+                
+                series:[{
                     name: 'RPC Year Variation',
                     data: $scope.rpcvariation
                 }]
