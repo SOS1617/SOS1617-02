@@ -23,7 +23,7 @@ angular
     function refresh(){
         
             $http
-                .get($scope.url+"?apikey="+ $scope.apikey +"&limit="+ $scope.limit +"&offset="+$scope.offset)
+                .get($scope.url+"?apikey="+ "GVAODcH3" +"&limit="+ $scope.limit +"&offset="+$scope.offset)
                 .then(function(response){
                     $scope.data = JSON.stringify(response.data, null, 2); 
                     $scope.stats = response.data;
@@ -72,8 +72,15 @@ angular
                 .post($scope.url+"?apikey="+ $scope.apikey, $scope.newCountry)
                 .then(function(response){
                     console.log($scope.newCountry.country + "rpc added." );
+                    if (response.status == 422)
+                        alert("Mal formato en el pais");
                     refresh();
-                });
+                }),function(response){
+                    
+                    if (response.status == 422 | response.status == 409){
+                        alert("Mal formato en el pais");
+                    }
+                };
         } ;
         
         
@@ -94,6 +101,7 @@ angular
                 .delete($scope.url+"?apikey="+ $scope.apikey)
                 .then(function(response){
                     console.log("All stats delete");
+                    
                     refresh();
                 });
         }
@@ -133,7 +141,7 @@ angular
                 });
         }
         
-        
+        refresh();
         //METODO PARA LA PAGINACION
         
         $scope.configPages = function() {
