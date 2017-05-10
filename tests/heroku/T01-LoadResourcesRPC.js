@@ -11,8 +11,9 @@ describe('Data is loaded', function () {
 		
 		//Espera 10 segundos
 	    browser.driver.sleep(10000);
-		var smi = element.all(by.repeater('stat in stats'));
+		var rpc = element.all(by.repeater('stat in stats'));
 
-		expect(rpc.count()).toBeGreaterThan(1);
+		expect(rpc.count()).toBeGreaterThan(0);
+		
 	});
 });
