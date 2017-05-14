@@ -4,7 +4,8 @@ angular
     .controller("SMICORSGraphCtrl",["$scope","$http",function ($scope, $http){
         
         $scope.apikey = "rXD8D2b1vP";
-        $scope.data = {};
+        $scope.dataINV = {};
+        $scope.dataSMI = {};
         var dataCacheINV = {};
         var dataCacheSMI = {};
         $scope.categorias = [];
@@ -29,15 +30,15 @@ angular
         $http.get("http://sos1617-03.herokuapp.com/api/v2/investmentseducation/?apikey=apisupersecreta").then(function(response){
             
             dataCacheINV = response.data;
-            $scope.data =dataCacheINV;
+            $scope.dataINV =dataCacheINV;
             
             for(var i=0; i<response.data.length; i++){
-                $scope.categorias.push($scope.data[i].country);
-                $scope.population.push(Number($scope.data[i].population));
-                $scope.riskpoverty.push(Number($scope.data[i].riskpoverty));
-                $scope.inveducation.push(Number($scope.data[i].inveducation));
+                $scope.categorias.push($scope.dataINV[i].country);
+                $scope.population.push(Number($scope.dataINV[i].population));
+                $scope.riskpoverty.push(Number($scope.dataINV[i].riskpoverty));
+                $scope.inveducation.push(Number($scope.dataINV[i].inveducation));
                 
-                console.log("Datos Ivan: "+$scope.data[i].country);
+                console.log("Datos Ivan: "+$scope.dataINV[i].country);
 
             }
         });
@@ -48,14 +49,14 @@ angular
         $http.get("/api/v1/smi-stats"+ "?" + "apikey=" + $scope.apikey).then(function(response){
             
             dataCacheSMI = response.data;
-            $scope.data =dataCacheSMI;
+            $scope.dataSMI =dataCacheSMI;
             
             for(var i=0; i<response.data.length; i++){
-                $scope.categorias1.push($scope.data[i].country);
-                $scope.smiyear.push(Number($scope.data[i]["smi-year"]));
-                $scope.smivariation.push(Number($scope.data[i]["smi-year-variation"]));
+                $scope.categorias1.push($scope.dataSMI[i].country);
+                $scope.smiyear.push(Number($scope.dataSMI[i]["smi-year"]));
+                $scope.smivariation.push(Number($scope.dataSMI[i]["smi-year-variation"]));
                 
-                console.log("Datos SMI: "+$scope.data[i].country);
+                console.log("Datos SMI: "+$scope.dataSMI[i].country);
 
             }
         }); 

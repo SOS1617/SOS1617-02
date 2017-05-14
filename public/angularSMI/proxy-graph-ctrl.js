@@ -74,8 +74,7 @@ angular
                     type: 'area'
                 },
                 xAxis: {
-                    categories: $scope.categorias,
-                   // categories: $scope.categorias1
+                    categories: $scope.categorias
                 },
                 legend: {
                     layout: 'vertical',
