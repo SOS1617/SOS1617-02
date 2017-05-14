@@ -6,6 +6,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var helmet = require("helmet");
 var path = require('path');
+var cors = require('cors');
 var publicFolder = path.join(__dirname, 'public');
 
 //Módulo con api José
@@ -73,7 +74,8 @@ app.use(bodyParser.json()); //use default json enconding/decoding
 //HELMET aporta seguridad a nuestro servidor
 app.use(helmet()); //improve security
 
-
+//CORS Cross-Origin Resource Sharing.......permiten compartir recuersos entre distintos sitios
+app.use(cors());
 
 ////////////////////////////////////////////////CÓDIGO URL BASE////////////////////////////////////////////////////////////
 
