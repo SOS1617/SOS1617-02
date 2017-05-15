@@ -31,14 +31,15 @@ angular.module("G2ManagerApp",["ngRoute"]).config(function($routeProvider){
         templateUrl: "/angularSMI/cjs-graph.html",
         controller: "SMICJSGraphCtrl"
     })
-    .when("/smi/cors-graph",{
-        templateUrl: "/angularSMI/cors-graph.html",
-        controller: "SMICORSGraphCtrl"
-    })
     .when("/smi/proxy-graph",{
         templateUrl: "/angularSMI/proxy-graph.html",
         controller: "SMIPROXYGraphCtrl"
     })
+    .when("/smi/cors-graph",{
+        templateUrl: "/angularSMI/cors-graph.html",
+        controller: "SMICORSGraphCtrl"
+    })
+    
     
     .when("/smi/:country",{
         templateUrl: "/angularSMI/edit.html",
