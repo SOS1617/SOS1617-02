@@ -14,7 +14,7 @@ angular
         $scope.loadInitialData= function(){
             $http.get($scope.url+"/loadInitialData?apikey="+$scope.apikey)
             .then(function(){
-                $scope.errorMessage = bootbox.alert("Countries added, Apikey correct.");
+                //$scope.errorMessage = bootbox.alert("Countries added, Apikey correct.");
                 console.log("Load initial data: OK");
                 refresh();
             });
@@ -75,12 +75,7 @@ angular
                     if (response.status == 422)
                         alert("Mal formato en el pais");
                     refresh();
-                }),function(response){
-                    
-                    if (response.status == 422 | response.status == 409){
-                        alert("Mal formato en el pais");
-                    }
-                };
+                })
         } ;
         
         
@@ -141,7 +136,7 @@ angular
                 });
         }
         
-        refresh();
+       // refresh();
         //METODO PARA LA PAGINACION
         
         $scope.configPages = function() {
