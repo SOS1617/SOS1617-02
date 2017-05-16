@@ -9,7 +9,8 @@ angular
         $scope.categorias = [];
         $scope.gdpyear = [];
 
-        
+      
+        console.log("GDP HC Controller initialized");
         $http.get("/api/v2/gdp-population-stats"+ "?" + "apikey=" + $scope.apikey).then(function(response){
             
             dataCache = response.data;
@@ -20,11 +21,6 @@ angular
                 $scope.gdpyear.push(Number($scope.data[i]["gdp-year"]));
                 console.log($scope.gdpyear);
                 }
-        });    
-            
-        console.log("GDP HC Controller initialized");
-        $http.get("/api/v2/gdp-population-stats"+ "?" + "apikey=" + $scope.apikey).then(function(response){
-            
             
         //Highchart de GDP por país para éste año
             Highcharts.chart('container',{

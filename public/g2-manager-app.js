@@ -96,7 +96,17 @@ angular.module("G2ManagerApp",["ngRoute"]).config(function($routeProvider){
     .when("/gdp/chtst-graph",{
         templateUrl: "/angularGDP/chtst-graph.html",
         controller: "GDPCHTSTGraphCtrl"
-    });
+    })
+    .when("/gdp/cors-graph",{
+        templateUrl: "/angularGDP/cors-graph.html",
+        controller: "GDPCORSGraphCtrl"
+    })
+    .when("/gdp/proxy-graph",{
+        templateUrl: "/angularGDP/proxy-graph.html",
+        controller: "GDPPROXYGraphCtrl"
+    })
+    ;
+    
     
     console.log("Group 2 APP Initialized");
 });
