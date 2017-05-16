@@ -39,7 +39,7 @@ angular
                 $scope.inveducation.push(Number($scope.data[i].inveducation));
             }
             console.log("Datos Ivan: "+$scope.data);
-             ////////////////////
+            ////////////////////
             /////DATOS SMI/////
             ////////////////////
             $http.get("/api/v1/smi-stats"+ "?" + "apikey=" + $scope.apikey).then(function(response){

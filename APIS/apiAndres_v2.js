@@ -80,7 +80,41 @@ app.get(BASE_API_PATH + "/gdp-population-stats", function (request, response) {
     
 });
 
-
+    
+//Proxy
+app.get(BASE_API_PATH + "/gdp-population-stats/proxy/", (req,res)=>{
+    
+     if(checkApiKey(req,res)==true){
+            var http = require('http');
+            
+           var options = {
+                host:"sos1617-07.herokuapp.com",
+                path:'/api/v1/salaries/?apikey=sos07'
+            };
+            
+            callback =function(response){
+               
+                var str='';
+                
+                //another chunk of data has been recieved, so append it to str
+                response.on('data',function(chunk){
+                    
+                    str += chunk;
+                });
+                
+                //the wole response has been recieved, so we just print it out here
+                response.on('end',function(){
+                    res.send(str);
+                });
+            };
+            
+            http.request(options,callback).end();
+       
+         
+     }
+});    
+    
+    
 //GET a single row
 app.get(BASE_API_PATH + "/gdp-population-stats/:country", function (request, response) {
     var country = request.params.country;
@@ -95,39 +129,39 @@ app.get(BASE_API_PATH + "/gdp-population-stats/:country", function (request, res
     } else {
         if(country == "loadInitialData"){
             var alemania = new Object();
-            alemania.country = "Alemania";
+            alemania.country = "Germany";
             alemania.year = 2017;
-            alemania["gdp-year"] = "3533860";
+            alemania["gdp-year"] = "820";
             alemania["population-year"] = 81416745;
 
             var francia = new Object();
-            francia.country = "Francia";
+            francia.country = "France";
             francia.year = 2014;
-            francia["gdp-year"] = "2633576";
+            francia["gdp-year"] = "960";
             francia["population-year"] = 814545;
             
             var holanda = new Object();
-            holanda.country = "Holanda";
+            holanda.country = "Holand";
             holanda.year = 2010;
-            holanda["gdp-year"] = "1546576";
+            holanda["gdp-year"] = "440";
             holanda["population-year"] = 44545;
             
             var italia = new Object();
-            italia.country = "Italia";
+            italia.country = "Italy";
             italia.year = 2017;
-            italia["gdp-year"] = "2553576";
+            italia["gdp-year"] = "345";
             italia["population-year"] = 4545;
             
             var portugal = new Object();
             portugal.country = "Portugal";
             portugal.year = 2004;
-            portugal["gdp-year"] = "23453576";
+            portugal["gdp-year"] = "123";
             portugal["population-year"] = 814545;
             
             var finlandia = new Object();
-            finlandia.country = "Finlandia";
+            finlandia.country = "Usa";
             finlandia.year = 2000;
-            finlandia["gdp-year"] = "263376";
+            finlandia["gdp-year"] = "543";
             finlandia["population-year"] = 33545;
     
             console.log("INFO: Initializing data.");
@@ -335,7 +369,7 @@ app.delete(BASE_API_PATH + "/gdp-population-stats/:country", function (request, 
                 
                 console.log("INFO: The country with name " + country + " has been succesfully deleted, sending 204...");
                     response.sendStatus(204); // no content
-                //ToDo why this returns 404?? 
+                
                 /*if (numRemoved === 1) {
                     console.log("INFO: The country with name " + country + " has been succesfully deleted, sending 204...");
                     response.sendStatus(204); // no content
@@ -348,5 +382,4 @@ app.delete(BASE_API_PATH + "/gdp-population-stats/:country", function (request, 
     }
 });
 
-    
 };
