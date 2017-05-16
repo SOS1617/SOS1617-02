@@ -40,8 +40,8 @@
                      <tr>
                         <td><input class="form-control" ng-model="newCountry.country"></td>
                         <td><input class="form-control" ng-model="newCountry.year"></td>
-                        <td><input class="form-control" ng-model="newCountry['rpc-year']" ></td>
-                        <td><input class="form-control" ng-model="newCountry['rpc-variation']" ></td>
+                        <td><input class="form-control" ng-model="newCountry['rpcyear']" ></td>
+                        <td><input class="form-control" ng-model="newCountry['rpcvariation']" ></td>
                         <td><button class="btn-primary" ng-click="postStats()">POST DATA</button></td>
                     </tr>
                   
@@ -51,8 +51,8 @@
                     <tr ng-repeat="stat in stats | startFromGrid: currentPage * pageSize | limitTo: pageSize">
                         <td><a href="#!/rpc/edit/{{stat.country}}">{{stat.country}}</a></td>
                         <td>{{stat.year}}</td>
-                        <td>{{stat['rpcyear']}}</td>
-                        <td>{{stat['rpcvariation']}}</td>
+                        <td>{{stat.rpcyear}}</td>
+                        <td>{{stat.rpcvariation}}</td>
                         <td><button class="btn" ng-click="deleteOneCountry(stat.country,stat.year)">DELETE</button></td>
                     </tr>
                     

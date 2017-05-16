@@ -19,7 +19,7 @@ angular.module("G2ManagerApp").controller("rpc-edit-ctrl",["$scope","$http","$ro
                 .put($scope.url + $routeParams.country + "?apikey="+ $scope.apikey, $scope.updatedCountry)
                 .then(function(response){
                     console.log( $scope.updatedCountry.country + "rpc has been succesfully modified. "  );
-                    $location.path("/");
+                    $location.path("/rpc");
                     
                 });
         }

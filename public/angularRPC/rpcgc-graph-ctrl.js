@@ -22,8 +22,8 @@ angular
             
             for(var i=0; i<response.data.length; i++){
                 $scope.categorias.push(capitalizeFirstLetter($scope.data[i].country));
-                $scope.rpcyear.push(Number($scope.data[i]["rpcyear"]));
-                $scope.rpcvariation.push(Number($scope.data[i]["rpcvariation"]));
+                $scope.rpcyear.push(Number($scope.data[i].rpcyear));
+                $scope.rpcvariation.push(Number($scope.data[i].rpcvariation));
                 
                 console.log($scope.data[i].country);
 
@@ -43,7 +43,7 @@ angular
                 function drawRegionsMap() {
                     var myData = [['Country','RPC Year', 'RPC Variation']];
                     response.data.forEach(function (d){
-                        myData.push([d.country,Number(d["rpc-year"]),Number(d["rpc-year-variation"])]);
+                        myData.push([d.country,Number(d.rpcyear),Number(d.rpcvariation)]);
 
                     });
                     var data = google.visualization.arrayToDataTable(myData);

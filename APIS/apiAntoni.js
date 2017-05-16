@@ -35,17 +35,15 @@ function checkApiKey(request, response){
 //Initializing with some data
 app.get(BASE_API_PATH + "/rpc-stats/loadInitialData", function (request, response){
     
-    var alemania = new Object();
-    alemania.country = "Alemania";
-    alemania.year = "2017";
-    alemania.rpcyear = "56.238";
-    alemania.rpcvariation = "1.6%";
     
-    var francia = new Object();
-    francia.country = "Francia";
-    francia.year = "2014";
-    francia.rpcyear = "50.887.30";
-    francia.rpcvariation = "1.2%";
+    
+    var venezuela = { "country": "Venezuela", "year": "2016", "rpcyear": "825.70", "rpcvariation": "8.01" };
+    var gibraltar = { "country": "Gibraltar", "year": "2013", "rpcyear": "855.70", "rpcvariation": "5.01" };
+    var marruecos = { "country": "Marruecos", "year": "2014", "rpcyear": "845.70", "rpcvariation": "4.01" };
+    var australia = { "country": "Australia", "year": "2011", "rpcyear": "835.70", "rpcvariation": "3.01" };
+    var grecia = { "country": "Grecia", "year": "2012", "rpc-year": "815.70", "rpcvariation": "1.01" };
+    var espana = { "country": "España", "year": "2017", "rpc-year": "815.70", "rpcvariation": "2.01" };
+    
     
     console.log("INFO: Initializing data.");
     
@@ -57,8 +55,12 @@ app.get(BASE_API_PATH + "/rpc-stats/loadInitialData", function (request, respons
                         console.log("INFO: Already Data.");
                         response.sendStatus(409);
                     }else{
-                     dbAntony.insert(alemania);
-                     dbAntony.insert(francia);
+                     dbAntony.insert(venezuela);
+                     dbAntony.insert(gibraltar);
+                     dbAntony.insert(marruecos);
+                     dbAntony.insert(australia);
+                     dbAntony.insert(grecia);
+                     dbAntony.insert(espana);
                      response.sendStatus(201); //created!
                      console.log("INFO: Data initialized.");
                     }
@@ -377,7 +379,7 @@ app.post(BASE_API_PATH + "/rpc-stats", function (request, response) {
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New POST request to /rpc-stats");
-        if (!newCountry.country || !newCountry.year || !newCountry["rpc-year"] || !newCountry["rpc-variation"]) {
+        if (!newCountry.country || !newCountry.year || !newCountry.rpcyear || !newCountry.rpcvariation) {
             console.log("WARNING: The country is not well-formed, sending 409...");
             console.log(newCountry);
             response.sendStatus(422); // unprocessable entity
@@ -432,7 +434,7 @@ app.put(BASE_API_PATH + "/rpc-stats/:country", function (request, response){
         response.sendStatus(400); // bad request
     }else{
         console.log("INFO: New PUT request to /rpc-stats");
-        if (!updatedCountry.country || !updatedCountry.year || !updatedCountry["rpc-year"] || !updatedCountry["rpc-variation"]) {
+        if (!updatedCountry.country || !updatedCountry.year || !updatedCountry.rpcyear || !updatedCountry.rpcvariation) {
             console.log("WARNING: The country is not well-formed, sending 422...");
             response.sendStatus(409); // unprocessable entity
         }else{
