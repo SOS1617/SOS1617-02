@@ -122,6 +122,44 @@ app.get(BASE_API_PATH + "/rpc-stats",function(request,response){
     
 });
 
+////////PROXY///////////////
+app.get(BASE_API_PATH + "/rpc-stats/proxy", (req,res)=>{
+    
+     //if(checkApiKey(req,res)==true){
+            var http = require('http');
+            
+           var options = {
+                host:"sos1617-10.herokuapp.com",
+                path:'/api/v2/motorcycling-stats/?apikey=davbotcab'
+            };
+            
+            
+            //Response: abre un flujo de datos en el que se guarda lo que se va recibiendo
+            callback =function(response){
+                //se guardan los datos poco a poco
+                var str='';
+                
+                //another chunk of data has been recieved, so append it to str
+                //van llegando datos en este evento "data"
+                response.on('data',function(chunk){
+                    
+                    str += chunk;
+                });
+                
+                //the wole response has been recieved, so we just print it out here
+                //este evento 'end' se da cuando termina la recogida de datos y enviamos 
+                //lo que hemos recibido con el str
+                response.on('end',function(){
+                    res.send(str);
+                });
+            }
+            
+            http.request(options,callback).end();
+       
+         
+     //}
+});
+
 
 //GET every row of data
 /*app.get(BASE_API_PATH + "/rpc-stats", function (request, response) {
@@ -409,6 +447,9 @@ app.post(BASE_API_PATH + "/rpc-stats", function (request, response) {
     }
 });
 
+
+
+
 //post to one country--> method not allowed!!
 app.post(BASE_API_PATH + "/rpc-stats/:country", function (request, response){
     if(checkApiKey(request, response) === false){
@@ -559,6 +600,8 @@ app.delete(BASE_API_PATH + "/rpc-stats/:country", function (request, response) {
     
 
 });
+
+
     
     
 };

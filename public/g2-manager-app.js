@@ -75,6 +75,16 @@ angular.module("G2ManagerApp",["ngRoute"]).config(function($routeProvider){
         controller: "RPCCCGraphCtrl"
     })
     
+    .when("/rpc/proxy-graph",{
+        templateUrl: "/angularRPC/proxy-graph.html",
+        controller: "RPCPROXYGraphCtrl"
+    })
+    
+    .when("/rpc/cors-graph",{
+        templateUrl: "/angularRPC/cors-graph.html",
+        controller: "RPCCORSGraphCtrl"
+    })
+    
     ///////GDP///////
     .when("/gdp",{
          templateUrl : "/angularGDP/list.html",

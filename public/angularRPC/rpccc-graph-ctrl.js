@@ -35,15 +35,15 @@ angular
             
             for(var i=0; i<response.data.length; i++){
                 $scope.categorias.push(capitalizeFirstLetter($scope.data[i].country));
-                $scope.rpcyear.push(Number($scope.data[i]["rpc-year"]));
-                $scope.rpcvariation.push(Number($scope.data[i]["rpc-variation"]));
+                $scope.rpcyear.push(Number($scope.data[i].rpcyear));
+                $scope.rpcvariation.push(Number($scope.data[i].rpcvariation));
                 
                 console.log($scope.data[i].country);
 
             }
             
             for(var i=0; i<response.data.length; i++){
-                $scope.res.push({ label: $scope.data[i].country,  y: $scope.data[i].rpcyear});
+                $scope.res.push({ "label": $scope.data[i].country,  "y":$scope.data[i].rpcyear});
             }
         });    
            
