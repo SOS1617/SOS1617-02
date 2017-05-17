@@ -190,7 +190,13 @@ app.get(BASE_API_PATH + "/smi-stats", function (request, response) {
     }
 });
 
+
+
+////////////////////////////
 ////////PROXY///////////////
+////////////////////////////
+
+
 app.get(BASE_API_PATH + "/smi-stats/proxy", (req,res)=>{
     
      if(apiKeyCheck(req,res)==true){
