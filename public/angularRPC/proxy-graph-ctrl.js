@@ -82,7 +82,7 @@ angular
         name: 'Motorcycling',
         data: $scope.years
     }, {
-        name: 'RPC',
+        name: 'RPC Year',
         data: $scope.rpcyear
     }]
 });
