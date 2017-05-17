@@ -63,6 +63,7 @@ angular
             .then(function(response){
                 console.log($scope.newCountry.country + "Data added." );
                  $.notify("Data added", "success");
+                 refresh();
             });
         } 
         

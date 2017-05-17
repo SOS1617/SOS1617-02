@@ -9,7 +9,7 @@ describe('Data is loaded', function () {
 		
 		//Espera 10 segundos
 	    browser.driver.sleep(10000);
-		var smi = element.all(by.repeater('stat in stats'));
+		var gdp = element.all(by.repeater('country in countries'));
 
 		expect(gdp.count()).toBeGreaterThan(1);
 	});
