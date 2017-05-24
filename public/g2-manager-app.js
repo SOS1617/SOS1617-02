@@ -12,6 +12,10 @@ angular.module("G2ManagerApp",["ngRoute"]).config(function($routeProvider){
         templateUrl:"/analitycs.html"
         //We don't need any controller here since this is a static page
     })
+    .when("/integrations",{
+        templateUrl:"/integrations.html"
+        //We don't need any controller here since this is a static page
+    })
     
     ///////SMI///////
     .when("/smi",{
@@ -38,6 +42,10 @@ angular.module("G2ManagerApp",["ngRoute"]).config(function($routeProvider){
     .when("/smi/cors-graph",{
         templateUrl: "/angularSMI/cors-graph.html",
         controller: "SMICORSGraphCtrl"
+    })
+    .when("/smi/sevici-graph",{
+        templateUrl: "/angularSMI/sevici-graph.html",
+        controller: "SEVICIGraphCtrl"
     })
     
     
