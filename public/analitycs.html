@@ -1,4 +1,4 @@
-<div class="container">
+<div ng-controller="G02GraphCtrl"  class="container">
     
             
     <nav>
@@ -10,49 +10,16 @@
             <li><a href="#!/rpc">RPC</a></li>
           </ul>
         </div>
+        
      </nav>
      </br>
-    
-    
-    <div class="row, card-panel red lighten-4">
-        <div class="input-field col s4">
-        <h5 class="text-center"><b><i class="material-icons">trending_down</i>GRAPHS OF SMI</b></h5>
-        <ul class="text-center">
-            <li><a href="#!/smi/hc-graph"><i class="material-icons">trending_up</i>Highcharts</a></li>
-            <li><a href="#!/smi/gc-graph"><i class="material-icons">trending_down</i>Google Charts</a></li>
-            <li><a href="#!/smi/cjs-graph"><i class="material-icons">trending_up</i>ChartsJS (External Library)</a></li>
-            <h6><b>INTEGRATIONS</b></h6>
-                <li><a href="#!/smi/proxy-graph"><i class="material-icons">trending_up</i>PROXY</a></li>
-                <li><a href="#!/smi/cors-graph"><i class="material-icons">trending_up</i>CORS</a></li>
-        </ul>
-        
-        </div>
-        <div class="input-field col s4">
-        <h5 class="text-center">GRAPHS OF GDP</h5>
-        <ul class="text-center">
-
-            <li><a href="#!/gdp/hc-graph">Highcharts</a></li>
-            <li><a href="#!/gdp/gc-graph">Google Charts</a></li>
-            <li><a href="#!/gdp/chtst-graph">Chartist(External Library)</a></li>
-            <h6><b>INTEGRATIONS</b></h6>
-                <li><a href="#!/gdp/proxy-graph">PROXY</a></li>
-                <li><a href="#!/gdp/cors-graph">CORS</a></li>
-
-        </ul>
-        
-        </div>
-        <div class="input-field col s4">
-        <h5 class="text-center">GRAPHS OF RPC</h5>
-        <ul class="text-center">
-         <li><a href="#!/rpc/hc-graph"><i class="material-icons">trending_up</i>Highcharts</a></li>
-            <li><a href="#!/rpc/gc-graph"><i class="material-icons">trending_down</i>Google Charts</a></li>
-            <li><a href="#!/rpc/cc-graph"><i class="material-icons">trending_up</i>CanvasJS (External Library)</a></li>
-            <h6><b>INTEGRATIONS</b></h6>
-                <li><a href="#!/rpc/proxy-graph"><i class="material-icons">trending_up</i>PROXY</a></li>
-                <li><a href="#!/rpc/cors-graph"><i class="material-icons">trending_up</i>CORS</a></li>
-        </ul>
-        
-        </div>
-      </div>
+     <div class="nav-wrapper">
+                  <p align="center"><a class="waves-effect waves-light btn blue" href="#!/"><i class="material-icons left">info</i>MAIN PAGE</a>
+                  <a class="waves-effect waves-light btn blue" href="#!/integrations"><i class="material-icons left">trending_up</i>INTEGRATIONS</a></p>
+       </div>
+       <div class="card-panel red lighten-4">
+         <span><b>This graph is generated with the integration of the G05-Elections Voting Stats and G02-SMI API. 
+         CORS headers are used to connect to the G05-Elections Voting Stats API.</b></span></div>
+        <div id="container"></div>
       
 </div>
