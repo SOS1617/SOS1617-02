@@ -26,7 +26,7 @@ angular
             /////DATOS PARO/////
             ////////////////////
                 
-     $http.get("/api/v1/smi-stats/proxy3/" + "?" + "apikey=" + $scope.apikey).then(function(response){
+     $http.get("/api/v2/smi-stats/proxy3/" + "?" + "apikey=" + $scope.apikey).then(function(response){
                 
                 dataCacheParo = response.data;
                 $scope.dataParo =dataCacheParo;

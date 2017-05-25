@@ -27,7 +27,7 @@ angular
         /////DATOS IVAN/////
         ////////////////////
         
-        $http.get("/api/v1/smi-stats/proxy/"+ "?" + "apikey=" + $scope.apikey).then(function(response){
+        $http.get("/api/v2/smi-stats/proxy/"+ "?" + "apikey=" + $scope.apikey).then(function(response){
             
             dataCacheINV = response.data;
             $scope.data =dataCacheINV;

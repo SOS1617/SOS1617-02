@@ -16,6 +16,10 @@ angular.module("G2ManagerApp",["ngRoute"]).config(function($routeProvider){
         templateUrl:"/integrations.html"
         //We don't need any controller here since this is a static page
     })
+    .when("/about",{
+        templateUrl:"/about.html"
+        //We don't need any controller here since this is a static page
+    })
     
     ///////SMI///////
     .when("/smi",{
