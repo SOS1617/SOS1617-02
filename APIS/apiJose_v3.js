@@ -6,6 +6,11 @@ exports.register = function(app, dbJose, BASE_API_PATH) {
 ////////////////////////////////////////////////CODIGO API JOSÉ////////////////////////////////////////////////////////////
 
 
+                        ////////////////////////////////////////////////////////
+                        //////////v3////////////////CONTIENE ///////////////////
+                        ////////////////////////    GOVERNIFY   ////////////////
+                        ////////////////////////////////////////////////////////
+
 ///CREACIÓN DE LA APIKEY///
 
 //Generado en random.org
@@ -29,20 +34,6 @@ function apiKeyCheck(request,response){
     }
     return check;
 }
-
-//Vamos a generar un apikey aleatoria
-/*var caracteres = "0123456789abcdefABCDEF?¿¡!:;";
-var longitud = 20;
-
-function rand_code(caracteres, longitud){
- var apikeyJose = "";
-    for (var x=0; x < longitud; x++){
-        var rand = Math.floor(Math.random()*caracteres.length);
-        var apikeyJose = apikeyJose + caracteres.substr(rand, 1);
-    }
-return apikeyJose;
-}
-*/
 
 
 //////////////BÚSQUEDA///////////////////
