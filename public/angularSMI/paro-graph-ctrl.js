@@ -21,7 +21,7 @@ angular
                 return string.charAt(0).toUpperCase() + string.slice(1);
             }
 
-
+    console.log("Controler PARO GRAPH initialized!");
             ////////////////////
             /////DATOS PARO/////
             ////////////////////
@@ -31,8 +31,8 @@ angular
                 dataCacheParo = response.data;
                 $scope.dataParo =dataCacheParo;
                 
-                for(var i=0; i<response.data.length; i++){
-                    $scope.categorias.push($scope.dataParo[i].AÃ±o);
+                for(var i=0; i<6; i++){
+                    $scope.categorias.push($scope.dataParo[i].Año);
                     $scope.paro.push(Number($scope.dataParo[i]["Total paro registrado"]));
 
                 }
@@ -58,46 +58,24 @@ angular
                     ////////////////////////////
                     ////COMPARATIVA SMI 2017////
                     ////////////////////////////
-                    Highcharts.chart('container',{
-                        title: {
-                            text: 'SMI WITH PARO Ayuntamiento de Arganda del Rey'
-                        },
-                        chart: {
-                            type: 'area'
-                        },
-                        xAxis: {
-                            categories: $scope.categorias1
-                        },
-                        legend: {
-                            layout: 'vertical',
-                            floating: true,
-                            backgroundColor: '#FFFFFF',
-                            //align: 'left',
-                            verticalAlign: 'top',
-                            align: 'right',
-                            y: 20,
-                            x: 0
-                        },
-                        tooltip: {
-                            formatter: function () {
-                                return '<b>' + this.series.name + '</b><br/>' +
-                                   this.x + ': ' + this.y;
-                            }
-                        },
-                        series:[
-                            {
-                            name: 'Personas en paro',
-                            data: $scope.paro,
-                        },
-                        {
-                            name: 'SMI Year Variation',
-                            data: $scope.smivariation
-                        }]
-                    });
-                
-            });
+                    new Chartist.Line('#chart1', {
+                        labels: [$scope.categorias1],
+                        series: [$scope.smiyear,$scope.paro]
+                    }),{
+                          high: 3,
+                          low: -3,
+                          showArea: true,
+                          showLine: false,
+                          showPoint: false,
+                          fullWidth: true,
+                          axisX: {
+                            showLabel: false,
+                            showGrid: false
+                          }
+                        };
+        });//FIN GET SMI
          
-     });
+     });//FIN GET PARO
                
 
 }]);
