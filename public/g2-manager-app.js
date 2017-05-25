@@ -47,10 +47,15 @@ angular.module("G2ManagerApp",["ngRoute"]).config(function($routeProvider){
         templateUrl: "/angularSMI/sevici-graph.html",
         controller: "SEVICIGraphCtrl"
     })
+    .when("/smi/paro-graph",{
+        templateUrl: "/angularSMI/paro-graph.html",
+        controller: "PAROGraphCtrl"
+    })
     .when("/smi/owm-graph",{
         templateUrl: "/angularSMI/owm-graph.html",
         controller: "OWMGraphCtrl"
     })
+    
     
     
     .when("/smi/:country",{

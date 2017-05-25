@@ -1,18 +1,17 @@
 /*global angular*/
 angular
     .module("G2ManagerApp")
-    .controller("SEVICIGraphCtrl",["$scope","$http",function ($scope, $http){
+    .controller("PAROGraphCtrl",["$scope","$http",function ($scope, $http){
         
         $scope.apikey = "rXD8D2b1vP";
-        $scope.dataSevici = {};
+        $scope.dataParo= {};
         $scope.dataSMI = {};
-        var dataCacheSevici = {};
+        var dataCacheParo = {};
         var dataCacheSMI = {};
         $scope.categorias = [];
         $scope.categorias1 = [];
-        //SEVICI
-        $scope.bicis = [];
-        $scope.plazas = [];
+        //PARO
+        $scope.paro = [];
         //SMI
         $scope.smiyear = [];
         $scope.smivariation = [];
@@ -24,23 +23,23 @@ angular
 
 
             ////////////////////
-            /////DATOS SEVICI/////
+            /////DATOS PARO/////
             ////////////////////
                 
-     $http.get("https://api.jcdecaux.com/vls/v1/stations/?contract=Seville&apiKey=6fa39265431480ca0b5f3393cd78f29e2d436882").then(function(response){
+     $http.get("/api/v1/smi-stats/proxy3/" + "?" + "apikey=" + $scope.apikey).then(function(response){
                 
-                dataCacheSevici = response.data;
-                $scope.dataSevici =dataCacheSevici;
+                dataCacheParo = response.data;
+                $scope.dataParo =dataCacheParo;
                 
-                for(var i=0; i<10; i++){
-                    $scope.categorias.push($scope.dataSevici[i].name);
-                    $scope.plazas.push(Number($scope.dataSevici[i].available_bike_stands));
-                    $scope.bicis.push(Number($scope.dataSevici[i].available_bikes));
+                for(var i=0; i<response.data.length; i++){
+                    $scope.categorias.push($scope.dataParo[i].AÃ±o);
+                    $scope.paro.push(Number($scope.dataParo[i]["Total paro registrado"]));
+
                 }
                 
-                console.log("Datos Sevici: "+$scope.dataSevici[0]);
+                console.log("Datos PARO: "+$scope.dataParo);
                 
-                  ////////////////////
+            ////////////////////
             /////DATOS SMI/////
             ////////////////////
             $http.get("/api/v1/smi-stats"+ "?" + "apikey=" + $scope.apikey).then(function(response){
@@ -61,13 +60,13 @@ angular
                     ////////////////////////////
                     Highcharts.chart('container',{
                         title: {
-                            text: 'WORLD SMI integrated with SEVICI'
+                            text: 'SMI WITH PARO Ayuntamiento de Arganda del Rey'
                         },
                         chart: {
                             type: 'area'
                         },
                         xAxis: {
-                            categories: $scope.categorias
+                            categories: $scope.categorias1
                         },
                         legend: {
                             layout: 'vertical',
@@ -85,19 +84,18 @@ angular
                                    this.x + ': ' + this.y;
                             }
                         },
-                        series:[{
-                            name: 'Bicis disponibles:',
-                            data: $scope.bicis,
-                        },
-                        {
-                            name: 'Plazas disponibles',
-                            data: $scope.plazas,
+                        series:[
+                            {
+                            name: 'Personas en paro',
+                            data: $scope.paro,
                         },
                         {
                             name: 'SMI Year Variation',
                             data: $scope.smivariation
                         }]
-                    });});
+                    });
+                
+            });
          
      });
                

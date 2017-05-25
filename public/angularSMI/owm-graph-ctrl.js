@@ -4,7 +4,7 @@ angular
     .controller("OWMGraphCtrl",["$scope","$http",function ($scope, $http){
         
         $scope.apikey = "rXD8D2b1vP";
-        $scope.dataOWM = [];
+        $scope.dataOWM = {};
         $scope.dataSMI = {};
         var dataCacheOWM = {};
         var dataCacheSMI = {};
@@ -27,18 +27,19 @@ angular
             /////DATOS SEVICI/////
             ////////////////////
                 
-     $http.get("https://api.openweathermap.org/data/2.5/forecast?q=sevilla&APPID=5391617c203ef792feebc0037f3202ba").then(function(response){
+     $http.get("/api/v1/smi-stats/proxy2/"+ "?" + "apikey=" + $scope.apikey).then(function(response){
                 
                 dataCacheOWM = response.data;
-                $scope.dataSevici =dataCacheOWM;
+                $scope.dataOWM =dataCacheOWM;
+                console.log("Datos OWM: "+$scope.dataOWM.list[0].main.temp_min);
                 
-                for(var i=0; i<5; i++){
-                    $scope.categorias.push($scope.dataOWM[0].list[i].day);
-                    $scope.minimos.push(Number($scope.dataOWM[0].list[i].temp_min));
-                    $scope.maximos.push(Number($scope.dataOWM[0].list[i].temp_max));
+                for(var i=0; i<10; i++){
+                    $scope.categorias.push($scope.dataOWM.list[i].dt_txt);
+                    $scope.minimos.push(Number($scope.dataOWM.list[i].main.temp_min-270));
+                    $scope.maximos.push(Number($scope.dataOWM.list[i].main.temp_max-270));
                 }
                 
-                console.log("Datos OWM: "+$scope.dataOWM[0]);
+                console.log("Datos OWM: "+$scope.dataOWM);
                 
             ////////////////////
             /////DATOS SMI/////
@@ -86,7 +87,7 @@ angular
                             }
                         },
                         series:[{
-                            name: 'Temp. Máxima:',
+                            name: 'Temp. Máxima',
                             data: $scope.maximos,
                         },
                         {

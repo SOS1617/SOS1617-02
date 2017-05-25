@@ -193,7 +193,7 @@ app.get(BASE_API_PATH + "/smi-stats", function (request, response) {
 
 
 ////////////////////////////
-////////PROXY///////////////
+////////PROXY  1////////////
 ////////////////////////////
 
 
@@ -205,6 +205,90 @@ app.get(BASE_API_PATH + "/smi-stats/proxy", (req,res)=>{
            var options = {
                 host:"sos1617-03.herokuapp.com",
                 path:'/api/v2/investmentseducation/?apikey=apisupersecreta'
+            };
+            
+            
+            //Response: abre un flujo de datos en el que se guarda lo que se va recibiendo
+            callback =function(response){
+                //se guardan los datos poco a poco
+                var str='';
+                
+                //another chunk of data has been recieved, so append it to str
+                //van llegando datos en este evento "data"
+                response.on('data',function(chunk){
+                    
+                    str += chunk;
+                });
+                
+                //the wole response has been recieved, so we just print it out here
+                //este evento 'end' se da cuando termina la recogida de datos y enviamos 
+                //lo que hemos recibido con el str
+                response.on('end',function(){
+                    res.send(str);
+                });
+            }
+            
+            http.request(options,callback).end();
+       
+         
+     }
+});
+
+////////////////////////////
+////////PROXY  2////////////
+////////////////////////////
+
+
+app.get(BASE_API_PATH + "/smi-stats/proxy2", (req,res)=>{
+    
+     if(apiKeyCheck(req,res)==true){
+            var http = require('http');
+            
+           var options = {
+                host:"api.openweathermap.org",
+                path:'/data/2.5/forecast?q=sevilla&APPID=5391617c203ef792feebc0037f3202ba'
+            };
+            
+            
+            //Response: abre un flujo de datos en el que se guarda lo que se va recibiendo
+            callback =function(response){
+                //se guardan los datos poco a poco
+                var str='';
+                
+                //another chunk of data has been recieved, so append it to str
+                //van llegando datos en este evento "data"
+                response.on('data',function(chunk){
+                    
+                    str += chunk;
+                });
+                
+                //the wole response has been recieved, so we just print it out here
+                //este evento 'end' se da cuando termina la recogida de datos y enviamos 
+                //lo que hemos recibido con el str
+                response.on('end',function(){
+                    res.send(str);
+                });
+            }
+            
+            http.request(options,callback).end();
+       
+         
+     }
+});
+
+////////////////////////////
+////////PROXY  3////////////
+////////////////////////////
+
+
+app.get(BASE_API_PATH + "/smi-stats/proxy3", (req,res)=>{
+    
+     if(apiKeyCheck(req,res)==true){
+            var http = require('http');
+            
+           var options = {
+                host:"datosabiertos.ayto-arganda.es",
+                path:'/dataset/0c7ae480-54b9-40a6-8ea4-3b4138370d13/resource/1ba2f81e-a8be-4a86-a960-b7654bce4bfc/download/paroregistrad.json'
             };
             
             
