@@ -1,0 +1,277 @@
+---
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: SMI-STATS
+  description: |-
+    This data source represents the minimum wage any professional should have. <style>
+      .plansButton{
+          display: table;
+          margin-top: 15px;
+          padding: 10px;
+          background-color: #547f00;
+          border-radius: 3px;
+          color: #fff !important;
+          text-decoration: none;
+      }
+      .plansButton:hover{
+          box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+      }
+    </style> <a class="plansButton" href="../plans">Get your API key</a>
+  contact:
+    name: José Gallardo Gallardo
+    email: josegallardog95@gmail.com
+    url: http://sos1617-02.herokuapp.com/#!/smi
+  license:
+    name: MIT
+    url: http://opensource.org/licenses/MIT
+schemes:
+- http
+consumes:
+- application/json
+produces:
+- application/json
+host: sos1617-02.herokuapp.com
+paths:
+  "/api/v3/smi-stats":
+    get:
+      description: Returns all smi-stats from the system that the user has access to.
+      operationId: findSMIStats
+      produces:
+      - application/json
+      parameters:
+      - {name: apikey, in: query, description: Apikey to access, required: true, type: string}
+      responses:
+        '200':
+          description: OK. All countries have been send.
+          schema:
+            type: array
+            items:
+              "$ref": "#/definitions/country"
+        '500':
+          description: Internal server error
+        '404':
+          description: Countries not found. 
+    post:
+      description: Creates a new stats of country.  Duplicates aren't allowed.
+      operationId: addSMIStats
+      produces:
+      - application/json
+      parameters:
+      - name: country
+        in: body
+        description: country to add to the smi-stats
+        required: true
+        schema:
+          "$ref": "#/definitions/country"
+      - name: apikey
+        in: query
+        description: Apikey to access
+        required: true
+        type: string
+      responses:
+        '201':
+          description: Smi-stats country created.
+          schema:
+            "$ref": "#/definitions/country"
+        '400':
+          description: Bad request. New POST request to /smi-stats/ without smi-stats. 
+        '422':
+          description: Bad request. New POST request to /smi-stats/ is not well-formed.  
+        '500':
+          description: Internal server error.
+        '409':
+          description: Conflict. Country already exits.  
+    delete:
+      description: ¡¡CAUTION!! Delete all smi-stats.
+      operationId: deleteAllStats
+      parameters:
+      - name: apikey
+        in: query
+        description: Apikey to access
+        required: true
+        type: string
+      responses:
+        '204':
+          description: No content. All the countries have been succesfully deleted.
+        '404':
+          description: Not found. There aren't countries to delete.
+        '500':
+          description: Internal server error.             
+            
+  "/api/v3/smi-stats/{country}":
+    get:
+      description: Returns a specific country of all smi-stats.
+      operationId: findSMIStatsByCountry
+      produces:
+      - application/json
+      parameters:
+      - name: country
+        in: path
+        description: name of COUNTRY to fetch, also can search by YEAR.
+        required: true
+        type: string
+      - name: apikey
+        in: query
+        description: Apikey to access
+        required: true
+        type: string
+      responses:
+        '200':
+          description: OK. Country have been send.
+          schema:
+            "$ref": "#/definitions/country"
+        '400':
+          description: Bad Request. New GET request to /smi-stats/:country without country or year.    
+        '404':
+          description: Not found. There aren't countries with this name or year.
+        '500':
+          description: Internal server error.
+    put:
+      description: PUT a smi-stats only based on the country.
+      operationId: putSMIStatsByCountry
+      produces:
+      - application/json
+      parameters:
+      - name: country
+        in: path
+        description: name of COUNTRY to update
+        required: true
+        type: string
+      - name: body
+        in: body
+        description: Add country thats exists for make PUT operation
+        required: true
+        schema:
+          "$ref": "#/definitions/country"
+      - name: apikey
+        in: query
+        description: Apikey to access
+        required: true
+        type: string
+      responses:
+        '200':
+          description: OK. Country have been updated.
+          schema:
+            "$ref": "#/definitions/country"
+        '400':
+          description: Bad Request. New PUT request to /smi-stats/:country without country or the country is not the same.    
+        '404':
+          description: Not found. There aren't countries with this name.
+        '422':
+          description: Bad request. New PUT request to /smi-stats/country is not well-formed.    
+        '500':
+          description: Internal server error.
+
+    
+  "/api/v3/smi-stats/{country}/{year}":
+    get:
+      description: Returns a country by year.
+      operationId: findCountryByYear
+      produces:
+      - application/json
+      parameters:
+      - name: country
+        in: path
+        description: name of country to fetch
+        required: true
+        type: string
+      - name: year
+        in: path
+        description: year of stats to fetch
+        required: true
+        type: string
+      - name: apikey
+        in: query
+        description: Apikey to access
+        required: true
+        type: string
+      responses:
+        '200':
+          description: OK. Country have been send.
+          schema:
+            "$ref": "#/definitions/country"
+        '400':
+          description: Bad Request. New GET request to /smi-stats/:country/:year without country or year.    
+        '404':
+          description: Not found. There aren't countries with smi-stats in this year.
+        '500':
+          description: Internal server error.
+            
+    delete:
+      description: Delete a smi-stats of country based on the name of country and year
+      operationId: deleteSMIStatsByCountryAndYear
+      parameters:
+      - name: country
+        in: path
+        description: Country of smi-stats to delete
+        required: true
+        type: string
+      - name: year
+        in: path
+        description: Year of smi-stats to delete
+        required: true
+        type: string
+      - name: apikey
+        in: query
+        description: Apikey to access
+        required: true
+        type: string
+      responses:
+        '204':
+          description: No content. The country have been delete successfully.
+        '400':
+          description: Bad Request. New DELETE request to /smi-stats/:country/:year without country or year.  
+        '404':
+          description: Not found. There aren't countries to delete.
+        '500':
+          description: Internal server error.
+    
+  "/api/v3/smi-stats/loadInitialData":
+    get:
+      description: Create initial data.
+      operationId: loadInitialData
+      produces:
+      - application/json
+      parameters:
+      - name: apikey
+        in: query
+        description: Apikey to access
+        required: true
+        type: string
+      responses:
+        '201':
+          description: Created.
+        '500':
+          description: Internal server error
+        '409':
+          description: Conflict. Already Data. 
+         
+definitions:
+  country:
+    type: object
+    required:
+    - country
+    - year
+    - smi-year
+    - smi-year-variation
+    properties:
+      country:
+        type: string
+      year:
+        type: string
+      smi-year:
+        type: string
+      smi-year-variation:
+        type: string
+  errorModel:
+    type: object
+    required:
+    - code
+    - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
