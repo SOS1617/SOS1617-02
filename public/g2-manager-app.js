@@ -101,6 +101,14 @@ angular.module("G2ManagerApp",["ngRoute"]).config(function($routeProvider){
         templateUrl: "/angularRPC/cors-graph.html",
         controller: "RPCCORSGraphCtrl"
     })
+    .when("/rpc/google-graph",{
+        templateUrl: "/angularRPC/google-graph.html",
+        controller: "GoogleGraphCtrl"
+    })
+    .when("/rpc/netflix-graph",{
+        templateUrl: "/angularRPC/netflix-graph.html",
+        controller: "NetflixGraphCtrl"
+    })
     
     ///////GDP///////
     .when("/gdp",{

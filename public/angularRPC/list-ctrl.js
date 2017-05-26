@@ -33,7 +33,7 @@ angular
             }   
             
     
-    
+    refresh();
     
     //GET A UN CONJUNTO CON PAGINACIÓN
         $scope.getStats = function(){

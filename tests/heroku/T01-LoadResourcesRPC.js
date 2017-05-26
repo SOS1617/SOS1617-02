@@ -7,13 +7,13 @@ describe('Data is loaded', function () {
 	    
 	    
 	    
-		browser.get('https://sos1617-02.herokuapp.com/#!/rpc/');
+		browser.get('https://sos1617-02-aml-sandbox-sos161702aml.c9users.io/#!/rpc');
 		
 		//Espera 10 segundos
 	    browser.driver.sleep(10000);
 		var rpc = element.all(by.repeater('stat in stats'));
 
-		expect(rpc.count()).toBeGreaterThan(0);
+		expect(rpc.count()).toBeGreaterThan(1);
 		
 	});
 });
