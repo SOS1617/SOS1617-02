@@ -24,13 +24,11 @@ angular
                 $scope.categorias.push(capitalizeFirstLetter($scope.data[i].country));
                 $scope.smiyear.push(Number($scope.data[i]["smi-year"]));
                 $scope.smivariation.push(Number($scope.data[i]["smi-year-variation"]));
-                
-                console.log($scope.data[i].country);
-
             }
+            console.log("DATOS SMI:"+$scope.data);
         });    
             
-        console.log("Controller initialized");
+        console.log("Controller Chart JS initialized");
         $http.get("/api/v1/smi-stats"+ "?" + "apikey=" + $scope.apikey).then(function(response){
             
             //////////////////////////////
@@ -74,5 +72,4 @@ angular
                 }
             });
             });
-            myChart.render();
     }]);

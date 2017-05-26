@@ -10,7 +10,10 @@ var cors = require('cors');
 var publicFolder = path.join(__dirname, 'public');
 
 //Módulo con api José
-var moduleSMI = require("./APIS/apiJose.js");
+var moduleSMI_v1 = require("./APIS/apiJose_v1.js");
+var moduleSMI_v2 = require("./APIS/apiJose_v2.js");
+var moduleSMI_v3 = require("./APIS/apiJose_v3.js");
+
 
 //Módulo con api Andrés
 var moduleGDP = require("./APIS/apiAndres.js");
@@ -48,8 +51,10 @@ MongoClient.connect(mdbURL, {native_parser:true}, function (err, database){
        dbAndres = database.collection("gdp-population-stats");
        dbAntony = database.collection("rpc-stats");
        
-       ///////////////////CONEXIÓN CON MÓDULO JOSÉ////////////////////////////
-       moduleSMI.register(app, dbJose, BASE_API_PATH + "/v1");
+       ///////////////////CONEXIÓN CON MÓDULOS JOSÉ////////////////////////////
+       moduleSMI_v1.register(app, dbJose, BASE_API_PATH + "/v1");
+       moduleSMI_v2.register(app, dbJose, BASE_API_PATH + "/v2");
+       moduleSMI_v3.register(app, dbJose, BASE_API_PATH + "/v3");
        ///////////////////CONEXIÓN CON MÓDULO ANDRES////////////////////////////
        moduleGDP.register(app, dbAndres, BASE_API_PATH + "/v1");
        moduleGDP_v2.register(app, dbAndres, BASE_API_PATH + "/v2");

@@ -59,45 +59,34 @@ angular
                     ////////////////////////////
                     ////COMPARATIVA SMI 2017////
                     ////////////////////////////
-                    Highcharts.chart('container',{
-                        title: {
-                            text: 'WORLD SMI integrated with SEVICI'
-                        },
-                        chart: {
-                            type: 'area'
-                        },
-                        xAxis: {
-                            categories: $scope.categorias
-                        },
-                        legend: {
-                            layout: 'vertical',
-                            floating: true,
-                            backgroundColor: '#FFFFFF',
-                            //align: 'left',
-                            verticalAlign: 'top',
-                            align: 'right',
-                            y: 20,
-                            x: 0
-                        },
-                        tooltip: {
-                            formatter: function () {
-                                return '<b>' + this.series.name + '</b><br/>' +
-                                   this.x + ': ' + this.y;
-                            }
-                        },
-                        series:[{
-                            name: 'Bicis disponibles:',
-                            data: $scope.bicis,
-                        },
-                        {
-                            name: 'Plazas disponibles',
-                            data: $scope.plazas,
-                        },
-                        {
-                            name: 'SMI Year Variation',
-                            data: $scope.smivariation
-                        }]
-                    });});
+                    var chartData={
+                        "type": "area3d", 
+                          "plot":{
+                            "alpha-area":0.7
+                          },
+                          "scale-x": {
+                            "labels": $scope.categorias
+                          },
+                        "series":[  // Insert your series data here.
+                            { "values": $scope.smivariation,text:"SMI Variation"},
+                            { "values": $scope.plazas, text:"Plazas disponibles"},
+                            { "values": $scope.bicis, text:"Bicis disponibles"}
+                        ],
+                        "legend": {
+                            "header": {
+                              "text": "Legend Header"
+                            },
+                            "draggable": true,
+                            "drag-handler": "icon"
+                          }
+                      };
+                      zingchart.render({ // Render Method[3]
+                        id:'container',
+                        data:chartData,
+                        
+                      });
+                
+            });
          
      });
                

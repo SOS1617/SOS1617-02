@@ -27,7 +27,7 @@ angular
             /////DATOS SEVICI/////
             ////////////////////
                 
-     $http.get("/api/v1/smi-stats/proxy2/"+ "?" + "apikey=" + $scope.apikey).then(function(response){
+     $http.get("/api/v2/smi-stats/proxy2/"+ "?" + "apikey=" + $scope.apikey).then(function(response){
                 
                 dataCacheOWM = response.data;
                 $scope.dataOWM =dataCacheOWM;
