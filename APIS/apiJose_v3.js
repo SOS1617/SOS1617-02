@@ -16,8 +16,8 @@ exports.register = function(app, dbJose, BASE_API_PATH) {
 //Generado en random.org
 var apikeyJose = "rXD8D2b1vP";
 
-//FUNCIÓN QUE COMPRUEBE EL APIKEY
-function apiKeyCheck(request,response){
+//FUNCIÓN QUE COMPRUEBE EL APIKEY-----------------------> CONTROLADO POR GOVERNIFY
+/*function apiKeyCheck(request,response){
     var ak = request.query.apikey;
     var check = true;
     
@@ -33,7 +33,7 @@ function apiKeyCheck(request,response){
         }
     }
     return check;
-}
+}*/
 
 
 //////////////BÚSQUEDA///////////////////
@@ -73,9 +73,7 @@ function searches(request,response){
 
 //Initializing with some data
 app.get(BASE_API_PATH + "/smi-stats/loadInitialData", function (request, response){
-    
-    if(apiKeyCheck(request,response)==true){
-        
+
             var spain = { "country": "Spain", "year": "2017", "smi-year": "825.70", "smi-year-variation": "8.01" };
             // var spain = { "country": "Spain", "year": "2016", "smi-year": "825.70 €", "smi-year-variation": "8.01%" };
             //var spain = { "country": "Spain", "year": "2015", "smi-year": "825.70 €", "smi-year-variation": "8.01%" };
@@ -121,7 +119,6 @@ app.get(BASE_API_PATH + "/smi-stats/loadInitialData", function (request, respons
                     }
                 }
             });
-    }
 });
 
 
@@ -141,8 +138,6 @@ app.get(BASE_API_PATH + "/smi-stats", function (request, response) {
     //A veces se requiere devolver un cierto número de resultados después de un cierto número de documentos. skip(offset) puede hacer este trabajo.
     var o = parseInt(request.query.offset,10);
     
-    
-    if(apiKeyCheck(request,response)==true){
         
         if(qcountry || qyear){
             
@@ -178,7 +173,6 @@ app.get(BASE_API_PATH + "/smi-stats", function (request, response) {
                         }
                     });
         }
-    }
 });
 
 
@@ -190,16 +184,6 @@ app.get(BASE_API_PATH + "/smi-stats/:year", function (request, response) {
     //Guardamos en una variable el parametro pasado por la consulta de la URL
     var country = request.params.year;
     var year = request.params.year;
-    
-
-    
-    
-    if(apiKeyCheck(request,response)==true){
-        
-
-    //Pagination
-        //  var l = request.query.limit;
-        //  var o = request.query.offset;
     
     
         //Tratamos la petición a la api según si está entrando un año o un país
@@ -269,7 +253,6 @@ app.get(BASE_API_PATH + "/smi-stats/:year", function (request, response) {
                 });
             }
         }
-    }
 });
 
 //3. GET over a single resource
@@ -279,8 +262,6 @@ app.get(BASE_API_PATH + "/smi-stats/:country/:year", function (request, response
     //Guardamos en una variable el parametro pasado por la consulta de la URL
     var country = request.params.country;
     var year = request.params.year;
-    
-    if(apiKeyCheck(request,response)== true){
         
     
         //Si no llega ningún dato por la consulta, mandamos error
@@ -311,7 +292,6 @@ app.get(BASE_API_PATH + "/smi-stats/:country/:year", function (request, response
                 }
             });
         }
-    }
 });
 
 //4. POST over a collection
@@ -320,8 +300,7 @@ app.post(BASE_API_PATH + "/smi-stats", function (request, response) {
     //Recogemos el cuerpo de la petición y lo guardamos en la variable. En ella tenemos ahora mismo los datos que hemos dado mediante la petición CURL
     //para hacer el post a la colección
     var newCountry = request.body;
-    
-    if(apiKeyCheck(request,response)==true){
+
     
         if (!newCountry) {
             console.log("WARNING: New POST request to /smi-stats/ without smi-stats, sending 400...");
@@ -361,26 +340,23 @@ app.post(BASE_API_PATH + "/smi-stats", function (request, response) {
                 });
             }
         }
-    }
 });
 
 
 // POST over a single resource (PROHIBIDO)
 app.post(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
-    if(apiKeyCheck(request,response)==true){
         var country = request.params.country;
         console.log("WARNING: New POST request to /smi-stats/" + country + ", sending 405...");
         response.sendStatus(405); // method not allowed
-    }
+
 });
 
 
 // PUT over a collection (PROHIBIDO)
 app.put(BASE_API_PATH + "/smi-stats", function (request, response) {
-    if(apiKeyCheck(request,response)==true){
+
         console.log("WARNING: New PUT request to /smi-stats/, sending 405...");
         response.sendStatus(405); // method not allowed
-    }
 });
 
 
@@ -391,8 +367,6 @@ app.put(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
     var updatedCountry = request.body;
     //Guardamos el parámetro introducido en la URL
     var countryB = request.params.country;
-    
-    if(apiKeyCheck(request,response)==true){
         
         if (!updatedCountry || countryB != updatedCountry.country) {
             console.log("WARNING: New PUT request to /smi-stats/ without country or the country is not the same, sending 400...");
@@ -426,14 +400,11 @@ app.put(BASE_API_PATH + "/smi-stats/:country", function (request, response) {
                 });
             }
         }
-    }
 });
 
 
 //6. DELETE over a collection
 app.delete(BASE_API_PATH + "/smi-stats", function (request, response) {
-    
-    if(apiKeyCheck(request,response)==true){
         
         console.log("INFO: New DELETE request to /smi-stats");
     
@@ -455,7 +426,6 @@ app.delete(BASE_API_PATH + "/smi-stats", function (request, response) {
                 }
             }
         });
-    }
 });
 
 
@@ -464,8 +434,6 @@ app.delete(BASE_API_PATH + "/smi-stats/:country/:year", function (request, respo
     
     var country = request.params.country;
     var year = request.params.year;
-    
-    if(apiKeyCheck(request,response)==true){
         
         if (!country || !year) {
             console.log("WARNING: New DELETE request to /smi-stats/:country/:year without country or year, sending 400...");
@@ -491,7 +459,6 @@ app.delete(BASE_API_PATH + "/smi-stats/:country/:year", function (request, respo
                 }
             });
         }
-    }
     
 });
     
