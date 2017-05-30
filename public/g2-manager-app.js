@@ -148,6 +148,14 @@ angular.module("G2ManagerApp",["ngRoute"]).config(function($routeProvider){
         templateUrl: "/angularGDP/proxy-graph.html",
         controller: "GDPPROXYGraphCtrl"
     })
+    .when("/gdp/btc-graph",{
+        templateUrl: "/angularGDP/btc-graph.html",
+        controller: "BTCGraphCtrl"
+    })
+    .when("/gdp/price-graph",{
+        templateUrl: "/angularGDP/price-graph.html",
+        controller: "PRICEGraphCtrl"
+    })
     ;
     
     
