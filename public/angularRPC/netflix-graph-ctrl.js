@@ -12,12 +12,11 @@ angular
         $scope.categorias1 = [];
         //Google
         $scope.areas = [];
-        
+       var rpcyear=[];
         //RPCrpc
         $scope.rpcyear = [];
         $scope.rpcvariation = [];
-         $scope.clientid="I4TYHMO24EW5DPMRZYLFUJXYTEBPG5UGTLIK44CSXPIGT2IY";
-         $scope.clientsecret="10LP4ALLHURZARQURW0JW5NKJGO40O50L55GHHOJ2IEXF4S4";
+        
         console.log("Google graph initialized");
        function capitalizeFirstLetter(string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
@@ -56,7 +55,9 @@ angular
                 }
                     console.log("Datos RPC: "+$scope.dataRPC);
 
-
+               
+                
+                
                     ////////////////////////////
                     ////COMPARATIVA RPC 2017////
                     ////////////////////////////
@@ -101,6 +102,27 @@ angular
                     });});
          
      });
+     
+     for(var i=0;i<$scope.rpcvariation.length;i++){
+         
+         rpcyear.push($scope.rpcvariation[i]);
+     }
+    
+   console.log(rpcyear[i]);
+zingchart.render({
+    id: 'myChart',
+    data: {
+      type: 'line',
+      series: [{
+        values: $scope.areas,
+      }, {
+        values: [10,15,16,20,40]
+      }]
+    }
+  });
+
+  
+
                
 
 }]);
