@@ -21,6 +21,7 @@ var moduleGDP_v2 = require("./APIS/apiAndres_v2.js");
 
 //Módulo con api Antoni
 var moduleRPC = require("./APIS/apiAntoni.js");
+var moduleRPC_v2 = require("./APIS/apiAntoniv2.js");
 
 var BASE_API_PATH = "/api";
 
@@ -60,6 +61,7 @@ MongoClient.connect(mdbURL, {native_parser:true}, function (err, database){
        moduleGDP_v2.register(app, dbAndres, BASE_API_PATH + "/v2");
        ///////////////////CONEXIÓN CON MÓDULO ANTONI////////////////////////////
        moduleRPC.register(app, dbAntony, BASE_API_PATH + "/v1");
+       moduleRPC_v2.register(app, dbAntony, BASE_API_PATH + "/v2");
    
    //Solo pongo el servidor a arrancar si la base de datos está arrancada
    app.listen(port, () =>{
