@@ -114,6 +114,73 @@ app.get(BASE_API_PATH + "/gdp-population-stats/proxy/", (req,res)=>{
      }
 });    
     
+//Proxy
+app.get(BASE_API_PATH + "/gdp-population-stats/btcproxy/", (req,res)=>{
+    
+     if(checkApiKey(req,res)==true){
+            var http = require('http');
+            
+           var options = {
+                host:"api.coinmarketcap.com",
+                path:'/v1/ticker/?limit=10'
+            };
+            
+            callback =function(response){
+               
+                var str='';
+                
+                //another chunk of data has been recieved, so append it to str
+                response.on('data',function(chunk){
+                    
+                    str += chunk;
+                });
+                
+                //the wole response has been recieved, so we just print it out here
+                response.on('end',function(){
+                    res.send(str);
+                });
+            };
+            
+            http.request(options,callback).end();
+       
+         
+     }
+});
+
+    
+//Proxy
+app.get(BASE_API_PATH + "/gdp-population-stats/priceproxy/", (req,res)=>{
+    
+     if(checkApiKey(req,res)==true){
+            var http = require('http');
+            
+           var options = {
+                host:"api.coindesk.com",
+                path:'/v1/bpi/historical/close.json'
+            };
+            
+            callback =function(response){
+               
+                var str='';
+                
+                //another chunk of data has been recieved, so append it to str
+                response.on('data',function(chunk){
+                    
+                    str += chunk;
+                });
+                
+                //the wole response has been recieved, so we just print it out here
+                response.on('end',function(){
+                    res.send(str);
+                });
+            };
+            
+            http.request(options,callback).end();
+       
+         
+     }
+});
+   
     
 //GET a single row
 app.get(BASE_API_PATH + "/gdp-population-stats/:country", function (request, response) {
@@ -236,10 +303,10 @@ app.post(BASE_API_PATH + "/gdp-population-stats", function (request, response) {
                 } else {
                     
                     if (countriesBeforeInsertion.length > 0) {
-                        console.log("WARNING: The contact " + JSON.stringify(newCountry, 2, null) + " already extis, sending 409...");
+                        console.log("WARNING: The country " + JSON.stringify(newCountry, 2, null) + " already extis, sending 409...");
                         response.sendStatus(409); // conflict
                     } else {
-                        console.log("INFO: Adding contact " + JSON.stringify(newCountry, 2, null));
+                        console.log("INFO: Adding country " + JSON.stringify(newCountry, 2, null));
                         dbAndres.insert(newCountry);
                         response.sendStatus(201); // created
                     }
@@ -288,31 +355,23 @@ app.put(BASE_API_PATH + "/gdp-population-stats/:country", function (request, res
             console.log("WARNING: The country is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         }else{
-            dbAndres.find({country: country}, function (err, countries) {
-                if (err) {
-                    console.error('WARNING: Error getting data from DB');
-                    response.sendStatus(500); // internal server error
-                } else {
-                    /*var countriesBeforeInsertion = countries.filter((country) => {
-                        return (country.country.localeCompare(country, "en", {'sensitivity': 'base'}) === 0);
-                    });
-                    if (countriesBeforeInsertion.length > 0) {
-                        db.update({country: country}, updatedCountry);
-                        response.send(updatedCountry); // return the updated contact
-                    } else {
-                        console.log("WARNING: There is not any country with name " + country);
-                        response.sendStatus(404); // not found
-                    }*/
-                    if(countries.length == 0){
-                        console.log("WARNING: There is not any country with name " + country);
-                        response.sendStatus(404); // not found
-                    }else{
-                        dbAndres.update({country: country}, updatedCountry);
-                        response.send(updatedCountry); // return the updated contact
-                    }
+            
+            dbAndres.find({country:country}).toArray(function (err, gdp_stats) {
+                    if (err) {
+                        console.error('WARNING: Error getting data from DB');
+                        response.sendStatus(500); // internal server error
+                    } else{ 
+                        if(gdp_stats.length > 0) {
+                            dbAndres.update({"country": country}, updatedCountry);
+                            console.log("INFO: Modifying country with name " + country + " with data " + JSON.stringify(updatedCountry, 2, null));
+                            response.send(updatedCountry); // return the updated contact
+                        } else {
+                            console.log("WARNING: There are not any country with name " + country);
+                            response.sendStatus(404); // not found
+                        }
+                   } 
                     
-                }
-            });
+                });
         }
     }
 });
@@ -327,20 +386,20 @@ app.delete(BASE_API_PATH + "/gdp-population-stats", function (request, response)
     
     
     console.log("INFO: New FULL DELETE request");
-    dbAndres.remove({}, {multi: true}, function (err, numRemoved) {
+    dbAndres.remove({}, {multi: true}, function (err, result) {
+        var numRemoved= JSON.parse(result);
         if (err) {
             console.error('WARNING: Error removing data from DB');
             response.sendStatus(500); // internal server error
         } else {
-            response.sendStatus(204);
-            //ToDo why this returns 404?? 
-            /*if (numRemoved > 0) {
+            
+            if (numRemoved.n > 0) {
                 console.log("INFO: All the countries (" + numRemoved + ") have been succesfully deleted, sending 204...");
                 response.sendStatus(204); // no content
             } else {
                 console.log("WARNING: There are no countries to delete");
                 response.sendStatus(404); // not found
-            }*/
+            }
         }
     });
 });
@@ -360,23 +419,20 @@ app.delete(BASE_API_PATH + "/gdp-population-stats/:country", function (request, 
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New DELETE request to /gdp-population-stats/" + country);
-        dbAndres.remove({country: country}, function (err, numRemoved) {
+        dbAndres.remove({country: country}, function (err, result) {
+            var numRemoved= JSON.parse(result);
             if (err) {
                 console.error('WARNING: Error removing data from DB');
                 response.sendStatus(500); // internal server error
             } else {
-                console.log("INFO: Country successfully removed.");
                 
-                console.log("INFO: The country with name " + country + " has been succesfully deleted, sending 204...");
-                    response.sendStatus(204); // no content
-                
-                /*if (numRemoved === 1) {
+                if (numRemoved.n === 1) {
                     console.log("INFO: The country with name " + country + " has been succesfully deleted, sending 204...");
                     response.sendStatus(204); // no content
                 }else{
                     console.log("WARNING: There are no countries to delete");
                     response.sendStatus(404); // not found
-                }*/
+                }
             }
         });
     }
