@@ -42,29 +42,29 @@ angular
 
             }
             
-            for(var i=0; i<response.data.length; i++){
-                $scope.res.push({ "label": $scope.data[i].country,  "y":$scope.data[i].rpcyear});
+            for(var j=0; i<response.data.length; i++){
+                $scope.res.push({"label": $scope.data[j].country,  "y":Number($scope.data[j].rpcyear)});
             }
         });    
            
         console.log("Controller initialized");
         
        
-    var chart = new CanvasJS.Chart("chartContainer", {
-  title: {
-    text: "RPC Year"
-  },
-  axisX: {
-    title: "Countries"
-  },
-  axisY: {
-    title: "Rpc variation"
-  },
-  data: [{
-    type: "bar",
-    dataPoints:$scope.res
-  }]
-});
-	chart.render();
-
-    }]);
+         var chart = new CanvasJS.Chart("chartContainer", {
+              title: {
+                text: "RPC Year"
+              },
+              axisX: {
+                title: "Countries"
+              },
+              axisY: {
+                title: "Rpc variation"
+              },
+              data: [{
+                type: "column",
+                dataPoints:$scope.res
+              }]
+            });
+            	chart.render();
+            
+                }]);
