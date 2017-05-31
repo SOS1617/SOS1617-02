@@ -127,19 +127,6 @@ angular
                     
                     
                   console.log($scope.stats);
-                  
-                },
-                function(response){
-                   
-                        if (response.status == 422) {
-                            $.notify("Country and/or year empty", "info");
-                        }
-                        if (response.status == 404) {
-                            $.notify("Error! Country not found", "error");
-                        }
-                        if (response.status == 403) {
-                            $.notify("Error! API Key was incorrect!", "error");
-                        }
                 });
             }
             
