@@ -16,8 +16,8 @@ angular
         //RPCrpc
         $scope.rpcyear = [];
         $scope.rpcvariation = [];
-         $scope.clientid="I4TYHMO24EW5DPMRZYLFUJXYTEBPG5UGTLIK44CSXPIGT2IY";
-         $scope.clientsecret="10LP4ALLHURZARQURW0JW5NKJGO40O50L55GHHOJ2IEXF4S4";
+        $scope.rpcvariationdata = {};
+         
         console.log("Google graph initialized");
        function capitalizeFirstLetter(string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
@@ -36,7 +36,7 @@ angular
                 for(var i=0; i<10; i++){
                     $scope.categorias.push($scope.dataGoogle[i].name);
                     $scope.areas.push($scope.dataGoogle[i].area);
-                    //$scope.bicis.push(Number($scope.dataGoogle[i].available_bikes));
+                    
                 }
                 
                 console.log("Datos Google: "+$scope.dataGoogle[0]);
@@ -101,6 +101,101 @@ angular
                     });});
          
      });
+     
+     
+     
+     //console.log(rpcvariationdata);
+     
+     FusionCharts.ready(function () {
+    var salesChart = new FusionCharts({
+    type: 'MSColumn2D',
+    renderAt: 'chart-container',
+    width: '600',
+    height: '400',
+    dataFormat: 'json',
+    dataSource: {
+        "chart": {
+            "caption": "Sales report of Apple products",
+            "subcaption": "In Billion $",
+            "yaxismaxvalue": "250",
+            "decimals": "0",
+            "numberprefix": "$",
+            "numbersuffix": "B",
+            "placevaluesinside": "1",
+            "rotatevalues": "0",
+            "divlinealpha": "50",
+            "plotfillalpha": "80",
+            "drawCrossLine": "1",
+            "crossLineColor": "#cc3300",
+            "crossLineAlpha": "100",
+            "theme": "zune"
+        },
+        "categories": [{
+            "category": [{
+                    "label": "2012"
+                },
+                {
+                    "label": "2013"
+                },
+                {
+                    "label": "2014"
+                },
+                {
+                    "label": "2015"
+                },
+                {
+                    "label": "2016"
+                }
+            ]
+        }],
+        "dataset": [{
+                "seriesname": "iPod",
+                "data": [$scope.rpcvariationdata
+                    ]
+            },
+            {
+                "seriesname": "iPhone",
+                "data": [{
+                        "value": "125.04"
+                    },
+                    {
+                        "value": "150.26"
+                    },
+                    {
+                        "value": "169.22"
+                    },
+                    {
+                        "value": "231.22"
+                    },
+                    {
+                        "value": "285.67"
+                    }
+                ]
+            },
+            {
+                "seriesname": "iPad",
+                "data": [{
+                        "value": "58.31"
+                    },
+                    {
+                        "value": "71.04"
+                    },
+                    {
+                        "value": "67.99"
+                    },
+                    {
+                        "value": "54.85"
+                    },
+                    {
+                        "value": "60.53"
+                    }
+                ]
+            }
+        ]
+    }
+})
+    .render();
+});
                
 
 }]);
