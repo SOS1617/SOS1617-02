@@ -9,20 +9,8 @@ angular
         $scope.categorias = [];
         $scope.rpcyear = [];
         $scope.rpcvariation = [];
-        $scope.res=[
-            { label: "España",  y: 10  },
-				{ label: "Grecia", y: 15  },
-				{ label: "Australia", y: 25  },
-				{ label: "Marruecos",  y: 30  },
-				{ label: "Gibraltar",  y: 28  },
-				{ label: "Venezuela",  y: 28  }];
-        $scope.ee=[{ label: "España",  y: 10  },
-				{ label: "Grecia", y: 15  },
-				{ label: "Australia", y: 25  },
-				{ label: "Marruecos",  y: 30  },
-				{ label: "Gibraltar",  y: 28  },
-				{ label: "Venezuela",  y: 28  }];
-
+        $scope.res=[];
+        
         
         function capitalizeFirstLetter(string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
@@ -42,15 +30,11 @@ angular
 
             }
             
-            for(var j=0; i<response.data.length; i++){
-                $scope.res.push({"label": $scope.data[j].country,  "y":Number($scope.data[j].rpcyear)});
+            for(var j=0; j<response.data.length; j++){
+                $scope.res.push({"label": $scope.categorias[j],  "y":Number($scope.rpcvariation[j])});
             }
-        });    
-           
-        console.log("Controller initialized");
-        
-       
-         var chart = new CanvasJS.Chart("chartContainer", {
+            
+            var chart = new CanvasJS.Chart("chartContainer", {
               title: {
                 text: "RPC Year"
               },
@@ -66,5 +50,12 @@ angular
               }]
             });
             	chart.render();
+            
+        });    
+           
+        console.log("Controller initialized");
+        
+       
+         
             
                 }]);
