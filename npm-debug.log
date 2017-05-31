@@ -10,7 +10,7 @@
 6 info update server@0.0.0
 7 verbose unsafe-perm in lifecycle true
 8 info server@0.0.0 Failed to exec update script
-9 verbose stack Error: server@0.0.0 update: `git add .; git commit -m 'Last revision on code'; git push`
+9 verbose stack Error: server@0.0.0 update: `git pull; git add .; git commit -m 'Last revision on code'; git push`
 9 verbose stack Exit status 1
 9 verbose stack     at EventEmitter.<anonymous> (/home/ubuntu/.nvm/versions/node/v4.6.1/lib/node_modules/npm/lib/utils/lifecycle.js:217:16)
 9 verbose stack     at emitTwo (events.js:87:13)
@@ -27,13 +27,13 @@
 14 error node v4.6.1
 15 error npm  v2.15.9
 16 error code ELIFECYCLE
-17 error server@0.0.0 update: `git add .; git commit -m 'Last revision on code'; git push`
+17 error server@0.0.0 update: `git pull; git add .; git commit -m 'Last revision on code'; git push`
 17 error Exit status 1
-18 error Failed at the server@0.0.0 update script 'git add .; git commit -m 'Last revision on code'; git push'.
+18 error Failed at the server@0.0.0 update script 'git pull; git add .; git commit -m 'Last revision on code'; git push'.
 18 error This is most likely a problem with the server package,
 18 error not with npm itself.
 18 error Tell the author that this fails on your system:
-18 error     git add .; git commit -m 'Last revision on code'; git push
+18 error     git pull; git add .; git commit -m 'Last revision on code'; git push
 18 error You can get information on how to open an issue for this project with:
 18 error     npm bugs server
 18 error Or if that isn't available, you can get their info via:
