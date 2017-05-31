@@ -4,16 +4,17 @@ angular
         
         $scope.url = "/api/v2/gdp-population-stats";
         $scope.offset = 0;
-        $scope.limit = 20;
+        $scope.limit = 3;//pu here 100 for protractor tests to work
         $scope.apikey = "GVAODcH3";
         console.log("List controller initialized ");
         
         function checkApiKey(){
              if(!$scope.apikey){
-             $.notify("Error! API Key was empty!", "warn");
+             Materialize.toast('API key empty!', 4000, 'rounded');
+                 
              }else{
                  if($scope.apikey != "GVAODcH3"){
-                    $.notify("Error! API Key was incorrect!", "error");
+                    Materialize.toast('Error: Incorrect API key', 4000, 'rounded');
                 }
              }
         }
@@ -36,7 +37,7 @@ angular
             $http.get($scope.url+"/loadInitialData?apikey="+$scope.apikey)
             .then(function(){
                 console.log("Load initial data: OK");
-                $.notify("Load Initial data Complete!", "success");
+                Materialize.toast('Load Initial data Complete!', 4000, 'rounded');
                 refresh();
             })
         }
@@ -49,7 +50,7 @@ angular
                 .then(function(response){
                     $scope.data = JSON.stringify(response.data, null, 2); 
                     $scope.countries = response.data;
-                    $.notify("Get all data complete!", "success");
+                    Materialize.toast('Get all data complete!', 4000, 'rounded');
                     console.log("GetAllData OK");
                 });
             
@@ -62,7 +63,7 @@ angular
             .post($scope.url+"?apikey="+ $scope.apikey, $scope.newCountry)
             .then(function(response){
                 console.log($scope.newCountry.country + "Data added." );
-                 $.notify("Data added", "success");
+                 Materialize.toast('Data added', 4000, 'rounded'); 
                  refresh();
             });
         } 
@@ -74,7 +75,7 @@ angular
                 .put($scope.url +"/"+ $scope.newCountry.country + "?apikey="+ $scope.apikey, $scope.newCountry)
                 .then(function(response){
                     console.log("editData OK");
-                     $.notify("Data updated", "success");
+                    Materialize.toast('Data updated', 4000, 'rounded'); 
                     refresh();
                 });
         }
@@ -87,7 +88,7 @@ angular
                 .delete($scope.url+"?apikey="+ $scope.apikey)
                 .then(function(response){
                     console.log("deleteAllData OK");
-                    $.notify("All Data was deleted", "info");
+                    Materialize.toast('All data was deleted', 4000, 'rounded'); 
                     refresh();
                 });
         }
@@ -99,7 +100,7 @@ angular
                 .delete($scope.url +"/"+ country +"/?apikey="+$scope.apikey)
                 .then(function(response){
                     console.log("deleteOneData OK");
-                    $.notify("Load Initial data Complete!", "info");
+                    Materialize.toast('Data was deleted', 4000, 'rounded'); 
                     refresh();
                 });
         } 
@@ -118,15 +119,29 @@ angular
                 $http
                 .get($scope.url+"?apikey="+$scope.apikey+results)
                 .then(function(response){
+                
                     console.log("The search of: "+$scope.newSearch.country +" in year "+ $scope.newSearch.year+ " works correctly");
                     var x = [];
                     x.push(response.data);
                   
                     $scope.countries = x;
-                    $.notify("Country Found", "info");
+                    Materialize.toast('Country Found', 4000, 'rounded'); 
                     
                     
                   console.log($scope.stats);
+                },
+                function(response){
+                   
+                        if (response.status == 422) {
+                            Materialize.toast("Country and year search empty", 4000, 'rounded');
+                        }
+                        if (response.status == 404) {
+                            Materialize.toast("Country doesn't exists", 4000, 'rounded');
+                        }
+                        if (response.status == 403) {
+                            Materialize.toast('APIKEY is not correct.', 4000, 'rounded');
+                        }
+                    
                 });
             }
             

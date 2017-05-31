@@ -47,9 +47,9 @@ Year: <input class="form-control" ng-model="newSearch.year">
     </tbody>
     
     <div class='btn-group'>
-          <button type='button' class='btn btn-default' ng-disabled='currentPage == 0' ng-click='getPreviousPage()'>&laquo;</button>
-          <button type='button' class='btn btn-default' ng-disabled='currentPage == page.no - 1' ng-click='setPage(page.no)' ng-repeat='page in pages'>{{page.no}}</button>
-          <button type='button' class='btn btn-default' ng-disabled='currentPage >= usuarios.length/pageSize - 1' , ng-click='getNextPage()'>&raquo;</button>
+          <button type='button' class='btn btn' ng-disabled='currentPage == 0' ng-click='getPreviousPage()'>Previous Page</button>
+          <!--<button type='button' class='btn btn-default' ng-disabled='currentPage == page.no - 1' ng-click='setPage(page.no)' ng-repeat='page in pages'>{{page.no}}</button>-->
+          <button type='button' class='btn btn' ng-disabled='currentPage >= usuarios.length/pageSize - 1' , ng-click='getNextPage()'>Next Page</button>
     </div>
     
 </table>
