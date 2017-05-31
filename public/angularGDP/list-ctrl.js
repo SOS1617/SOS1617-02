@@ -99,7 +99,7 @@ angular
                 .delete($scope.url +"/"+ country +"/?apikey="+$scope.apikey)
                 .then(function(response){
                     console.log("deleteOneData OK");
-                   $.notify("Load Initial data Complete!", "info");
+                    $.notify("Load Initial data Complete!", "info");
                     refresh();
                 });
         } 
@@ -123,35 +123,29 @@ angular
                     x.push(response.data);
                   
                     $scope.countries = x;
-                    //Materialize.toast("Country found: "+$scope.newSearch.country, 4000, 'rounded');
+                    $.notify("Country Found", "info");
                     
                     
                   console.log($scope.stats);
-                }
+                  
+                },
+                function(response){
+                   
+                        if (response.status == 422) {
+                            $.notify("Country and/or year empty", "info");
+                        }
+                        if (response.status == 404) {
+                            $.notify("Error! Country not found", "error");
+                        }
+                        if (response.status == 403) {
+                            $.notify("Error! API Key was incorrect!", "error");
+                        }
+                });
             }
             
-        
+        };
     
-            
-            
-            
-            
-            
-            
-            /*
-            $http
-                .get($scope.url+"?apikey="+$scope.apikey+"&country="+$scope.newCountry.country+"&year="+$scope.newCountry.year)
-                .then(function(response){
-                    if(response.statusCode == 404){
-                        $.notify("Error 404: Not found!", "error");
-                    }else{
-                        console.log("search OK");
-                        $.notify("Search OK", "info");
-                        $scope.data = JSON.stringify(response.data, null, 2);
-                        $scope.countries = response.data[0];
-                    }
-                });
-        };*/
+           
            
         //Pagination
         
@@ -194,7 +188,5 @@ angular
                 });
         };
         
-        function getNumberOfPages(){
-            
-        }
+        
 }]);  
