@@ -33,22 +33,6 @@ angular
                 }
             console.log(dataPoints);
         
-        
-              /*  var chart = new CanvasJS.Chart("chartContainer", {
-        		theme: "theme2",//theme1
-        		title:{
-        			text: "TOP 10 Cryptocurrencies by market cap in USD"              
-        		},
-        		animationEnabled: false,   // change to true
-        		data: [              
-        		{
-        			// Change type to "bar", "area", "spline", "pie",etc.
-        			type: "column",
-        			dataPoints: dataPoints
-        		}
-        		]
-        	});
-        	chart.render();*/
         	
         	 var trace1 = {
                   x: $scope.names, 
