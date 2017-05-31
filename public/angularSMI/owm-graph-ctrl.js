@@ -60,7 +60,7 @@ angular
                     ////////////////////////////
                     ////COMPARATIVA SMI 2017////
                     ////////////////////////////
-                    Highcharts.chart('container',{
+                  /*  Highcharts.chart('container',{
                         title: {
                             text: 'WORLD SMI integrated with SEVICI'
                         },
@@ -98,7 +98,39 @@ angular
                             name: 'SMI Year Variation',
                             data: $scope.smivariation
                         }]
-                    });});
+                    });*/
+                var trace1 = {
+                  x: $scope.categorias, 
+                  y:  $scope.maximos, 
+                  name: 'Temp. Máxima', 
+                  type: 'bar'
+                };
+                
+                var trace2 = {
+                  x: $scope.categorias, 
+                  y:  $scope.minimos, 
+                  name: 'Temp. Mínima', 
+                  type: 'bar'
+                };
+                
+                var trace3 = {
+                  x: $scope.categorias, 
+                  y:  $scope.smivariation, 
+                  name: 'SMI Year Variation', 
+                  type: 'bar'
+                };
+                
+                
+                
+                var data = [trace1, trace2,trace3];
+                
+                var layout = {barmode: 'group'};
+                
+                Plotly.newPlot('container', data, layout);
+                
+                
+                
+            });
          
      });
                

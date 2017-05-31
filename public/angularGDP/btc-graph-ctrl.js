@@ -15,61 +15,46 @@ angular
             
             
             
-            var graphdata = [];
+        
+            var dataPoints = [];
             
             
             dataCache = response.data;
             $scope.data = dataCache;
             
             for(var i=0; i<response.data.length; i++){
-                var smallarray = [];
-                smallarray.push($scope.data[i].name);
-                smallarray.push(Number($scope.data[i].market_cap_usd));
-                console.log(smallarray);
+                var smallDataPoint = {label: $scope.data[i].name,  y: Number($scope.data[i].market_cap_usd)};
                 
-                graphdata.push(smallarray);
-                console.log(graphdata);
+                dataPoints.push(smallDataPoint);
+                
                 }
-            console.log(graphdata);
+            console.log(dataPoints);
         
         
-            Highcharts.chart('container',{
-                title: {
-                    text: 'Top 10 cryptocurrencies by market cap'
-                },
-                chart: {
-                    type: 'column'
-                },
-                xAxis: {
-                    type: 'category',
-                    labels: {
-                        rotation: -45,
-                        style: {
-                            fontSize: '13px',
-                            fontFamily: 'Verdana, sans-serif'
-                        }
-                    }
-                },
-                legend: {
-                    layout: 'vertical',
-                    floating: true,
-                    backgroundColor: '#FFFFFF',
-                    verticalAlign: 'top',
-                    align: 'right',
-                    y: 0,
-                    x: 0
-                },
-                
-                series:[ {
-                    name: 'Market cap in USD',
-                    data: graphdata
-                }]
-            });
-            
-        });
-        
-      
+                var chart = new CanvasJS.Chart("chartContainer", {
+        		theme: "theme2",//theme1
+        		title:{
+        			text: "TOP 10 Cryptocurrencies by market cap in USD"              
+        		},
+        		animationEnabled: false,   // change to true
+        		data: [              
+        		{
+        			// Change type to "bar", "area", "spline", "pie",etc.
+        			type: "column",
+        			dataPoints: dataPoints
+        		}
+        		]
+        	});
+        	chart.render();
+
         
         
+        
+        
+        
+        
+        
+        
+       });
         
 }]);
