@@ -10,7 +10,7 @@ angular
         var dataCacheRPC = {};
         $scope.categorias = [];
         $scope.categorias1 = [];
-        //Nacho
+        //Irene
         $scope.years = [];
         $scope.totals = [];
         $scope.increases =[];
@@ -65,52 +65,81 @@ angular
                     ////////////////////////////
                     
                 
-                Highcharts.chart('container', {
+                Highcharts.chart('container1', {
     chart: {
-        type: 'area'
+        zoomType: 'xy'
     },
     title: {
         text: 'World RPC stats ingrated with Start-ups stats'
     },
-    xAxis: {
+    subtitle: {
+        text: 'Source: RPC-Stats API & startups-stats API'
+    },
+    xAxis: [{
         categories: $scope.categorias,
-        tickmarkPlacement: 'on',
+        crosshair: true
+    }],
+    yAxis: [{ // Primary yAxis
+        labels: {
+            format: '{value}%',
+            style: {
+                color: Highcharts.getOptions().colors[1]
+            }
+        },
         title: {
-            enabled: false
-        }
-    },
-    toltip: {
-        split: true,
-        valueSuffix: ' millions'
-    },
-    plotOptions: {
-        area: {
-            stacking: 'normal',
-            lineColor: '#666666',
-            lineWidth: 1,
-            marker: {
-                lineWidth: 1,
-                lineColor: '#666666'
+            text: 'Investments',
+            style: {
+                color: Highcharts.getOptions().colors[1]
             }
         }
+    }, { // Secondary yAxis
+        title: {
+            text: 'Rpc-Variation',
+            style: {
+                color: Highcharts.getOptions().colors[0]
+            }
+        },
+        labels: {
+            format: '{value} $',
+            style: {
+                color: Highcharts.getOptions().colors[0]
+            }
+        },
+        opposite: true
+    }],
+    tooltip: {
+        shared: true
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'left',
+        x: 120,
+        verticalAlign: 'top',
+        y: 100,
+        floating: true,
+        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
     },
     series: [{
-        name: 'Increases',
-        data: $scope.increases
-    },  {
-        name: 'Rpc Variation',
-        data: $scope.rpcvariation
-    },{
         name: 'Investments',
-        data: $scope.investments
-    },{
-        name: 'Investments',
-        data: $scope.investments
-    },{
-        name: 'Totals',
-        data: $scope.totals
+        type: 'column',
+        yAxis: 1,
+        data: $scope.investments,
+        tooltip: {
+            valueSuffix: '$'
+        }
+
+    }, {
+        name: 'Rpc-variation',
+        type: 'spline',
+        data: $scope.rpcvariation,
+        tooltip: {
+            valueSuffix: '%'
+        }
     }]
 });
+                
+                
+        
 
                 
                 
