@@ -48,7 +48,8 @@ angular
                      
                     Highcharts.chart('container', {
                         chart: {
-                            type: 'line'
+                            type: 'scatter',
+                            zoomType: 'xy'
                         },
                         title: {
                             text: 'GDP + DEBT integrated'
