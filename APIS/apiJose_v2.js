@@ -309,6 +309,48 @@ app.get(BASE_API_PATH + "/smi-stats/proxy3", (req,res)=>{
      }
 });
 
+////////////////////////////
+////////PROXY  4////////////
+////////////////////////////
+
+
+app.get(BASE_API_PATH + "/smi-stats/proxy4", (req,res)=>{
+    
+     if(apiKeyCheck(req,res)==true){
+            var http = require('http');
+            
+           var options = {
+                host:"datos.alcobendas.org",
+                path:'/dataset/0b3b25bd-44b1-4d23-bf23-228d8dc03b5d/resource/5894de6e-95ca-4e50-a0fc-f54b1c59c9f3/download/subvenciones-de-salud-consumo-integracion-social-y-mayores-2016.json'
+            };
+            
+            
+            //Response: abre un flujo de datos en el que se guarda lo que se va recibiendo
+            callback =function(response){
+                //se guardan los datos poco a poco
+                var str='';
+                
+                //another chunk of data has been recieved, so append it to str
+                //van llegando datos en este evento "data"
+                response.on('data',function(chunk){
+                    
+                    str += chunk;
+                });
+                
+                //the wole response has been recieved, so we just print it out here
+                //este evento 'end' se da cuando termina la recogida de datos y enviamos 
+                //lo que hemos recibido con el str
+                response.on('end',function(){
+                    res.send(str);
+                });
+            }
+            
+            http.request(options,callback).end();
+       
+         
+     }
+});
+
 
 //2. GET a collection of a same year
 

@@ -24,10 +24,6 @@
     "bootstrap": "^3.3.7",
     "highcharts-ng": "^1.1.0",
     "chart.js": "^2.5.0",
-<<<<<<< HEAD
     "canvas-js": "^2.3.0"
-=======
-    "chartist": "^0.11.0"
->>>>>>> e8619a74a6cbca48cd71152c8b49764688662898
   }
 }

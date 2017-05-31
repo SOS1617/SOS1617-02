@@ -59,6 +59,10 @@ angular.module("G2ManagerApp",["ngRoute"]).config(function($routeProvider){
         templateUrl: "/angularSMI/owm-graph.html",
         controller: "OWMGraphCtrl"
     })
+    .when("/smi/health-graph",{
+        templateUrl: "/angularSMI/health-graph.html",
+        controller: "HTGraphCtrl"
+    })
     
     
     
