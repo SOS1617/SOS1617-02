@@ -60,45 +60,6 @@ angular
                     ////////////////////////////
                     ////COMPARATIVA SMI 2017////
                     ////////////////////////////
-                  /*  Highcharts.chart('container',{
-                        title: {
-                            text: 'WORLD SMI integrated with SEVICI'
-                        },
-                        chart: {
-                            type: 'column'
-                        },
-                        xAxis: {
-                            categories: $scope.categorias
-                        },
-                        legend: {
-                            layout: 'vertical',
-                            floating: true,
-                            backgroundColor: '#FFFFFF',
-                            //align: 'left',
-                            verticalAlign: 'top',
-                            align: 'right',
-                            y: 20,
-                            x: 0
-                        },
-                        tooltip: {
-                            formatter: function () {
-                                return '<b>' + this.series.name + '</b><br/>' +
-                                   this.x + ': ' + this.y;
-                            }
-                        },
-                        series:[{
-                            name: 'Temp. Máxima',
-                            data: $scope.maximos,
-                        },
-                        {
-                            name: 'Temp. Mínima',
-                            data: $scope.minimos,
-                        },
-                        {
-                            name: 'SMI Year Variation',
-                            data: $scope.smivariation
-                        }]
-                    });*/
                 var trace1 = {
                   x: $scope.categorias, 
                   y:  $scope.maximos, 
