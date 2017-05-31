@@ -70,10 +70,10 @@ angular
         }
     },
     title: {
-        text: '3D chart with null values'
+        text: 'Integration with motorcycling & rpc-stats'
     },
     subtitle: {
-        text: 'Notice the difference between a 0 value and a null point'
+        text: 'Integration Charts'
     },
     plotOptions: {
         column: {
