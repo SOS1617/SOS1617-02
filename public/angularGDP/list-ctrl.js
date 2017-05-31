@@ -99,27 +99,40 @@ angular
                 .delete($scope.url +"/"+ country +"/?apikey="+$scope.apikey)
                 .then(function(response){
                     console.log("deleteOneData OK");
-                   $.notify("Load Initial data Complete!", "info");
+                    $.notify("Load Initial data Complete!", "info");
                     refresh();
                 });
         } 
         
         
-        //Search!!
+        //Search
         $scope.search = function(){
-            $http
-                .get($scope.url+"?apikey="+$scope.apikey+"&country="+$scope.newCountry.country+"&year="+$scope.newCountry.year)
+            var results = "";
+
+            if ($scope.newSearch.country !== undefined && $scope.newSearch.country !== ""
+            && $scope.newSearch.year !== undefined && $scope.newSearch.year !== "") {
+                
+                results = results + "&country=" + $scope.newSearch.country;
+                results = results + "&year=" + $scope.newSearch.year;
+                
+                $http
+                .get($scope.url+"?apikey="+$scope.apikey+results)
                 .then(function(response){
-                    if(response.statusCode == 404){
-                        $.notify("Error 404: Not found!", "error");
-                    }else{
-                        console.log("search OK");
-                        $.notify("Search OK", "info");
-                        $scope.data = JSON.stringify(response.data, null, 2);
-                        $scope.countries = response.data[0];
-                    }
+                    console.log("The search of: "+$scope.newSearch.country +" in year "+ $scope.newSearch.year+ " works correctly");
+                    var x = [];
+                    x.push(response.data);
+                  
+                    $scope.countries = x;
+                    $.notify("Country Found", "info");
+                    
+                    
+                  console.log($scope.stats);
                 });
+            }
+            
         };
+    
+           
            
         //Pagination
         
@@ -162,7 +175,5 @@ angular
                 });
         };
         
-        function getNumberOfPages(){
-            
-        }
+        
 }]);  
