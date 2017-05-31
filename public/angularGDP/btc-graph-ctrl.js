@@ -23,6 +23,9 @@ angular
             $scope.data = dataCache;
             
             for(var i=0; i<response.data.length; i++){
+                $scope.names.push($scope.data[i].name);
+                $scope.marketcap.push(Number($scope.data[i].market_cap_usd));
+                
                 var smallDataPoint = {label: $scope.data[i].name,  y: Number($scope.data[i].market_cap_usd)};
                 
                 dataPoints.push(smallDataPoint);
@@ -31,7 +34,7 @@ angular
             console.log(dataPoints);
         
         
-                var chart = new CanvasJS.Chart("chartContainer", {
+              /*  var chart = new CanvasJS.Chart("chartContainer", {
         		theme: "theme2",//theme1
         		title:{
         			text: "TOP 10 Cryptocurrencies by market cap in USD"              
@@ -45,7 +48,20 @@ angular
         		}
         		]
         	});
-        	chart.render();
+        	chart.render();*/
+        	
+        	 var trace1 = {
+                  x: $scope.names, 
+                  y:  $scope.marketcap, 
+                  name: 'USD', 
+                  type: 'bar'
+                };
+
+                var data = [trace1];
+                
+                var layout = {barmode: 'group'};
+                
+                Plotly.newPlot('chartContainer', data, layout);
 
         
         
