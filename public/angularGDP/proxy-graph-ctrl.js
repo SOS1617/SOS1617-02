@@ -49,7 +49,8 @@ angular
                     
                     Highcharts.chart('container', {
                         chart: {
-                            type: 'area'
+                            type: 'spline',
+                            inverted: true
                         },
                         title: {
                             text: 'GDP + AV SALARIES integrated'
