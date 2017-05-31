@@ -6,9 +6,9 @@ angular
     .module("G2ManagerApp")
     .controller("SMIListCtrl",["$scope", "$http", function($scope, $http){
         
-        if(!$scope.apikey){
+       /* if(!$scope.apikey){
             $scope.apikey = "rXD8D2b1vP";
-        }
+        }*/
         $scope.url = "/api/v1/smi-stats";
         // $scope.offset = 0;
         //$scope.limit = 2;
