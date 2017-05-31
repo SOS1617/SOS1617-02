@@ -27,7 +27,7 @@ angular
             /////DATOS Google/////
             ////////////////////
                 
-     $http.get("http://netflixroulette.net/api/api.php?actor=Nicolas%20Cage").then(function(response){
+     $http.get("https://netflixroulette.net/api/api.php?actor=Nicolas%20Cage").then(function(response){
                 console.log("entro");
                 dataCacheGoogle = response.data;
                 $scope.dataGoogle =dataCacheGoogle;
@@ -61,68 +61,31 @@ angular
                     ////////////////////////////
                     ////COMPARATIVA RPC 2017////
                     ////////////////////////////
-                    Highcharts.chart('container',{
-                        title: {
-                            text: 'WORLD RPC integrated with SEVICI'
-                        },
-                        chart: {
-                            type: 'area'
-                        },
-                        xAxis: {
-                            categories: $scope.categorias
-                        },
-                        legend: {
-                            layout: 'vertical',
-                            floating: true,
-                            backgroundColor: '#FFFFFF',
-                            //align: 'left',
-                            verticalAlign: 'top',
-                            align: 'right',
-                            y: 20,
-                            x: 0
-                        },
-                        tooltip: {
-                            formatter: function () {
-                                return '<b>' + this.series.name + '</b><br/>' +
-                                   this.x + ': ' + this.y;
-                            }
-                        },
-                        series:[{
-                            name: 'Countries:',
-                            data: $scope.categorias,
-                        },
-                        {
-                            name: 'Area',
-                            data: $scope.areas,
-                        },
-                        {
-                            name: 'RPC Year Variation',
-                            data: $scope.rpcvariation
-                        }]
-                    });});
-         
-     });
+                   zingchart.render({
+        id: 'myChart',
+        data: {
+        type: 'bar',
+        "legend": {
+    "header": {
+      "text": "Legend Header"
+    },
+    "draggable": true,
+    "drag-handler": "icon"
+  },
+        series: [{
+        values:$scope.rpcyear,text:"RPC Year"
+        }, {
+        values: $scope.areas,text:"Countries Areas"
+                }]
+            }
+        });
+                    });
+                    
+                    
+                    
+                    
+});
      
-     for(var i=0;i<$scope.rpcvariation.length;i++){
-         
-         rpcyear.push($scope.rpcvariation[i]);
-     }
-    
-   console.log(rpcyear[i]);
-zingchart.render({
-    id: 'myChart',
-    data: {
-      type: 'line',
-      series: [{
-        values: $scope.areas,
-      }, {
-        values: [10,15,16,20,40]
-      }]
-    }
-  });
-
-  
-
-               
+     
 
 }]);

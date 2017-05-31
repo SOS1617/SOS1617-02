@@ -58,34 +58,49 @@ angular
             ////////////////////////////
             ////COMPARATIVA RPC 2017////
             ////////////////////////////
- Highcharts.chart('container', {
+            
+            Highcharts.chart('container1', {
     chart: {
-        type: 'line'
+        type: 'column',
+        options3d: {
+            enabled: true,
+            alpha: 10,
+            beta: 25,
+            depth: 70
+        }
     },
     title: {
-        text: 'WORLD RPC integrated with WORLD of motorcycling'
+        text: '3D chart with null values'
     },
-    
-    xAxis: {
-        categories: $scope.categorias
+    subtitle: {
+        text: 'Notice the difference between a 0 value and a null point'
     },
-    
     plotOptions: {
-        line: {
-            dataLabels: {
-                enabled: true
-            },
-            enableMouseTracking: false
+        column: {
+            depth: 25
+        }
+    },
+    xAxis: {
+        categories: $scope.categorias1
+    },
+    yAxis: {
+        title: {
+            text: null
         }
     },
     series: [{
-        name: 'Motorcycling',
-        data: $scope.years
-    }, {
-        name: 'RPC Year',
+        name: 'rpc-year',
         data: $scope.rpcyear
+    },
+    {
+        name: 'Motorcyclist Year',
+        data: $scope.years
     }]
+    
 });
+            
+            
+
 
 
 
