@@ -105,8 +105,40 @@ angular
         } 
         
         
-        //Search!!
+        //Search
         $scope.search = function(){
+            var results = "";
+
+            if ($scope.newSearch.country !== undefined && $scope.newSearch.country !== ""
+            && $scope.newSearch.year !== undefined && $scope.newSearch.year !== "") {
+                
+                results = results + "&country=" + $scope.newSearch.country;
+                results = results + "&year=" + $scope.newSearch.year;
+                
+                $http
+                .get($scope.url+"?apikey="+$scope.apikey+results)
+                .then(function(response){
+                    console.log("The search of: "+$scope.newSearch.country +" in year "+ $scope.newSearch.year+ " works correctly");
+                    var x = [];
+                    x.push(response.data);
+                  
+                    $scope.countries = x;
+                    //Materialize.toast("Country found: "+$scope.newSearch.country, 4000, 'rounded');
+                    
+                    
+                  console.log($scope.stats);
+                }
+            }
+            
+        
+    
+            
+            
+            
+            
+            
+            
+            /*
             $http
                 .get($scope.url+"?apikey="+$scope.apikey+"&country="+$scope.newCountry.country+"&year="+$scope.newCountry.year)
                 .then(function(response){
@@ -119,7 +151,7 @@ angular
                         $scope.countries = response.data[0];
                     }
                 });
-        };
+        };*/
            
         //Pagination
         
