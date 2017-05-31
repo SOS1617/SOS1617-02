@@ -16,8 +16,8 @@ angular
         //RPCrpc
         $scope.rpcyear = [];
         $scope.rpcvariation = [];
-         $scope.clientid="I4TYHMO24EW5DPMRZYLFUJXYTEBPG5UGTLIK44CSXPIGT2IY";
-         $scope.clientsecret="10LP4ALLHURZARQURW0JW5NKJGO40O50L55GHHOJ2IEXF4S4";
+        var rpcvariationdata = [];
+         
         console.log("Google graph initialized");
        function capitalizeFirstLetter(string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
@@ -25,7 +25,7 @@ angular
 
 
             ////////////////////
-            /////DATOS Google/////
+            /////DATOS REST COUNTRIES API/////
             ////////////////////
                 
      $http.get("https://restcountries.eu/rest/v2/all").then(function(response){
@@ -36,7 +36,7 @@ angular
                 for(var i=0; i<10; i++){
                     $scope.categorias.push($scope.dataGoogle[i].name);
                     $scope.areas.push($scope.dataGoogle[i].area);
-                    //$scope.bicis.push(Number($scope.dataGoogle[i].available_bikes));
+                    
                 }
                 
                 console.log("Datos Google: "+$scope.dataGoogle[0]);
@@ -60,47 +60,38 @@ angular
                     ////////////////////////////
                     ////COMPARATIVA RPC 2017////
                     ////////////////////////////
-                    Highcharts.chart('container',{
-                        title: {
-                            text: 'WORLD RPC integrated with SEVICI'
-                        },
-                        chart: {
-                            type: 'area'
-                        },
-                        xAxis: {
-                            categories: $scope.categorias
-                        },
-                        legend: {
-                            layout: 'vertical',
-                            floating: true,
-                            backgroundColor: '#FFFFFF',
-                            //align: 'left',
-                            verticalAlign: 'top',
-                            align: 'right',
-                            y: 20,
-                            x: 0
-                        },
-                        tooltip: {
-                            formatter: function () {
-                                return '<b>' + this.series.name + '</b><br/>' +
-                                   this.x + ': ' + this.y;
-                            }
-                        },
-                        series:[{
-                            name: 'Countries:',
-                            data: $scope.categorias,
-                        },
-                        {
-                            name: 'Area',
-                            data: $scope.areas,
-                        },
-                        {
-                            name: 'RPC Year Variation',
-                            data: $scope.rpcvariation
-                        }]
-                    });});
+                    });
          
      });
+     
+     
+     
+    $http.get("/api/v1/rpc-stats"+ "?" + "apikey=" + $scope.apikey).then(function(response){
+            
+            //////////////////////////////
+            /////GOOGLE CHARTS////////////
+            //////////////////////////////
+            google.charts.load('current', {
+                'packages': ['geochart']
+            });
+            google.charts.setOnLoadCallback(drawRegionsMap);
+                function drawRegionsMap() {
+                    var myData = [['Country','Area','RPC- Variation']];
+                    var myData2=$scope.areas;
+                    
+                    
+                    response.data.forEach(function (d,i){
+                        myData.push([d.country,myData2[i],Number(d.rpcvariation)]);
+
+                    });
+                    var data = google.visualization.arrayToDataTable(myData);
+                    var options = {
+                        
+                    };
+                    var chart = new google.visualization.GeoChart(document.getElementById('map'));
+                    chart.draw(data, options);
+                }
+            });
                
 
 }]);

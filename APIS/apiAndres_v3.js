@@ -6,22 +6,10 @@ var apiKey = ["GVAODcH3"];
 
 function checkApiKey(request, response){
     var introducedKey = request.query.apikey;
-    var res;
-    
-    if(introducedKey == apiKey){
-        console.log("API KEY accepted.");
-        res = true;
-    }else{
-        
-        if(!introducedKey){
-            console.log("ERROR: No API KEY was introduced.");
-            response.sendStatus(401);
-            res = false;
-        }
-        console.log("ERROR: The API KEY received was not correct.");
-        response.sendStatus(403);
-        res = false;
-    }
+    var res = true;
+
+    //In this version we override this!!
+   
     return res;
 }
 

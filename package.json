@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/SOS1617/SOS1617-02#readme",
   "dependencies": {
+    "angular-chart.js": "^1.1.1",
     "body-parser": "^1.17.1",
     "bower": "^1.8.0",
     "cors": "^2.8.3",
@@ -30,6 +31,7 @@
     "method-override": "^2.3.8",
     "mongodb": "^2.2.26",
     "nedb": "^1.8.0",
+    "ng-morris-js": "^0.3.4",
     "path": "^0.12.7",
     "phantomjs": "^2.1.7",
     "protractor": "^5.1.1"

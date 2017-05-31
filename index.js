@@ -18,9 +18,11 @@ var moduleSMI_v3 = require("./APIS/apiJose_v3.js");
 //Módulo con api Andrés
 var moduleGDP = require("./APIS/apiAndres.js");
 var moduleGDP_v2 = require("./APIS/apiAndres_v2.js");
+var moduleGDP_v3 = require("./APIS/apiAndres_v3.js");
 
 //Módulo con api Antoni
 var moduleRPC = require("./APIS/apiAntoni.js");
+var moduleRPC_v2 = require("./APIS/apiAntoniv2.js");
 
 var BASE_API_PATH = "/api";
 
@@ -58,8 +60,10 @@ MongoClient.connect(mdbURL, {native_parser:true}, function (err, database){
        ///////////////////CONEXIÓN CON MÓDULO ANDRES////////////////////////////
        moduleGDP.register(app, dbAndres, BASE_API_PATH + "/v1");
        moduleGDP_v2.register(app, dbAndres, BASE_API_PATH + "/v2");
+       moduleGDP_v3.register(app, dbAndres, BASE_API_PATH + "/v3");
        ///////////////////CONEXIÓN CON MÓDULO ANTONI////////////////////////////
        moduleRPC.register(app, dbAntony, BASE_API_PATH + "/v1");
+       moduleRPC_v2.register(app, dbAntony, BASE_API_PATH + "/v2");
    
    //Solo pongo el servidor a arrancar si la base de datos está arrancada
    app.listen(port, () =>{
